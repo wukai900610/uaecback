@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/app.css">
+</head>
+
+<body>
+    <div class="main_page">
+        <div class="main_top">
+            <div class="topBar"></div>
+            <div class="topContent">
+                <div class="logo"></div>
+                <ul class="main_menu">
+                    <li style="background-image:url('/static/images/ico/crm.png')" data-name="MainCrmCache"><a>客户管理</a></li>
+                    <li style="background-image:url('/static/images/ico/home.png')" data-name="MainCrmAgent"><a>四部系统</a></li>
+                    <li style="background-image:url('/static/images/ico/home.png')" data-name="MainOperator" data-type="hideLeft"><a data-id="test1" data-href="http://www.baidu.com">出展系统</a></li>
+                    <li style="background-image:url('/static/images/ico/coffee.png')" data-name="MainService"><a>客服系统</a></li>
+                    <li style="background-image:url('/static/images/ico/home.png')" data-name="MainBill"><a>财务管理</a></li>
+                    <li style="background-image:url('/static/images/ico/hr.png')" data-name="MainHr"><a>人力资源</a></li>
+                    <li style="background-image:url('/static/images/ico/stats.png')" data-name="MainReport"><a>统计报表</a></li>
+                    <li style="background-image:url('/static/images/ico/rmb.png')" data-name="MainMarketing"><a>直接营销</a></li>
+                    <li style="background-image:url('/static/images/ico/oa.png')" data-name="MainOa"><a>行政办公</a></li>
+                    <li style="background-image:url('/static/images/ico/setting.png')" data-name="MainSys"><a>系统管理</a></li>
+                </ul>
+                <ul class="top_menu">
+                    <li>
+                        <span>您好：<span class="name"><strong>吴凯</strong>(wukai)</span></span>
+                    </li>
+                    <li style="background-image:url('/static/images/ico/pen.png')"><a>登录OA</a></li>
+                    <li style="background-image:url('/static/images/ico/desk.png')"><a>工作桌面</a></li>
+                    <li style="background-image:url('/static/images/ico/message.png')"><a>站内消息</a></li>
+                    <li style="background-image:url('/static/images/ico/time.png')"><a>工作提醒</a></li>
+                    <li style="background-image:url('/static/images/ico/pen.png')"><a>修改资料</a></li>
+                    <li style="background-image:url('/static/images/ico/pen.png')"><a>配置邮箱</a></li>
+                    <li style="background-image:url('/static/images/ico/close.png')"><a>安全退出</a></li>
+                </ul>
+            </div>
+            <ul class="slideTop">
+                <li class="close" title="点击折叠"></li>
+                <li class="open" title="点击显示"></li>
+            </ul>
+        </div>
+        <div class="main_contain">
+            <div class="main_left">
+                <span class="toShow toggleLeft"></span>
+                <div class="nav__box">
+                    <h4>
+                        <span class="toHide toggleLeft"></span>
+                    </h4>
+                    <ul class="nav__ul"></ul>
+                </div>
+            </div>
+
+            <!-- 主Iframe -->
+            <div class="main_right">
+                <div id="insTab"></div>
+            </div>
+        </div>
+        <div class="main_bottom">
+            <a class="custom">常用链接</a>
+            <div class="links">
+                <a data-id="13" data-href="http://fanyi.dict.cn">单发传真</a>
+                <a>招展函</a>
+                <a>新大楼坐席(新)</a>
+                <a>新大楼坐席</a>
+                <a>筹展进度表</a>
+                <a>外汇牌价</a>
+                <a>国外天气</a>
+                <a>中文电码</a>
+            </div>
+            <div class="changePart">
+                部门：
+                <select name="">
+                    <option value="1">部门一</option>
+                    <option value="2">部门二</option>
+                </select>
+                <select name="">
+                    <option value="1">角色一</option>
+                    <option value="2">角色二</option>
+                </select>
+                <button>切换角色</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/lib/jquery1.12.4.min.js"></script>
+    <script src="/static/js/lib/tab.js"></script>
+
+    <script src="/static/js/lib/Box.js"></script>
+    <link rel="stylesheet" href="/static/js/lib/box/default.css">
+
+    <script src="/static/js/app.js"></script>
+
+    <script>
+        $(function() {
+            var initTabArr = [{
+                id: 'home',
+                name: '主页',
+                url: './home.html',
+                close: false,
+            }];
+            APP.main(initTabArr);
+        });
+    </script>
+</body>
+
+</html>

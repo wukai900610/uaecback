@@ -1,0 +1,81 @@
+<li>
+    <h5>
+        客户池管理
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <div class="half_link">
+            <a data-id="asdf1" data-href="./static/Manage/Main.aspx">页面1</a>
+            <a data-id="asdf2" data-href="https://www.layui.com/doc/element/layout.html">页面2</a>
+        </div>
+        <a data-id="asdf3" data-href="https://www.layui.com/doc/element/icon.html">页面3</a>
+        <a data-id="456" data-href="https://www.layui.com/doc/element/icon.html">页面1页面1页面1页面1页面1页面1</a>
+        <a>无用点击</a>
+    </div>
+</li>
+<li>
+    <h5>
+        分类2
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <ul id="treeDemo" class="ztree"></ul>
+</li>
+
+<!-- ztree -->
+<link rel="stylesheet" href="/static/js/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="/static/js/lib/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript">
+var zNodes =[{
+        id:'z1',
+        name: "父节点1",
+        open: true,
+        children: [{
+                id:'z1-1',
+                open: true,
+                name: "父节点11",
+                children: [{
+                        id:'z1-1-1',
+                        name: "叶子节点111",
+                        href:'http://www.treejs.cn#1'
+                    },
+                    {
+                        id:'z1-1-2',
+                        name: "叶子节点112",
+                        href:'http://www.treejs.cn#2'
+                    },
+                ]
+            },
+            {
+                name: "父节点12",
+                children: [{
+                        id:'z1-2-1',
+                        name: "叶子节点121",
+                        href:'http://www.treejs.cn#3'
+                    },
+                    {
+                        id:'z1-2-2',
+                        name: "叶子节点122",
+                        href:'http://www.treejs.cn#4'
+                    },
+                ]
+            },
+            {
+                id:'z1-3-1',
+                name: "父节点13",
+                href:'http://www.treejs.cn#5'
+            }
+        ]
+    },
+    {
+        id:'z2-1',
+        name: "父节点3",
+        href:'http://www.treejs.cn#6'
+    }
+];
+</script>

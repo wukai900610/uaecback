@@ -1,0 +1,39 @@
+{
+  "name": "jdzc_dt",
+  "dependencies": {
+    "gulp-shell": "^0.6.3",
+    "supervisor": "^0.12.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-bom": "^1.0.0",
+    "gulp-cheerio": "^0.6.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-dom-src": "^0.2.0",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^2.1.0",
+    "gulp-uglifycss": "^1.0.6",
+    "gulp-util": "^3.0.8",
+    "http-proxy-middleware": "^0.17.4",
+    "jshint": "^2.9.4"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp clean && gulp build",
+    "clean": "gulp clean",
+    "proxy": "supervisor ./app/express_proxy.js"
+  },
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

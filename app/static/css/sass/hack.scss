@@ -1,0 +1,61 @@
+.myTab {
+    .closeAll {
+        top: 8px;
+    }
+
+    .tabNavWrap {
+        ul {
+            overflow: hidden;
+            width: 10000em;
+
+            li.nav {
+                float: left;
+            }
+        }
+    }
+
+    .tbContents {
+        overflow: hidden;
+        padding-bottom: 35px;
+        height: 100%;
+        // height: calc(100% - 80px);
+    }
+}
+
+.main_page {
+    .main_top {
+        &.hide {
+            .topContent {
+                filter:alpha(opacity=0);
+
+                .logo {
+                    height: 0;
+                }
+            }
+        }
+    }
+
+    .main_contain {
+        height: 100%;
+
+        &.hideLeft {
+            .main_right {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .main_left {
+            float: left;
+        }
+
+        .main_right {
+            margin-left: 175px;
+            height: 100%;
+
+            #insTab {
+                height: 100%;
+            }
+        }
+    }
+}
