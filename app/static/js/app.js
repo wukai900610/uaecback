@@ -93,6 +93,7 @@ var APP = {
         };
         setTimeout(function() {
             _this.wkTab = new myTab(tabConfig);
+            // _this.wkTab.delAll();删除全部
         }, 500);
         var tabConfig = {
             target: targetId,

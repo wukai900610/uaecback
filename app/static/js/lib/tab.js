@@ -124,6 +124,9 @@ myTab.prototype.initTab = function(config) {
     that.wheelTab(config);
 }
 myTab.prototype.delAll = function(config) {
+    if (!config) {
+        config = this.config
+    }
     var nConfig = {
         index: 0,
         tabs: [config.tabs[0]],
