@@ -93,7 +93,6 @@ var APP = {
         };
         setTimeout(function() {
             _this.wkTab = new myTab(tabConfig);
-            // _this.wkTab.delAll();删除全部
         }, 500);
         var tabConfig = {
             target: targetId,
@@ -193,6 +192,21 @@ var APP = {
                 $(this).attr('status', 'down');
                 $(this).find('.slide .up').show();
             }
+        });
+
+        // 退出登录
+        $('.logout').click(function(e) {
+            $.dialog({
+                width: 240,
+                height: 90,
+                content: '确认要退出系统么?',
+                ok: function() {
+                    _this.wkTab.delAll();
+                    window.location.href = "http://baidu.com/logout"
+                },
+                cancelVal: '关闭',
+                cancel: true /*为true等价于function(){}*/
+            });
         });
     }
 };
