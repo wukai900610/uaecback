@@ -16,13 +16,15 @@
 
     .tbContents {
         overflow: hidden;
-        padding-bottom: 35px;
+        padding-bottom: 30px;
         height: 100%;
         // height: calc(100% - 80px);
     }
 }
 
 .main_page {
+    overflow: hidden;
+
     .main_top {
         &.hide {
             .topContent {
@@ -37,6 +39,7 @@
 
     .main_contain {
         height: 100%;
+        padding-bottom: 50px;
 
         &.hideLeft {
             .main_right {
@@ -46,6 +49,7 @@
         }
 
         .main_left {
+            overflow: auto;
             float: left;
         }
 

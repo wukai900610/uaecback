@@ -208,6 +208,9 @@ body {
           padding-top: 2px;
           background-repeat: no-repeat;
           background-position: left center; }
+          .main_page .main_top .topContent .main_menu li.active a,
+          .main_page .main_top .topContent .top_menu li.active a {
+            color: #f00; }
       .main_page .main_top .topContent .top_menu {
         position: absolute;
         margin: 0;
@@ -365,13 +368,15 @@ body {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
           -ms-flex-direction: column;
               flex-direction: column;
       margin: 2px 2px 0;
       padding: 2px 2px 1px;
-      width: calc(100% - 175px);
       border-radius: 3px;
       border: 1px solid #ccc;
       border-top: none;

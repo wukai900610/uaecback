@@ -254,6 +254,12 @@ body {
                     padding-top: 2px;
                     background-repeat: no-repeat;
                     background-position: left center;
+
+                    &.active {
+                        a {
+                            color: #f00;
+                        }
+                    }
                 }
             }
 
@@ -304,7 +310,7 @@ body {
     .main_contain {
         display: flex;
         flex: 1;
-
+        // overflow: hidden;
         &.hideLeft {
             .main_left {
                 margin-left: -175px;
@@ -462,11 +468,12 @@ body {
 
         .main_right {
             display: flex;
-            // flex: 1;
+            flex: 1;
             flex-direction: column;
             margin: 2px 2px 0;
             padding: 2px 2px 1px;
-            width: calc(100% - 175px);
+            // width: calc(100% - 175px);
+            // width: 100%;
             border-radius: 3px;
             border: 1px solid #ccc;
             border-top: none;
