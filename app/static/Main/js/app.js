@@ -56,7 +56,7 @@ var myUtil = {
             if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0"))
             {
                 $('head')
-                    .append('<link rel="stylesheet" href="/static/css/hack.css">');
+                    .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
         }
     },
@@ -76,6 +76,30 @@ var myUtil = {
     {
         window.sessionStorage.removeItem(key)
     },
+    selectNode: function(obj, id)
+    {
+        var mySelectNodeId = window.myUtil.getsessionStorage(id + 'Ztree');
+        var mySelectNode = obj.getNodeByTId(mySelectNodeId)
+        mySelectNode && obj.selectNode(mySelectNode);
+    },
+    treeSetting: function(ztreeId)
+    {
+        return {
+            callback:
+            {
+                onClick: function(event, treeId, treeNode, clickFlag)
+                {
+                    window.myUtil.setsessionStorage(ztreeId + 'Ztree', treeNode.tId);
+                    treeNode.href && window.APP.wkTab.addTab(
+                    {
+                        id: treeNode.id,
+                        name: treeNode.name,
+                        url: treeNode.href,
+                    });
+                }
+            }
+        };
+    }
 }
 var APP = {
     // 顶部显示隐藏
@@ -126,24 +150,6 @@ var APP = {
             tabs: tabObj.tabs,
             index: tabObj.index,
         }
-        // ztree
-        var setting = {
-            callback:
-            {
-                onClick: function(event, treeId, treeNode, clickFlag)
-                {
-                    if (treeNode.href)
-                    {
-                        _this.wkTab.addTab(
-                        {
-                            id: treeNode.id,
-                            name: treeNode.name,
-                            url: treeNode.href,
-                        });
-                    }
-                }
-            }
-        };
         // 顶部导行
         $('.main_page .main_top .main_menu li')
             .click(function()
@@ -182,11 +188,6 @@ var APP = {
                     {
                         $('.main_page .main_contain .main_left .nav__ul')
                             .html(dom);
-
-                        if (zNodes)
-                        {
-                            var zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-                        }
                     }
                 });
             });

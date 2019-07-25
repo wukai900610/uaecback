@@ -115,6 +115,7 @@ body {
         top: 1px;
         overflow: hidden;
         margin-right: 45px;
+        height: 26px;
 
         .close {
             color: #666;
@@ -125,12 +126,15 @@ body {
         }
 
         ul {
-            display: flex;
-            position: relative;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 10000em;
             transition: all 1s;
 
             li.nav {
                 display: flex;
+                float: left;
                 margin: 0 5px 0 0;
                 padding: 5px 10px;
                 border-radius: 5px 5px 0 0;
@@ -310,7 +314,8 @@ body {
     .main_contain {
         display: flex;
         flex: 1;
-        // overflow: hidden;
+        overflow: hidden;
+
         &.hideLeft {
             .main_left {
                 margin-left: -175px;
@@ -419,7 +424,7 @@ body {
                             overflow: hidden;
 
                             .half_link,
-                            a {
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -433,19 +438,19 @@ body {
                                 }
                             }
 
-                            a {
+                            > a {
                                 box-sizing: border-box;
                                 padding: 5px;
                                 display: block;
                                 width: 100%;
-
-                                &.fullWidth {
-                                    width: 100%;
-                                }
                             }
 
                             .half_link {
                                 overflow: hidden;
+                                box-sizing: border-box;
+                                padding: 5px;
+                                display: block;
+                                width: 100%;
 
                                 a {
                                     float: left;
@@ -460,6 +465,15 @@ body {
 
                         .ztree {
                             overflow: auto;
+                        }
+                    }
+                }
+
+                .ztree {
+                    li {
+                        // line-height: 18px;
+                        span.button.switch {
+                            height: 22px;
                         }
                     }
                 }

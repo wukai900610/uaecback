@@ -6,11 +6,6 @@
     .tabNavWrap {
         ul {
             overflow: hidden;
-            width: 10000em;
-
-            li.nav {
-                float: left;
-            }
         }
     }
 
@@ -49,8 +44,18 @@
         }
 
         .main_left {
-            overflow: auto;
+            // overflow: auto;
             float: left;
+
+            .nav__box {
+                overflow: hidden;
+                height: 100%;
+
+                .nav__ul {
+                    overflow: auto;
+                    height: 100%;
+                }
+            }
         }
 
         .main_right {

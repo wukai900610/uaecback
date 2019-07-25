@@ -2,10 +2,7 @@
   top: 8px; }
 
 .myTab .tabNavWrap ul {
-  overflow: hidden;
-  width: 10000em; }
-  .myTab .tabNavWrap ul li.nav {
-    float: left; }
+  overflow: hidden; }
 
 .myTab .tbContents {
   overflow: hidden;
@@ -25,8 +22,13 @@
       margin-left: 0;
       width: 100%; }
     .main_page .main_contain .main_left {
-      overflow: auto;
       float: left; }
+      .main_page .main_contain .main_left .nav__box {
+        overflow: hidden;
+        height: 100%; }
+        .main_page .main_contain .main_left .nav__box .nav__ul {
+          overflow: auto;
+          height: 100%; }
     .main_page .main_contain .main_right {
       margin-left: 175px;
       height: 100%; }
