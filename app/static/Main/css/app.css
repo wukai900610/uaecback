@@ -137,6 +137,7 @@ body {
           -webkit-box-align: center;
               -ms-flex-align: center;
                   align-items: center;
+          margin-left: 2px;
           width: 15px;
           height: 15px; }
   .myTab .tbContents {
@@ -344,11 +345,11 @@ body {
                   background: url("../images/up.png") no-repeat; }
             .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box {
               overflow: hidden; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 position: relative; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
                   content: ' ';
                   position: absolute;
                   left: 0;
@@ -358,13 +359,13 @@ body {
                   background: #d2e4b9; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
                 box-sizing: border-box;
-                padding: 5px;
+                padding: 4px 5px;
                 display: block;
                 width: 100%; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 overflow: hidden;
                 box-sizing: border-box;
-                padding: 5px;
+                padding: 4px 5px;
                 display: block;
                 width: 100%; }
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link a {
@@ -372,15 +373,15 @@ body {
                   width: 50%; }
                   .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link a::before {
                     display: none; }
-            .main_page .main_contain .main_left .nav__box .nav__ul > li .ztree {
-              overflow: auto; }
-        .main_page .main_contain .main_left .nav__box .ztree li span.button.switch {
-          height: 22px; }
-        .main_page .main_contain .main_left .nav__box .ztree li .node_name {
-          color: #06527d; }
-          .main_page .main_contain .main_left .nav__box .ztree li .node_name:hover {
-            color: #ff0000;
-            text-decoration: underline; }
+        .main_page .main_contain .main_left .nav__box .ztree {
+          overflow: auto; }
+          .main_page .main_contain .main_left .nav__box .ztree li span.button.switch {
+            height: 21px; }
+          .main_page .main_contain .main_left .nav__box .ztree li .node_name {
+            color: #06527d; }
+            .main_page .main_contain .main_left .nav__box .ztree li .node_name:hover {
+              color: #ff0000;
+              text-decoration: underline; }
     .main_page .main_contain .main_right {
       display: -webkit-box;
       display: -ms-flexbox;

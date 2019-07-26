@@ -155,6 +155,7 @@ body {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    margin-left: 2px;
                     width: 15px;
                     height: 15px;
                 }
@@ -425,8 +426,8 @@ body {
                         .link_box {
                             overflow: hidden;
 
-                            .half_link,
-                            > a {
+                            > a,
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -442,7 +443,7 @@ body {
 
                             > a {
                                 box-sizing: border-box;
-                                padding: 5px;
+                                padding: 4px 5px;
                                 display: block;
                                 width: 100%;
                             }
@@ -450,7 +451,7 @@ body {
                             .half_link {
                                 overflow: hidden;
                                 box-sizing: border-box;
-                                padding: 5px;
+                                padding: 4px 5px;
                                 display: block;
                                 width: 100%;
 
@@ -464,18 +465,16 @@ body {
                                 }
                             }
                         }
-
-                        .ztree {
-                            overflow: auto;
-                        }
                     }
                 }
 
                 .ztree {
+                    overflow: auto;
+
                     li {
                         // line-height: 18px;
                         span.button.switch {
-                            height: 22px;
+                            height: 21px;
                         }
 
                         .node_name {

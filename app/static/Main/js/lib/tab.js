@@ -3,6 +3,11 @@ function getRandom()
     return parseInt(Math.random() * 1000000);
 }
 
+function getUniqueRandom()
+{
+    return new Date().getTime().toString() + getRandom().toString();
+}
+
 function addParams(url)
 {
     if (url)
@@ -216,7 +221,33 @@ myTab.prototype.delAll = function(config)
 
     myUtil.setsessionStorage(nConfig.target + '__tab', nConfig);
 }
-// tab滚动
+//
+// 定位tab位置
+myTab.prototype.position = function(actieIndex, config)
+{
+    var scroll = 0;
+    var contexWidth = $(config.target + ' .tabNavWrap').width();
+
+    // 计算滚动长度
+    $(config.target + ' .nav').each(function(index, item)
+    {
+        if (index <= actieIndex)
+        {
+            scroll = scroll + $(this).outerWidth(true);
+        }
+    });
+
+    // 内容宽度超过滚动宽度
+    if (contexWidth > scroll)
+    {
+        $(config.target + ' .tabNavWrap').children().css('left', 0);
+    }
+    else
+    {
+        $(config.target + ' .tabNavWrap').children().css('left', -scroll + contexWidth);
+    }
+}
+// 绑定tab滚动
 myTab.prototype.wheelTab = function(config)
 {
     // 浏览器判断
@@ -296,9 +327,12 @@ myTab.prototype.addTab = function(adItem)
 
     if (find.result)
     {
-        // 定位到已打开的页面并更新url
+        // 激动页面并更新url
         $(nConfig.target + ' .nav').eq(find.index).addClass('active');
         $(nConfig.target + ' .tbContents .itemContent').eq(find.index).addClass('active').attr('src', addParams(adItem.url));
+
+        // 自动滚动定位tab
+        myTab.prototype.position(find.index, nConfig);
 
         // 缓存数据
         myUtil.setsessionStorage(nConfig.target + '__tab',
@@ -313,16 +347,21 @@ myTab.prototype.addTab = function(adItem)
     $(nConfig.target + ' ul').append('<li class="nav active" data-id="' + adItem.id + '">' + adItem.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
     $(nConfig.target + ' .tbContents').append('<iframe frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
 
+    // 记录添加
+    nConfig.tabs.push(adItem);
+
+    // 自动滚动定位tab
+    var tabLength = nConfig.tabs.length - 1
+    myTab.prototype.position(tabLength, nConfig);
+
     // 绑定滚动事件
     this.wheelTab(nConfig);
 
-    // 记录已添加
-    nConfig.tabs.push(adItem);
     // 缓存数据
     myUtil.setsessionStorage(nConfig.target + '__tab',
     {
         tabs: nConfig.tabs,
-        index: nConfig.tabs.length - 1,
+        index: tabLength,
         target: nConfig.target
     });
 }

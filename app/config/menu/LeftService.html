@@ -1,0 +1,201 @@
+<!-- <li>
+    系统管理
+    日志管理
+    数据分析
+</li> -->
+<li>
+    <h5>
+        联系人管理
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <div class="half_link">
+            <a data-id="ServiceMan" data-href="/Crm/ServiceMan.aspx">电销联系人</a>
+            <a data-id="ServiceAdd" data-href="/Crm/ServiceAdd.aspx">新加电销客户</a>
+        </div>
+        <div class="half_link">
+            <a data-id="ServiceAgentMan" data-href="/Crm/ServiceAgentMan.aspx">合作联系人</a>
+            <a data-id="ServiceAgentAdd" data-href="/Crm/ServiceAgentAdd.aspx">新加合作单位</a>
+        </div>
+    </div>
+</li>
+<li>
+    <h5>
+        客服管理
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <a data-id="Service" data-href="/Operator/Service.aspx">客户服务</a>
+    </div>
+</li>
+<li>
+    <h5>
+        客户管理
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <ul id="leftServiceTree" class="ztree"></ul>
+    </div>
+</li>
+<li>
+    <h5>
+        客户关怀
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <a data-id="ReturnVisit" data-href="/Crm/ReturnVisit.aspx">客户回访记录</a>
+        <div class="half_link">
+            <a data-id="ServiceManAddress" data-href="/CRM/ServiceManAddress.aspx">电销全年册</a>
+            <a data-id="ServiceAgentManAddress" data-href="/Crm/ServiceAgentManAddress.aspx">合作全年册</a>
+        </div>
+    </div>
+</li>
+<li>
+    <h5>
+        客服短信
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <div class="half_link">
+            <a data-id="SMSSingle" data-href="/Marketing/SMSSingle.aspx">短信单独发送</a>
+            <a data-id="SMSSingleSendList" data-href="/Marketing/SMSSingleSendList.aspx">单独发送记录</a>
+        </div>
+        <div class="half_link">
+            <a data-id="ServiceSMS" data-href="/CRM/ServiceSMS.aspx">配置生日短信</a>
+            <a data-id="ServiceSMSList" data-href="/Crm/ServiceSMSList.aspx">生日发送记录</a>
+        </div>
+    </div>
+</li>
+<li>
+    <h5>
+        订单分析
+        <span class="slide">
+            <b class="down"></b>
+            <b class="up"></b>
+        </span>
+    </h5>
+    <div class="link_box">
+        <div class="half_link">
+            <a data-id="Order" data-href="/Crm/Order.aspx">订单管理</a>
+            <a data-id="OrderBill" data-href="/Crm/OrderBill.aspx">订金管理</a>
+        </div>
+        <div class="half_link">
+            <a data-id="ReportOrder" data-href="/Operator/ReportOrder.aspx">订单报告</a>
+            <a data-id="ReportOrderBill" data-href="/Operator/ReportOrderBill.aspx">订金报告</a>
+        </div>
+        <div class="half_link">
+            <a data-id="ReportExpo" data-href="/Operator/ReportExpo.aspx">项目报告</a>
+            <a data-id="ReportOrderReturn" data-href="/Operator/ReportOrderReturn.aspx">退展报告</a>
+        </div>
+    </div>
+</li>
+
+<!-- ztree -->
+<link rel="stylesheet" href="/static/Main/js/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="/static/Main/js/lib/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript">
+var zNodes =[{
+        id:'ServiceAgent123',
+        name: '全部合作单位',
+        href:'/Crm/ServiceAgent.aspx'
+    },
+    {
+        id:'Service',
+        name: '全部电销客户',
+        open: true,
+        href:'/Crm/Service.aspx',
+        children: [{
+                id:'ShareDay1',
+                name: '最近1天新分配',
+                href:'/Crm/Service.aspx?ShareDay=1'
+            },
+            {
+                id:'ShareDay3',
+                name: '最近3天新分配',
+                href:'/Crm/Service.aspx?ShareDay=3'
+            },
+            {
+                id:'NeedContactDay1',
+                name: '今天需要联系',
+                href:'/Crm/Service.aspx?NeedContactDay=1'
+            },
+            {
+                id:'NeedContactDay3',
+                name: '3天内需要联系',
+                href:'/Crm/Service.aspx?NeedContactDay=3'
+            },
+            {
+                id:'HasContactDay1',
+                name: '今天已联系',
+                href:'/Crm/Service.aspx?HasContactDay=1'
+            },
+            {
+                id:'HasContactDay3',
+                name: '3天内已联系',
+                href:'/Crm/Service.aspx?HasContactDay=3'
+            },
+            {
+                id:'HasContactDay30',
+                name: '1个月已联系',
+                href:'/Crm/Service.aspx?HasContactDay=30'
+            },
+            {
+                id:'NotContactDay30',
+                name: '1个月未联系',
+                href:'/Crm/Service.aspx?NotContactDay=30'
+            },
+            {
+                id:'NoneContact1',
+                name: '从未联系客户',
+                href:'/Crm/Service.aspx?NoneContact=1'
+            },
+            {
+                name: '核实状态',
+                children:[{
+                    id:'IsCheck0',
+                    name: '待核实',
+                    href:'/Crm/Service.aspx?IsCheckChoice=等于&IsCheck=0'
+                },{
+                    id:'IsCheck1',
+                    name: '核实有效',
+                    href:'/Crm/Service.aspx?IsCheckChoice=等于&IsCheck=1'
+                },{
+                    id:'IsCheck2',
+                    name: '核实无效',
+                    href:'/Crm/Service.aspx?IsCheckChoice=等于&IsCheck=2'
+                }]
+            }
+        ]
+    },
+    {
+        name: '按服务类别',
+        children:[{
+            id:'ServiceKind=150514113304119170303',
+            name: '普通',
+            href:'/CRM/Service.aspx?ServiceKindChoice=等于&ServiceKind=150514113304119170303'
+        },{
+            id:'ServiceKind=150514113309871305955',
+            name: '重点',
+            href:'/CRM/Service.aspx?ServiceKindChoice=等于&ServiceKind=150514113309871305955'
+        }]
+    }
+];
+var ztreeId = 'leftServiceTree';
+var zTreeObj = $.fn.zTree.init($('#'+ztreeId), window.myUtil.treeSetting(ztreeId), zNodes);
+window.myUtil.selectNode(zTreeObj,ztreeId);
+</script>
