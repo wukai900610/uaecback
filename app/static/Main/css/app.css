@@ -3,7 +3,8 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Arial,"Microsoft YaHei", 微软雅黑; }
+  font-family: Arial,"Microsoft YaHei", 微软雅黑;
+  color: #528311; }
 
 .ellipsis {
   overflow: hidden;
@@ -112,12 +113,16 @@ body {
         display: flex;
         float: left;
         margin: 0 5px 0 0;
-        padding: 5px 10px;
+        padding: 5px;
         border-radius: 5px 5px 0 0;
         line-height: 15px;
         cursor: pointer;
         color: #528311;
-        word-break: keep-all; }
+        word-break: keep-all;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none; }
         .myTab .tabNavWrap ul li.nav.active {
           border: 1px solid #ccc;
           border-bottom: none;
@@ -132,7 +137,6 @@ body {
           -webkit-box-align: center;
               -ms-flex-align: center;
                   align-items: center;
-          margin-left: 5px;
           width: 15px;
           height: 15px; }
   .myTab .tbContents {
@@ -195,9 +199,10 @@ body {
         position: absolute;
         left: 0;
         top: 7px;
-        width: 170px;
+        width: 180px;
         height: 49px;
-        background: url("../images/logo.png") no-repeat; }
+        background: url("/Static/Images/logo.png") no-repeat;
+        background-size: 180px 49px; }
       .main_page .main_top .topContent .main_menu,
       .main_page .main_top .topContent .top_menu {
         overflow: hidden;
@@ -371,6 +376,11 @@ body {
               overflow: auto; }
         .main_page .main_contain .main_left .nav__box .ztree li span.button.switch {
           height: 22px; }
+        .main_page .main_contain .main_left .nav__box .ztree li .node_name {
+          color: #06527d; }
+          .main_page .main_contain .main_left .nav__box .ztree li .node_name:hover {
+            color: #ff0000;
+            text-decoration: underline; }
     .main_page .main_contain .main_right {
       display: -webkit-box;
       display: -ms-flexbox;

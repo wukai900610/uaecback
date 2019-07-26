@@ -141,25 +141,20 @@ var APP = {
             index: 0,
             tabs: initTabArr
         };
-        setTimeout(function()
-        {
-            _this.wkTab = new myTab(tabConfig);
-        }, 500);
+
         var tabConfig = {
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
         }
+        _this.wkTab = new myTab(tabConfig);
+
         // 顶部导行
-        $('.main_page .main_top .main_menu li')
+        $('.main_top .main_menu li')
             .click(function()
             {
-                var name = $(this)
-                    .data('name');
                 var index = $(this)
                     .index();
-                var type = $(this)
-                    .data('type');
                 $(this).addClass('active').siblings().removeClass('active');
 
                 // 缓存已点菜单
@@ -167,61 +162,74 @@ var APP = {
                 {
                     index: index,
                 });
+            });
 
-                // 显示左侧
+        // 侦听带有data-id的a链接
+        $(document)
+            .on('click', 'a[data-id],a[data-menu]', function()
+            {
+                var id = $(this)
+                    .data('id');
+                var name = $(this)
+                    .text();
+                var menu = $(this)
+                    .data('menu');
+                var href = $(this)
+                    .data('href');
+                var type = $(this)
+                    .data('type');
+                if (id)
+                {
+                    if (href && href != '#' && href != 'null')
+                    {
+                        _this.wkTab.addTab(
+                        {
+                            id: id,
+                            name: name,
+                            url: href,
+                        });
+                    }
+                }
+                // 加载左侧菜单
+                if (menu)
+                {
+                    $.ajax(
+                    {
+                        url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
+                        success: function(dom)
+                        {
+                            $('.main_page .main_contain .main_left .nav__ul')
+                                .html(dom);
+                        }
+                    });
+                }
+
+                // 执行显示左侧动作
                 $('.main_left .toShow')
                     .trigger('click');
+                //隐藏左侧
                 if (type == 'hideLeft')
-                { //隐藏左侧
+                {
                     setTimeout(function()
                     {
                         $('.main_left .toHide')
                             .trigger('click');
                     }, 0);
                 }
-                zNodes = null;
-                // 加载左侧菜单
-                $.ajax(
-                {
-                    url: '/config/menu/' + name + '.html',
-                    success: function(dom)
-                    {
-                        $('.main_page .main_contain .main_left .nav__ul')
-                            .html(dom);
-                    }
-                });
+
+                return false;
             });
+
         // 读取缓存中的菜单
-        var myTopMenu = myUtil.getsessionStorage('topMenu')
+        var myTopMenu = myUtil.getsessionStorage('topMenu');
         if (myTopMenu && myTopMenu.index)
         {
-            $('.main_page .main_top .main_menu li').eq(myTopMenu.index).trigger('click');
+            $('.main_top .main_menu li').eq(myTopMenu.index).find('a').trigger('click');
         }
         else
         {
-            $('.main_page .main_top .main_menu li').eq(0).trigger('click');
+            $('.main_top .main_menu li').eq(0).find('a').trigger('click');
         }
-
-        // 侦听带有data-id的a链接
-        $(document)
-            .on('click', 'a[data-id]', function()
-            {
-                var id = $(this)
-                    .data('id');
-                var name = $(this)
-                    .text();
-                var href = $(this)
-                    .data('href');
-                if (href)
-                {
-                    _this.wkTab.addTab(
-                    {
-                        id: id,
-                        name: name,
-                        url: href,
-                    });
-                }
-            });
 
         // 顶部最小化
         $('.slideTop li')

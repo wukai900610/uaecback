@@ -5,6 +5,7 @@
     padding: 0;
     // font-family: Arial,"Microsoft YaHei", 微软雅黑,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", sans-serif;
     font-family: Arial,"Microsoft YaHei", 微软雅黑;
+    color: #528311;
     // user-select: none;
 }
 @mixin ellipsis() {
@@ -136,12 +137,13 @@ body {
                 display: flex;
                 float: left;
                 margin: 0 5px 0 0;
-                padding: 5px 10px;
+                padding: 5px;
                 border-radius: 5px 5px 0 0;
                 line-height: 15px;
                 cursor: pointer;
                 color: #528311;
                 word-break: keep-all;
+                user-select: none;
 
                 &.active {
                     border: 1px solid #ccc;
@@ -153,7 +155,6 @@ body {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin-left: 5px;
                     width: 15px;
                     height: 15px;
                 }
@@ -241,9 +242,10 @@ body {
                 position: absolute;
                 left: 0;
                 top: 7px;
-                width: 170px;
+                width: 180px;
                 height: 49px;
-                background: url("../images/logo.png") no-repeat;
+                background: url("/Static/Images/logo.png") no-repeat;
+                background-size: 180px 49px;
             }
 
             .main_menu,
@@ -474,6 +476,15 @@ body {
                         // line-height: 18px;
                         span.button.switch {
                             height: 22px;
+                        }
+
+                        .node_name {
+                            color: #06527d;
+
+                            &:hover {
+                                color: #ff0000;
+                                text-decoration: underline;
+                            }
                         }
                     }
                 }
