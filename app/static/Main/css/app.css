@@ -345,11 +345,11 @@ body {
                   background: url("../images/up.png") no-repeat; }
             .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box {
               overflow: hidden; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
                 position: relative; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before {
                   content: ' ';
                   position: absolute;
                   left: 0;
@@ -362,6 +362,8 @@ body {
                 padding: 4px 5px;
                 display: block;
                 width: 100%; }
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active {
+                  color: #f00; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 overflow: hidden;
                 box-sizing: border-box;
@@ -371,6 +373,8 @@ body {
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link a {
                   float: left;
                   width: 50%; }
+                  .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link a.active {
+                    color: #f00; }
                   .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link a::before {
                     display: none; }
         .main_page .main_contain .main_left .nav__box .ztree {

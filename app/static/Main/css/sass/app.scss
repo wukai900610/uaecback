@@ -426,8 +426,8 @@ body {
                         .link_box {
                             overflow: hidden;
 
-                            > a,
-                            .half_link {
+                            .half_link,
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -446,6 +446,10 @@ body {
                                 padding: 4px 5px;
                                 display: block;
                                 width: 100%;
+
+                                &.active {
+                                    color: #f00;
+                                }
                             }
 
                             .half_link {
@@ -458,6 +462,10 @@ body {
                                 a {
                                     float: left;
                                     width: 50%;
+
+                                    &.active {
+                                        color: #f00;
+                                    }
 
                                     &::before {
                                         display: none;

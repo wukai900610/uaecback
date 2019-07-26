@@ -146,6 +146,15 @@ var APP = {
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
+            tabClicked: function(obj)
+            {
+                // 失活左边菜单
+                $('.link_box a').removeClass('active');
+                // 右上菜单
+                $('.top_menu a').removeClass('active');
+                // 失活底部菜单
+                $('.links a').removeClass('active');
+            }
         }
         _this.wkTab = new myTab(tabConfig);
 
@@ -168,15 +177,16 @@ var APP = {
         $(document)
             .on('click', 'a[data-id],a[data-menu]', function()
             {
-                var id = $(this)
+                var $this = $(this);
+                var id = $this
                     .data('id');
-                var name = $(this)
+                var name = $this
                     .text();
-                var menu = $(this)
+                var menu = $this
                     .data('menu');
-                var href = $(this)
+                var href = $this
                     .data('href');
-                var type = $(this)
+                var type = $this
                     .data('type');
                 if (id)
                 {
@@ -217,8 +227,20 @@ var APP = {
                     }, 0);
                 }
 
+                // 点击的是左侧菜单
+                if ($this.parents().hasClass('link_box'))
+                {
+                    $('.link_box a').removeClass('active');
+                    $this.addClass('active');
+                }
+
                 return false;
             });
+
+        // $(document)
+        //     .on('click', '.nav__box .link_box a', function() {
+        //         $(this).addClass('active').siblings('removeClass')
+        //     });
 
         // 读取缓存中的菜单
         var myTopMenu = myUtil.getsessionStorage('topMenu');

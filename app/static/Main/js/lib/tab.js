@@ -171,6 +171,8 @@ myTab.prototype.initTab = function(config)
         var localData = myUtil.getsessionStorage(config.target + '__tab');
         localData.index = index
         myUtil.setsessionStorage(config.target + '__tab', localData);
+
+        config.tabClicked && config.tabClicked();
         return false;
     });
 
