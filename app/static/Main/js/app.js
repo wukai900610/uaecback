@@ -90,10 +90,10 @@ var myUtil = {
             {
                 onClick: function(event, treeId, treeNode, clickFlag)
                 {
-                    window.myUtil.setsessionStorage(ztreeId + 'Ztree', treeNode.tId);
+                    window.myUtil.setsessionStorage(ztreeId + 'Ztree', treeNode.tId); //保存当前选择的节点
                     treeNode.href && window.APP.wkTab.addTab(
                     {
-                        id: treeNode.id,
+                        id: treeNode.tId,
                         name: treeNode.name,
                         url: treeNode.href,
                     });
@@ -130,10 +130,30 @@ var APP = {
                 .addClass('hide_main_bottom');
         }
     },
+    aBindId: function(target, menu)
+    { //a链接 绑定 data-id
+        if (target)
+        {
+            $(target + ' a[data-href]').each(function(index)
+            {
+                $(this).attr('data-id', menu + (index + 1));
+            });
+        }
+        else
+        {
+            $('a[data-href]').each(function(index)
+            {
+                $(this).attr('data-id', 'init' + (index + 1));
+            });
+        }
+    },
     main: function(initTabArr)
     {
         var _this = this;
         myUtil.checkIE();
+
+        // 初始绑定id
+        this.aBindId();
 
         // 渲染初始tab
         var targetId = '#insTab';
@@ -216,6 +236,9 @@ var APP = {
                             {
                                 $('.main_page .main_contain .main_left .nav__ul')
                                     .html(dom);
+
+                                // 绑定id
+                                _this.aBindId('.main_page .main_contain .main_left .nav__ul li', menu);
                             }
                         });
                     }
