@@ -136,14 +136,22 @@ var APP = {
         {
             $(target + ' a[data-href]').each(function(index)
             {
-                $(this).attr('data-id', menu + (index + 1));
+                var hasId = $(this).data('id');
+                if (!hasId)
+                {
+                    $(this).attr('data-id', menu + (index + 1));
+                }
             });
         }
         else
         {
             $('a[data-href]').each(function(index)
             {
-                $(this).attr('data-id', 'init' + (index + 1));
+                var hasId = $(this).data('id');
+                if (!hasId)
+                {
+                    $(this).attr('data-id', 'init' + (index + 1));
+                }
             });
         }
     },
