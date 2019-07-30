@@ -1,3 +1,4 @@
+// 版本0.01
 // ie8支持map
 if (typeof Array.prototype.map != "function")
 {
@@ -184,63 +185,64 @@ var APP = {
                     .text();
                 var menu = $this
                     .data('menu');
-                var href = $this
+                var dataHref = $this
                     .data('href');
                 var type = $this
                     .data('type');
-                if (id)
+                var href = $this
+                    .attr('href');
+
+                if (!href)
                 {
-                    if (href && href != '#' && href != 'null')
+                    if (id)
                     {
-                        _this.wkTab.addTab(
+                        if (dataHref && dataHref != '#' && dataHref != 'null')
                         {
-                            id: id,
-                            name: name,
-                            url: href,
+                            _this.wkTab.addTab(
+                            {
+                                id: id,
+                                name: name,
+                                url: dataHref,
+                            });
+                        }
+                    }
+                    // 加载左侧菜单
+                    if (menu)
+                    {
+                        $.ajax(
+                        {
+                            url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
+                            success: function(dom)
+                            {
+                                $('.main_page .main_contain .main_left .nav__ul')
+                                    .html(dom);
+                            }
                         });
                     }
-                }
-                // 加载左侧菜单
-                if (menu)
-                {
-                    $.ajax(
+
+                    // 执行显示左侧动作
+                    $('.main_left .toShow')
+                        .trigger('click');
+                    //隐藏左侧
+                    if (type == 'hideLeft')
                     {
-                        url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
-                        success: function(dom)
+                        setTimeout(function()
                         {
-                            $('.main_page .main_contain .main_left .nav__ul')
-                                .html(dom);
-                        }
-                    });
-                }
+                            $('.main_left .toHide')
+                                .trigger('click');
+                        }, 0);
+                    }
 
-                // 执行显示左侧动作
-                $('.main_left .toShow')
-                    .trigger('click');
-                //隐藏左侧
-                if (type == 'hideLeft')
-                {
-                    setTimeout(function()
+                    // 点击的是左侧菜单
+                    if ($this.parents().hasClass('link_box'))
                     {
-                        $('.main_left .toHide')
-                            .trigger('click');
-                    }, 0);
-                }
+                        $('.link_box a').removeClass('active');
+                        $this.addClass('active');
+                    }
 
-                // 点击的是左侧菜单
-                if ($this.parents().hasClass('link_box'))
-                {
-                    $('.link_box a').removeClass('active');
-                    $this.addClass('active');
+                    return false;
                 }
-
-                return false;
             });
-
-        // $(document)
-        //     .on('click', '.nav__box .link_box a', function() {
-        //         $(this).addClass('active').siblings('removeClass')
-        //     });
 
         // 读取缓存中的菜单
         var myTopMenu = myUtil.getsessionStorage('topMenu');

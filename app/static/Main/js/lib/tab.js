@@ -323,7 +323,7 @@ myTab.prototype.addTab = function(adItem)
             find.index = index;
 
             // 更新数据
-            item = adItem;
+            nConfig.tabs[index] = adItem;
         }
     });
 
