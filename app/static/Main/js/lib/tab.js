@@ -1,44 +1,33 @@
-function getRandom()
-{
+function getRandom() {
     return parseInt(Math.random() * 1000000);
 }
 
-function getUniqueRandom()
-{
+function getUniqueRandom() {
     return new Date().getTime().toString() + getRandom().toString();
 }
 
-function addParams(url)
-{
-    if (url)
-    {
+function addParams(url) {
+    if (url) {
 
         var random = getRandom();
-        if (url.indexOf('?') > -1)
-        {
+        if (url.indexOf('?') > -1) {
             url = url + '&rnd=' + random;
-        }
-        else
-        {
+        } else {
             url = url + '?rnd=' + random;
         }
 
         return url;
-    }
-    else
-    {
+    } else {
         return '';
     }
 }
 
-var myTab = function(config)
-{
+var myTab = function(config) {
     var defaults = {
         tabs: [],
         index: 1
     }
-    var newConfig = $.extend(
-    {}, defaults, config);
+    var newConfig = $.extend({}, defaults, config);
 
     this.initTab(newConfig)
     return {
@@ -49,35 +38,24 @@ var myTab = function(config)
     };
 }
 
-myTab.prototype.rendTab = function(config)
-{
+myTab.prototype.rendTab = function(config) {
     var that = this;
     var tabNav = '',
         tbContents = '';
     var showIndex = config.index || 0;
-    config.tabs.map(function(item, index)
-    {
-        if (index == showIndex)
-        {
-            if (item.close == false)
-            {
+    config.tabs.map(function(item, index) {
+        if (index == showIndex) {
+            if (item.close == false) {
                 tabNav += '<li class="nav active" data-id="' + item.id + '">' + item.name + '</li>';
-            }
-            else
-            {
+            } else {
                 tabNav += '<li class="nav active" data-id="' + item.id + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
 
             tbContents += '<iframe frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
-        }
-        else
-        {
-            if (item.close == false)
-            {
+        } else {
+            if (item.close == false) {
                 tabNav += '<li class="nav" data-id="' + item.id + '">' + item.name + '</li>';
-            }
-            else
-            {
+            } else {
                 tabNav += '<li class="nav" data-id="' + item.id + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
             tbContents += '<iframe frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
@@ -88,26 +66,21 @@ myTab.prototype.rendTab = function(config)
 
     $(config.target).addClass('myTab').html(tabDom);
 }
-myTab.prototype.initTab = function(config)
-{
+myTab.prototype.initTab = function(config) {
     var that = this;
     that.rendTab(config);
     // 更新缓存数据
-    var merge = $.extend(
-    {}, config,
-    {});
+    var merge = $.extend({}, config, {});
     myUtil.setsessionStorage(config.target + '__tab', merge);
 
     // 全部关闭
-    $(document).on('click', config.target + ' .closeAll', function(e)
-    {
+    $(document).on('click', config.target + ' .closeAll', function(e) {
         that.delAll(config);
         return false;
     });
 
     // 删除
-    $(document).on('click', config.target + ' .nav .close', function(e)
-    {
+    $(document).on('click', config.target + ' .nav .close', function(e) {
         var id = $(this).parent().data('id');
         var isActie = $(this).parent().hasClass('active');
         var delIndex = $(this).parent().index();
@@ -115,39 +88,31 @@ myTab.prototype.initTab = function(config)
         var sessionConfig = myUtil.getsessionStorage(config.target + '__tab');
         var activeIndex = sessionConfig.index;
         // 删除的是当前活动的tab
-        if (isActie)
-        {
+        if (isActie) {
             // console.log('当前');
             activeIndex = activeIndex - 1 < 0 ? 0 : activeIndex - 1;
 
             $(sessionConfig.target + ' .nav').eq(activeIndex).addClass('active');
             $(sessionConfig.target + ' .tbContents .itemContent').eq(activeIndex).addClass('active');
-        }
-        else
-        {
+        } else {
             // console.log('其他');
             if (delIndex > activeIndex) //要删除的tab比当前tab索引值大
             {
 
-            }
-            else
-            {
+            } else {
                 activeIndex = activeIndex - 1;
             }
         }
         // 删除已添加的记录
-        sessionConfig.tabs.map(function(item, index)
-        {
-            if (item.id == id)
-            {
+        sessionConfig.tabs.map(function(item, index) {
+            if (item.id == id) {
                 sessionConfig.tabs.splice(index, 1);
             }
         });
         // console.log(sessionConfig);
 
         // 更新缓存数据
-        myUtil.setsessionStorage(sessionConfig.target + '__tab',
-        {
+        myUtil.setsessionStorage(sessionConfig.target + '__tab', {
             target: sessionConfig.target,
             tabs: sessionConfig.tabs,
             index: activeIndex
@@ -160,8 +125,7 @@ myTab.prototype.initTab = function(config)
     });
 
     // 显示点击
-    $(document).on('click', config.target + ' .nav', function(e)
-    {
+    $(document).on('click', config.target + ' .nav', function(e) {
         var index = $(this).index();
         $(this).addClass('active').siblings().removeClass('active');
         $(config.target + ' .tbContents .itemContent').eq(index).addClass('active').siblings().removeClass('active');
@@ -177,16 +141,13 @@ myTab.prototype.initTab = function(config)
     });
 
     // 双击tab刷新
-    $(document).on('dblclick', config.target + ' .nav', function(e)
-    {
+    $(document).on('dblclick', config.target + ' .nav', function(e) {
         var localData = myUtil.getsessionStorage(config.target + '__tab');
         var id = $(this).data('id');
         var index = $(this).index();
 
-        localData.tabs.map(function(item)
-        {
-            if (item.id == id)
-            {
+        localData.tabs.map(function(item) {
+            if (item.id == id) {
                 $(config.target + ' .tbContents .itemContent').eq(index).attr('src', addParams(item.url));
             }
         });
@@ -194,20 +155,16 @@ myTab.prototype.initTab = function(config)
         return false;
     });
 
-    $(window).on('resize', function()
-    {
-        setTimeout(function()
-        {
+    $(window).on('resize', function() {
+        setTimeout(function() {
             that.wheelTab(config);
         }, 250);
     });
 
     that.wheelTab(config);
 }
-myTab.prototype.delAll = function(config)
-{
-    if (!config)
-    {
+myTab.prototype.delAll = function(config) {
+    if (!config) {
         config = this.config
     }
     var nConfig = {
@@ -225,33 +182,26 @@ myTab.prototype.delAll = function(config)
 }
 //
 // 定位tab位置
-myTab.prototype.position = function(actieIndex, config)
-{
+myTab.prototype.position = function(actieIndex, config) {
     var scroll = 0;
     var contexWidth = $(config.target + ' .tabNavWrap').width();
 
     // 计算滚动长度
-    $(config.target + ' .nav').each(function(index, item)
-    {
-        if (index <= actieIndex)
-        {
+    $(config.target + ' .nav').each(function(index, item) {
+        if (index <= actieIndex) {
             scroll = scroll + $(this).outerWidth(true);
         }
     });
 
     // 内容宽度超过滚动宽度
-    if (contexWidth > scroll)
-    {
+    if (contexWidth > scroll) {
         $(config.target + ' .tabNavWrap').children().css('left', 0);
-    }
-    else
-    {
+    } else {
         $(config.target + ' .tabNavWrap').children().css('left', -scroll + contexWidth);
     }
 }
 // 绑定tab滚动
-myTab.prototype.wheelTab = function(config)
-{
+myTab.prototype.wheelTab = function(config) {
     // 浏览器判断
     var browser = navigator.appName;
     var b_version = navigator.appVersion;
@@ -262,8 +212,7 @@ myTab.prototype.wheelTab = function(config)
     var maxWidth = 0;
     var contexWidth = $(config.target + ' .tabNavWrap').width();
 
-    $(config.target + ' .tabNavWrap li').each(function()
-    {
+    $(config.target + ' .tabNavWrap li').each(function() {
         maxWidth = maxWidth + $(this).outerWidth(true);
     });
 
@@ -271,27 +220,19 @@ myTab.prototype.wheelTab = function(config)
     $(document).off('mousewheel', config.target + ' .tabNavWrap');
     $(document).off('DOMMouseScroll', config.target + ' .tabNavWrap');
     // 判断是否需要滚动
-    if (contexWidth > maxWidth)
-    {
+    if (contexWidth > maxWidth) {
         $(config.target + ' .tabNavWrap').children().css('left', 0);
-    }
-    else
-    {
-        function wheel(e)
-        {
+    } else {
+        function wheel(e) {
             var currentWheel = e.originalEvent.wheelDelta || -e.originalEvent.detail;
             var delta = Math.max(-1, Math.min(1, currentWheel));
-            if (delta < 0)
-            { //向下滚动
+            if (delta < 0) { //向下滚动
                 wheelX = wheelX <= -(maxWidth - contexWidth) ? -(maxWidth - contexWidth) : wheelX - distence;
-            }
-            else
-            { //向上滚动
+            } else { //向上滚动
                 wheelX = wheelX >= 0 ? 0 : wheelX + distence;
             }
 
-            $(this).children().css(
-            {
+            $(this).children().css({
                 'left': wheelX
             });
 
@@ -302,8 +243,7 @@ myTab.prototype.wheelTab = function(config)
         $(document).on('DOMMouseScroll', config.target + ' .tabNavWrap', wheel);
     }
 }
-myTab.prototype.addTab = function(adItem)
-{
+myTab.prototype.addTab = function(adItem) {
     var that = this;
     var nConfig = myUtil.getsessionStorage(this.config.target + '__tab');
     // 初始样式
@@ -315,10 +255,8 @@ myTab.prototype.addTab = function(adItem)
         result: null,
         index: null
     };
-    nConfig.tabs.map(function(item, index)
-    {
-        if (item.id == adItem.id)
-        {
+    nConfig.tabs.map(function(item, index) {
+        if (item.id == adItem.id) {
             find.result = true;
             find.index = index;
 
@@ -327,8 +265,7 @@ myTab.prototype.addTab = function(adItem)
         }
     });
 
-    if (find.result)
-    {
+    if (find.result) {
         // 激动页面并更新url
         $(nConfig.target + ' .nav').eq(find.index).addClass('active');
         $(nConfig.target + ' .tbContents .itemContent').eq(find.index).addClass('active').attr('src', addParams(adItem.url));
@@ -337,8 +274,7 @@ myTab.prototype.addTab = function(adItem)
         myTab.prototype.position(find.index, nConfig);
 
         // 缓存数据
-        myUtil.setsessionStorage(nConfig.target + '__tab',
-        {
+        myUtil.setsessionStorage(nConfig.target + '__tab', {
             tabs: nConfig.tabs,
             index: find.index,
             target: nConfig.target
@@ -360,8 +296,7 @@ myTab.prototype.addTab = function(adItem)
     this.wheelTab(nConfig);
 
     // 缓存数据
-    myUtil.setsessionStorage(nConfig.target + '__tab',
-    {
+    myUtil.setsessionStorage(nConfig.target + '__tab', {
         tabs: nConfig.tabs,
         index: tabLength,
         target: nConfig.target

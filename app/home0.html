@@ -7,13 +7,65 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <div style=" width:100%;">
-        <div class="hideTop" onclick="window.parent.APP.toggleTop(false);">点我隐藏头部</div>
-        <div class="hideTop" onclick="window.parent.APP.toggleBottom(false);">点我隐藏底部</div>
-    </div> -->
-    Document
+    <a style="margin-left:700px;" data-tips="<img src=test.png />">图片1</a>
+    <br/>
+    <a style="display:inline-block;margin-top:150px;" data-tips="<img src=http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg />">图片2</a>
+    <br/>
+    <a style="display:inline-block;margin-top:150px;" data-tips="文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/><img src=test.png />文章文章文章文章文<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章">文章</a>
+
+    <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
+    <script src="/static/Main/js/lib/layer/layer.js"></script>
     <script type="text/javascript">
-        // JSON.parse(undefined)
+        $(function () {
+            $('body').append('<style>.imgAlert .contents{padding: 5px;color: #000;font-size: 14px;}.imgAlert .contents img{max-height: 200px;}</style>');
+
+            var imgAlertIndex;
+            $("a[data-tips]").mousemove(function (e) {
+                var left = e.pageX+20;
+                var top = e.pageY;
+                var windowWidth = $(window).width();
+                var windowHeight = $(window).height();
+                var contentWidth = $('.imgAlert').width();
+                var contentHeight = $('.imgAlert').height();
+
+                var posX=0,posY=0;
+                // 判断显示位置
+                if(windowWidth - left < contentWidth){
+                    posX = e.pageX-contentWidth-20;
+                }else{
+                    posX = e.pageX+20;
+                }
+
+                if(windowHeight - top < contentHeight){
+                    posY = e.pageY-contentHeight-20;
+                }else{
+                    posY = e.pageY;
+                }
+
+                layer.style(imgAlertIndex, {
+                    left: posX,
+                    top: posY
+                });
+            });
+            $("a[data-tips]").mouseenter(function (e) {
+                var content = $(this).data('tips');
+
+                imgAlertIndex = layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    maxWidth:800,
+                    maxHeight:600,
+                    area:'auto',
+                    shade: false,
+                    skin: 'imgAlert',
+                    content: '<div class="contents">'+content+'</div>'
+                });
+            });
+            $("a[data-tips]").mouseleave(function (e) {
+                layer.close(imgAlertIndex);
+            });
+        })
     </script>
 </body>
 </html>

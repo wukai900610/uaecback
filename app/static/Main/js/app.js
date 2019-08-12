@@ -1,14 +1,10 @@
 // 版本0.01
 // ie8支持map
-if (typeof Array.prototype.map != "function")
-{
-    Array.prototype.map = function(fn, context)
-    {
+if (typeof Array.prototype.map != "function") {
+    Array.prototype.map = function(fn, context) {
         var arr = [];
-        if (typeof fn === "function")
-        {
-            for (var k = 0, length = this.length; k < length; k++)
-            {
+        if (typeof fn === "function") {
+            for (var k = 0, length = this.length; k < length; k++) {
                 arr.push(fn.call(context, this[k], k, this));
             }
         }
@@ -46,53 +42,41 @@ if (typeof Array.prototype.map != "function")
 
 // 工具函数
 var myUtil = {
-    checkIE: function()
-    {
+    checkIE: function() {
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
         var version = b_version.split(";");
-        if (version && version[1])
-        {
+        if (version && version[1]) {
             var trim_Version = version[1].replace(/[ ]/g, "");
-            if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0"))
-            {
+            if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0")) {
                 $('head')
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
         }
     },
-    getNewObj: function(data)
-    {
+    getNewObj: function(data) {
         return JSON.parse(JSON.stringify(data));
     },
-    getsessionStorage: function(key)
-    {
+    getsessionStorage: function(key) {
         return window.JSON.parse(window.sessionStorage.getItem(key));
     },
-    setsessionStorage: function(key, value)
-    {
+    setsessionStorage: function(key, value) {
         window.sessionStorage.setItem(key, window.JSON.stringify(value));
     },
-    removesessionStorage: function(key)
-    {
+    removesessionStorage: function(key) {
         window.sessionStorage.removeItem(key)
     },
-    selectNode: function(obj, id)
-    {
+    selectNode: function(obj, id) {
         var mySelectNodeId = window.myUtil.getsessionStorage(id + 'Ztree');
         var mySelectNode = obj.getNodeByTId(mySelectNodeId)
         mySelectNode && obj.selectNode(mySelectNode);
     },
-    treeSetting: function(ztreeId)
-    {
+    treeSetting: function(ztreeId) {
         return {
-            callback:
-            {
-                onClick: function(event, treeId, treeNode, clickFlag)
-                {
+            callback: {
+                onClick: function(event, treeId, treeNode, clickFlag) {
                     window.myUtil.setsessionStorage(ztreeId + 'Ztree', treeNode.tId); //保存当前选择的节点
-                    treeNode.href && window.APP.wkTab.addTab(
-                    {
+                    treeNode.href && window.APP.wkTab.addTab({
                         id: treeNode.tId,
                         name: treeNode.name,
                         url: treeNode.href,
@@ -104,59 +88,42 @@ var myUtil = {
 }
 var APP = {
     // 顶部显示隐藏
-    toggleTop: function(control)
-    {
-        if (control)
-        { //开
+    toggleTop: function(control) {
+        if (control) { //开
             $('.main_top')
                 .show();
-        }
-        else
-        { //关
+        } else { //关
             $('.main_top')
                 .hide();
         }
     },
-    toggleBottom: function(control)
-    {
-        if (control)
-        { //开
+    toggleBottom: function(control) {
+        if (control) { //开
             $('.main_page')
                 .removeClass('hide_main_bottom');
-        }
-        else
-        { //关
+        } else { //关
             $('.main_page')
                 .addClass('hide_main_bottom');
         }
     },
-    aBindId: function(target, menu)
-    { //a链接 绑定 data-id
-        if (target)
-        {
-            $(target + ' a[data-href]').each(function(index)
-            {
+    aBindId: function(target, menu) { //a链接 绑定 data-id
+        if (target) {
+            $(target + ' a[data-href]').each(function(index) {
                 var hasId = $(this).data('id');
-                if (!hasId)
-                {
+                if (!hasId) {
                     $(this).attr('data-id', menu + (index + 1));
                 }
             });
-        }
-        else
-        {
-            $('a[data-href]').each(function(index)
-            {
+        } else {
+            $('a[data-href]').each(function(index) {
                 var hasId = $(this).data('id');
-                if (!hasId)
-                {
+                if (!hasId) {
                     $(this).attr('data-id', 'init' + (index + 1));
                 }
             });
         }
     },
-    main: function(initTabArr)
-    {
+    main: function(initTabArr) {
         var _this = this;
         myUtil.checkIE();
 
@@ -165,8 +132,7 @@ var APP = {
 
         // 渲染初始tab
         var targetId = '#insTab';
-        var tabObj = myUtil.getsessionStorage(targetId + '__tab') ||
-        {
+        var tabObj = myUtil.getsessionStorage(targetId + '__tab') || {
             index: 0,
             tabs: initTabArr
         };
@@ -175,8 +141,7 @@ var APP = {
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
-            tabClicked: function(obj)
-            {
+            tabClicked: function(obj) {
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
                 // 右上菜单
@@ -186,26 +151,24 @@ var APP = {
             }
         }
         _this.wkTab = new myTab(tabConfig);
+        // console.log(_this.wkTab);
 
         // 顶部导行
         $('.main_top .main_menu li')
-            .click(function()
-            {
+            .click(function() {
                 var index = $(this)
                     .index();
                 $(this).addClass('active').siblings().removeClass('active');
 
                 // 缓存已点菜单
-                myUtil.setsessionStorage('topMenu',
-                {
+                myUtil.setsessionStorage('topMenu', {
                     index: index,
                 });
             });
 
         // 侦听带有data-id的a链接
         $(document)
-            .on('click', 'a[data-id],a[data-menu]', function()
-            {
+            .on('click', 'a[data-id],a[data-menu]', function() {
                 var $this = $(this);
                 var id = $this
                     .data('id');
@@ -220,14 +183,10 @@ var APP = {
                 var href = $this
                     .attr('href');
 
-                if (!href)
-                {
-                    if (id)
-                    {
-                        if (dataHref && dataHref != '#' && dataHref != 'null')
-                        {
-                            _this.wkTab.addTab(
-                            {
+                if (!href) {
+                    if (id) {
+                        if (dataHref && dataHref != '#' && dataHref != 'null') {
+                            _this.wkTab.addTab({
                                 id: id,
                                 name: name,
                                 url: dataHref,
@@ -235,13 +194,10 @@ var APP = {
                         }
                     }
                     // 加载左侧菜单
-                    if (menu)
-                    {
-                        $.ajax(
-                        {
+                    if (menu) {
+                        $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
-                            success: function(dom)
-                            {
+                            success: function(dom) {
                                 $('.main_page .main_contain .main_left .nav__ul')
                                     .html(dom);
 
@@ -255,18 +211,15 @@ var APP = {
                     $('.main_left .toShow')
                         .trigger('click');
                     //隐藏左侧
-                    if (type == 'hideLeft')
-                    {
-                        setTimeout(function()
-                        {
+                    if (type == 'hideLeft') {
+                        setTimeout(function() {
                             $('.main_left .toHide')
                                 .trigger('click');
                         }, 0);
                     }
 
                     // 点击的是左侧菜单
-                    if ($this.parents().hasClass('link_box'))
-                    {
+                    if ($this.parents().hasClass('link_box')) {
                         $('.link_box a').removeClass('active');
                         $this.addClass('active');
                     }
@@ -277,26 +230,21 @@ var APP = {
 
         // 读取缓存中的菜单
         var myTopMenu = myUtil.getsessionStorage('topMenu');
-        if (myTopMenu && myTopMenu.index)
-        {
+        if (myTopMenu && myTopMenu.index) {
             $('.main_top .main_menu li').eq(myTopMenu.index).find('a').trigger('click');
-        }
-        else
-        {
+        } else {
             $('.main_top .main_menu li').eq(0).find('a').trigger('click');
         }
 
         // 顶部最小化
         $('.slideTop li')
-            .click(function(argument)
-            {
+            .click(function(argument) {
                 var open = $(this)
                     .hasClass('open');
                 var close = $(this)
                     .hasClass('close');
 
-                if (open)
-                {
+                if (open) {
                     $('.slideTop li.open')
                         .hide();
                     $('.slideTop li.close')
@@ -304,8 +252,7 @@ var APP = {
                     $('.main_top')
                         .removeClass('hide');
                 }
-                if (close)
-                {
+                if (close) {
                     $('.slideTop li.open')
                         .show();
                     $('.slideTop li.close')
@@ -317,16 +264,14 @@ var APP = {
 
         // 左侧导航左右切换
         $('.main_left .toHide')
-            .click(function()
-            {
+            .click(function() {
                 $('.main_contain')
                     .addClass('hideLeft');
                 $('.main_left .toShow')
                     .addClass('active');
             });
         $('.main_left .toShow')
-            .click(function()
-            {
+            .click(function() {
                 $('.main_contain')
                     .removeClass('hideLeft');
                 $('.main_left .toShow')
@@ -335,54 +280,29 @@ var APP = {
 
         // 左侧子导航伸展
         $(document)
-            .on('click', '.main_left li h5', function(e)
-            {
-                var status = $(this)
-                    .attr('status');
-                $(this)
-                    .find('b')
-                    .hide();
-                if (!status || status == 'down')
-                {
-                    $(this)
-                        .next()
-                        .slideUp();
-                    $(this)
-                        .attr('status', 'up');
-                    $(this)
-                        .find('.slide .down')
-                        .show();
-                }
-                else
-                {
-                    $(this)
-                        .next()
-                        .slideDown();
-                    $(this)
-                        .attr('status', 'down');
-                    $(this)
-                        .find('.slide .up')
-                        .show();
+            .on('click', '.main_left li h5', function(e) {
+                var isHide = $(this).parent().hasClass('hide');
+                console.log(isHide);
+                if(isHide){
+                    $(this).parent().removeClass('hide');
+                }else{
+                    $(this).parent().addClass('hide');
                 }
             });
 
         // 退出登录
         $('.logout')
-            .click(function(e)
-            {
-                $.dialog(
-                {
+            .click(function(e) {
+                $.dialog({
                     width: 240,
                     height: 90,
                     content: '确认要退出系统么?',
-                    ok: function()
-                    {
+                    ok: function() {
                         _this.wkTab.delAll();
                         window.location.href = "/Manage/Logout.aspx";
 
                         // 清空缓存的主导向菜单
-                        myUtil.setsessionStorage('topMenu',
-                        {});
+                        myUtil.setsessionStorage('topMenu', {});
                     },
                     cancelVal: '关闭',
                     cancel: true /*为true等价于function(){}*/

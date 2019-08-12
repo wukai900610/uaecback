@@ -314,6 +314,12 @@ body {
                   flex: 1; }
           .main_page .main_contain .main_left .nav__box .nav__ul > li {
             padding-bottom: 2px; }
+            .main_page .main_contain .main_left .nav__box .nav__ul > li.hide h5 .slide .down {
+              display: block; }
+            .main_page .main_contain .main_left .nav__box .nav__ul > li.hide h5 .slide .up {
+              display: none; }
+            .main_page .main_contain .main_left .nav__box .nav__ul > li.hide .link_box {
+              height: 0; }
             .main_page .main_contain .main_left .nav__box .nav__ul > li h5 {
               position: relative;
               padding: 4px;
@@ -344,12 +350,18 @@ body {
                 .main_page .main_contain .main_left .nav__box .nav__ul > li h5 .slide b.up {
                   background: url("../images/up.png") no-repeat; }
             .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box {
-              overflow: hidden; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
+              overflow: hidden;
+              -webkit-transition: all 1s ease-in;
+              transition: all 1s ease-in; }
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .categoryTitle {
+                display: block;
+                padding-top: 2px;
+                padding-left: 5px; }
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 position: relative; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
                   content: ' ';
                   position: absolute;
                   left: 0;
