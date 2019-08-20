@@ -353,14 +353,25 @@ body {
               overflow: hidden;
               -webkit-transition: all 1s ease-in;
               transition: all 1s ease-in; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .categoryTitle {
-                display: block;
-                padding-top: 2px;
-                padding-left: 5px; }
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category {
+                overflow: hidden;
+                margin: 5px;
+                border: 1px solid #b5e27d; }
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category .categoryTitle {
+                  display: block;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-left: 5px;
+                  background: #cef59e;
+                  font-weight: bold; }
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category .half_link:last-child::before {
+                  display: none; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 position: relative; }
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a::before,
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
                   content: ' ';
                   position: absolute;
@@ -369,11 +380,13 @@ body {
                   width: 200%;
                   height: 1px;
                   background: #d2e4b9; }
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
                 box-sizing: border-box;
                 padding: 4px 5px;
                 display: block;
                 width: 100%; }
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a.active,
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active {
                   color: #f00; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {

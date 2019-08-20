@@ -282,7 +282,6 @@ var APP = {
         $(document)
             .on('click', '.main_left li h5', function(e) {
                 var isHide = $(this).parent().hasClass('hide');
-                console.log(isHide);
                 if(isHide){
                     $(this).parent().removeClass('hide');
                 }else{
