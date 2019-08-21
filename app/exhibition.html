@@ -6,48 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/static/Main/css/app.css">
-    <style>
-        /* .stage{
-            margin: 50px auto 0;
-            width: 1000px;
-        }
-        .stage .add{
-            color: #ff6600;
-            cursor: pointer;
-        } */
-        .exhibitionForm{
-            display: none;
-        }
-        .inputBox{
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .inputBox span{
-            display: block;
-            width: 50px;
-            text-align: right;
-            color: #333;
-        }
-        .input,.select{
-            margin-left: 5px;
-            padding-left: 10px;
-            flex:1;
-            height: 30px;
-            line-height: 30px;
-            outline: none;
-            color: #333;
-        }
-        .select{
-            height: 34px;
-            line-height: 34px;
-        }
-        .select option{
-            color: #333;
-        }
-    </style>
 </head>
 
 <body>
@@ -73,10 +31,8 @@
     </div>
 
     <div style="margin:20px auto 0;">
-        <div class="action"></div>
         <p>双击修改展会大小</p>
         <span class="add">添加</span>
-        <!-- <canvas id="canvas" width="1000" height="500"></canvas> -->
         <div id="exhibitionStage" class="exhibitionStage"></div>
     </div>
 
@@ -97,7 +53,7 @@
 
                 var that = this;
                 // 修改展台
-                var exhibitionIndex,currentConfig={};
+                var exhibitionIndex,currentConfig={},delIndex;
                 $(document).on('dblclick',that.stageConfig.target + ' .exhibition',function () {
                     var width = currentConfig.width;
                     var height = currentConfig.height;
@@ -136,12 +92,14 @@
                     });
                 });
 
+                // 获取删除的索引
                 $(document).on('mouseover',that.stageConfig.target + ' .exhibition',function () {
-                    $(that.stageConfig.target).css('cursor','pointer');
+                    delIndex = $(this).data('index');
                 });
                 $(document).on('mouseout',that.stageConfig.target + ' .exhibition',function () {
-                    $(that.stageConfig.target).css('cursor','default');
+                    delIndex = null;
                 });
+                // 移动
                 $(document).on('mousedown',that.stageConfig.target + ' .exhibition',function () {
                     exhibitionIndex = $(this).data('index');
                     currentConfig = that.exhibitionConfig[exhibitionIndex];
@@ -156,7 +114,10 @@
                 });
                 $(document).on('mouseup',that.stageConfig.target + ' .exhibition',function () {
                     that.mode = 'default';
-                    $(that.stageConfig.target).css('cursor','pointer');
+                });
+                // 删除
+                $(document).on('mouseup',that.stageConfig.target + ' .exhibition .delete',function () {
+                    that.delExhition(delIndex);
                 });
                 // 移动展台
                 var pOfl = $(that.stageConfig.target).offset().left;
@@ -192,7 +153,7 @@
                     this.insIndex++;
 
                     var draw = function () {
-                        var html = '<div class="exhibition" data-index="'+config.insIndex+'" style="width:'+config.width*_this.scale+'px;height:'+config.height*_this.scale+'px;left:'+config.x+'px;top:'+config.y+'px"></div>';
+                        var html = '<div class="exhibition" data-index="'+config.insIndex+'" style="width:'+config.width*_this.scale+'px;height:'+config.height*_this.scale+'px;left:'+config.x+'px;top:'+config.y+'px"><span class="delete"></span><div></div></div>';
                         $(_this.stageConfig.target).find('.stage').append(html);
                     }
                     draw();
@@ -219,9 +180,11 @@
                         }
                     }
                 });
-                $(this.stageConfig.target).find('.exhibition[data-index='+index+']').css({
+                $(_this.stageConfig.target).find('.exhibition[data-index='+index+']').css({
                     width:config.width*_this.scale,
                     height:config.height*_this.scale,
+                });
+                $(_this.stageConfig.target).find('.exhibition[data-index='+index+'] div').css({
                     background:config.status == 0 ? '#39983d' : '#f00'
                 });
             }
@@ -229,6 +192,8 @@
                 var _this = this;
                 _this.exhibitionConfig.map(function (item) {
                     if(item.insIndex == index){
+                        _this.exhibitionConfig.splice(index,1,{});
+                        $(_this.stageConfig.target).find('.exhibition[data-index='+index+']').detach();
                     }
                 });
             }
@@ -236,6 +201,15 @@
             var exhibitionStage = new Exhibition({target:'#exhibitionStage',width:1000,height:400});
             exhibitionStage.add({width:8,height:5});
             exhibitionStage.add({width:15,height:12,x:100,y:150});
+
+            $('.add').click(function () {
+                var width = parseInt(Math.random()*10)+5;
+                var height = parseInt(Math.random()*10)+5;
+                var x = parseInt(Math.random()*800);
+                var y = parseInt(Math.random()*300);
+
+                exhibitionStage.add({width:width,height:height,x:x,y:y});
+            });
         });
     </script>
 </body>
