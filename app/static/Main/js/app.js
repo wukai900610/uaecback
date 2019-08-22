@@ -81,6 +81,9 @@ var myUtil = {
                         name: treeNode.name,
                         url: treeNode.href,
                     });
+                    // 取消左侧菜单选择
+                    $('.main_page .main_contain .main_left .nav__ul li a[data-href]').removeClass('active');
+                    window.myUtil.removesessionStorage('leftMenu');
                 }
             }
         };
@@ -203,6 +206,15 @@ var APP = {
 
                                 // 绑定id
                                 _this.aBindId('.main_page .main_contain .main_left .nav__ul li', menu);
+
+                                // 显示左侧菜单已点项
+                                $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function () {
+                                    var text = $(this).text();
+                                    var text2 = myUtil.getsessionStorage('leftMenu');
+                                    if(text == text2){
+                                        $(this).addClass('active');
+                                    }
+                                });
                             }
                         });
                     }
@@ -222,6 +234,10 @@ var APP = {
                     if ($this.parents().hasClass('link_box')) {
                         $('.link_box a').removeClass('active');
                         $this.addClass('active');
+                        myUtil.setsessionStorage('leftMenu',$this.text());
+                        // 取消选中左侧树
+                        zTreeObj && zTreeObj.cancelSelectedNode();
+                        window.myUtil.removesessionStorage(ztreeId + 'Ztree');
                     }
 
                     return false;
