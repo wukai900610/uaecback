@@ -212,11 +212,24 @@ exhibitionHall.prototype.reDrawExhibition = function(index, config) {
 exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
     var _this = this;
     _this.hallIndex = hallIndex ? hallIndex : _this.hallIndex;
+    var max;
+    if(!config){
+        _this.halls[_this.hallIndex].distence += 5;
+        if(_this.halls[_this.hallIndex].distence > _this.stageConfig.hallInit[_this.hallIndex].height - 50){
+            layer.msg('超出最大数量了！！！');
+            return false;
+        }else{
+            max = 20 + _this.halls[_this.hallIndex].distence
+        }
+    }else{
+        max = 20
+    }
+
     var config = $.extend({},{
         width: 5,
         height: 5,
-        x: 20,
-        y: 20,
+        x: max,
+        y: max,
         status: 0,
         exhibition: '',
         isOurcompany: 0,
@@ -232,6 +245,7 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
     }else{
         _this.halls[_this.hallIndex] = {
             currentIndex:0,
+            distence:0,
             data:[{
                 config:config,
                 index:0
