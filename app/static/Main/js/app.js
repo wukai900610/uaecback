@@ -209,9 +209,9 @@ var APP = {
 
                                 // 显示左侧菜单已点项
                                 $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function () {
-                                    var text = $(this).text();
-                                    var text2 = myUtil.getsessionStorage('leftMenu');
-                                    if(text == text2){
+                                    var id = $(this).data('id');
+                                    var id2 = myUtil.getsessionStorage('leftMenu');
+                                    if(id == id2){
                                         $(this).addClass('active');
                                     }
                                 });
@@ -234,7 +234,7 @@ var APP = {
                     if ($this.parents().hasClass('link_box')) {
                         $('.link_box a').removeClass('active');
                         $this.addClass('active');
-                        myUtil.setsessionStorage('leftMenu',$this.text());
+                        myUtil.setsessionStorage('leftMenu',$this.data('id'));
                         // 取消选中左侧树
                         zTreeObj && zTreeObj.cancelSelectedNode();
                         window.myUtil.removesessionStorage(ztreeId + 'Ztree');
