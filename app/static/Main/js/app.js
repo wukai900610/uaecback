@@ -87,6 +87,56 @@ var myUtil = {
                 }
             }
         };
+    },
+    tips:function () {
+        $('body').append('<style>.imgAlert .contents{padding: 5px;color: #000;font-size: 14px;}.imgAlert .contents img{max-height: 200px;}</style>');
+
+        var imgAlertIndex;
+        $(document).on('mousemove','*[data-tips]',function (e) {
+            var left = e.pageX + 20;
+            var top = e.pageY;
+            var windowWidth = $(window).width();
+            var windowHeight = $(window).height();
+            var contentWidth = $('.imgAlert').width();
+            var contentHeight = $('.imgAlert').height();
+
+            var posX = 0, posY = 0;
+            // 鍒ゆ柇鏄剧ず浣嶇疆
+            if (windowWidth - left < contentWidth) {
+                posX = e.pageX - contentWidth - 20;
+            } else {
+                posX = e.pageX + 20;
+            }
+
+            if (windowHeight - top < contentHeight) {
+                posY = e.pageY - contentHeight - 20;
+            } else {
+                posY = e.pageY;
+            }
+
+            layer.style(imgAlertIndex, {
+                left: posX,
+                top: posY
+            });
+        });
+        $(document).on('mouseenter','*[data-tips]',function (e) {
+            var content = $(this).attr('data-tips');
+
+            imgAlertIndex = layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                maxWidth: 800,
+                maxHeight: 600,
+                area: 'auto',
+                shade: false,
+                skin: 'imgAlert',
+                content: '<div class="contents">' + content + '</div>'
+            });
+        });
+        $(document).on('mouseleave','*[data-tips]',function (e) {
+            layer.close(imgAlertIndex);
+        });
     }
 }
 var APP = {
@@ -128,6 +178,7 @@ var APP = {
     },
     main: function(initTabArr) {
         var _this = this;
+
         myUtil.checkIE();
 
         // 初始绑定id
