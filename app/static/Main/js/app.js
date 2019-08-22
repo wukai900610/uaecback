@@ -131,6 +131,7 @@ var myUtil = {
                 area: 'auto',
                 shade: false,
                 skin: 'imgAlert',
+                time:2000,
                 content: '<div class="contents">' + content + '</div>'
             });
         });
