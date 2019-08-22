@@ -48,7 +48,7 @@ var myUtil = {
         var version = b_version.split(";");
         if (version && version[1]) {
             var trim_Version = version[1].replace(/[ ]/g, "");
-            if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0")) {
+            if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0")) {
                 $('head')
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
