@@ -46,8 +46,15 @@ exhibitionHall.prototype.creditHall = function() {
 
     // 生成初始数据
     _this.stageConfig.hallInit.map(function (item,index) {
+        // 初始配置
+        _this.halls[index] = {
+            currentIndex:0,
+            distence:0,
+            data:[]
+        };
+        // 添加展台
         item.data && item.data.map(function (item2,index2) {
-            _this.addExhibition(item2,index,'init')
+            _this.addExhibition(item2,index,'init');
         });
     });
 
@@ -213,16 +220,17 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
     var _this = this;
     _this.hallIndex = hallIndex ? hallIndex : _this.hallIndex;
     var max;
+    var currentHall = _this.halls[_this.hallIndex];
     if(!config){
-        _this.halls[_this.hallIndex].distence += 5;
-        if(_this.halls[_this.hallIndex].distence > _this.stageConfig.hallInit[_this.hallIndex].height - 50){
+        currentHall.distence += 5;
+        if(currentHall.distence > _this.stageConfig.hallInit[_this.hallIndex].height - 50){
             layer.msg('超出最大数量了！！！');
             return false;
         }else{
-            max = 20 + _this.halls[_this.hallIndex].distence
+            max = 20 + currentHall.distence;
         }
     }else{
-        max = 20
+        max = 20;
     }
 
     var config = $.extend({},{
@@ -236,23 +244,17 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
         remarks: ''
     },config);
 
-    if(_this.halls[_this.hallIndex]){
-        _this.halls[_this.hallIndex].currentIndex ++;
-        _this.halls[_this.hallIndex].data.push({
+    if(currentHall){
+        currentHall.data.push({
             config:config,
-            index:_this.halls[_this.hallIndex].currentIndex,
-        })
+            index:currentHall.currentIndex,
+        });
     }else{
-        _this.halls[_this.hallIndex] = {
-            currentIndex:0,
-            distence:0,
-            data:[{
-                config:config,
-                index:0
-            }]
-        };
+        currentHall.data.push({
+            config:config,
+            index:0,
+        })
     }
-
 
     function deleteBtn() {
         if(_this.stageConfig.readOnly != true){
@@ -267,9 +269,14 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
             return '';
         }
     }
-    var html = '<div class="exhibition" '+ rendTips(config.remarks) + ' data-index="' + _this.halls[_this.hallIndex].currentIndex + '" style="width:' + config.width * _this.scale + 'px;height:' + config.height * _this.scale + 'px;left:' + config.x + 'px;top:' + config.y +
+    
+    var html = '<div class="exhibition" '+ rendTips(config.remarks) + ' data-index="' + currentHall.currentIndex + '" style="width:' + config.width * _this.scale + 'px;height:' + config.height * _this.scale + 'px;left:' + config.x + 'px;top:' + config.y +
         'px">'+ deleteBtn() +'<div style="background:'+(config.status == 0 ? '#f00' : '#39983d')+'">' + config.exhibition + '</div></div>';
     $(_this.stageConfig.target + ' .slide').eq(_this.hallIndex).find('.stageWrap').append(html);
+
+    if(currentHall){
+        currentHall.currentIndex ++;
+    }
 
     // 添加勾子
     if(!isInit){
