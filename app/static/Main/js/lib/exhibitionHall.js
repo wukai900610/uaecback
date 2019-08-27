@@ -219,8 +219,7 @@ exhibitionHall.prototype.reDrawExhibition = function(index, config) {
 exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
     var _this = this;
     _this.hallIndex = hallIndex ? hallIndex : _this.hallIndex;
-    var max;
-    var currentHall = _this.halls[_this.hallIndex];
+    var max,currentHall = _this.halls[_this.hallIndex];
     if(!config){
         currentHall.distence += 5;
         if(currentHall.distence > _this.stageConfig.hallInit[_this.hallIndex].height - 50){
@@ -253,27 +252,21 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
         currentHall.data.push({
             config:config,
             index:0,
-        })
+        });
     }
 
     function deleteBtn() {
-        if(_this.stageConfig.readOnly != true){
-            return '<span class="delete"></span>';
-        }
-        return '';
+        return _this.stageConfig.readOnly != true ? '<span class="delete"></span>' : '';
     }
     function rendTips(remarks) {
-        if(remarks){
-            return 'data-tips=' + remarks;
-        }else{
-            return '';
-        }
+        return remarks ? 'data-tips=' + remarks : '';
     }
-    
+
     var html = '<div class="exhibition" '+ rendTips(config.remarks) + ' data-index="' + currentHall.currentIndex + '" style="width:' + config.width * _this.scale + 'px;height:' + config.height * _this.scale + 'px;left:' + config.x + 'px;top:' + config.y +
         'px">'+ deleteBtn() +'<div style="background:'+(config.status == 0 ? '#f00' : '#39983d')+'">' + config.exhibition + '</div></div>';
     $(_this.stageConfig.target + ' .slide').eq(_this.hallIndex).find('.stageWrap').append(html);
 
+    // 记录当前展馆展台索引
     if(currentHall){
         currentHall.currentIndex ++;
     }
