@@ -36,7 +36,7 @@
         <div class="inputBox"><span>备注:</span><input class="input remarks" type="text" placeholder="请输入备注"></div>
     </div>
 
-    <a class="exhibitionEdit">编辑</a>
+    <a class="exhibitionEdit" onclick="top.APP.wkTab.addTab({id:'exhibition',name:'展馆编辑',url:'./exhibition.html'})">编辑</a>
     <div class="exhibitionTabs" id="exhibitionStages"></div>
 
     <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
@@ -46,14 +46,6 @@
 
     <script>
         $(function() {
-            $('.exhibitionEdit').click(function () {
-                top.APP.wkTab.addTab({
-                    id: 'exhibition',
-                    name: '展馆编辑',
-                    url: './exhibition.html',
-                });
-            });
-
             new exhibitionHall({
                 target: '#exhibitionStages',
                 width:1000,
