@@ -19,10 +19,10 @@ exhibitionHall.prototype.creditHall = function() {
     var slide = '';
     _this.stageConfig.hallInit.map(function (item,index) {
         if(index == 0){
-            tabs = tabs + '<a href="#" class="active">'+item.name+'</a>';
+            tabs = tabs + '<a class="active">'+item.name+'</a>';
             slide = slide + '<div class="slide active" style="width:'+_this.stageConfig.width+'px;height:'+_this.stageConfig.height+'px"><div class="stageWrap" style="width:'+item.width+'px;height:'+item.height+'px">' + _this.creditRule(item) + _this.creditLine(item)+ '</div></div>';
         }else{
-            tabs = tabs + '<a href="#">'+item.name+'</a>';
+            tabs = tabs + '<a>'+item.name+'</a>';
             slide = slide + '<div class="slide" style="width:'+_this.stageConfig.width+'px;height:'+_this.stageConfig.height+'px"><div class="stageWrap" style="width:'+item.width+'px;height:'+item.height+'px">' + _this.creditRule(item) + _this.creditLine(item)+ '</div></div>';
         }
     });
@@ -136,9 +136,13 @@ exhibitionHall.prototype.event = function() {
         $(_this.stageConfig.target).css('cursor', 'default');
     });
 
-    // 移动展台
     var pOfl = $(_this.stageConfig.target + ' .container').offset().left;
     var pOft = $(_this.stageConfig.target + ' .container').offset().top;
+    $(window).resize(function () {
+        pOfl = $(_this.stageConfig.target + ' .container').offset().left;
+        pOft = $(_this.stageConfig.target + ' .container').offset().top;
+    });
+    // 移动展台
     $(document).on('mousemove', _this.stageConfig.target, function(e) {
         var left = e.pageX - pOfl;
         var top = e.pageY - pOft;
@@ -262,7 +266,7 @@ exhibitionHall.prototype.addExhibition = function (config,hallIndex,isInit) {
         return remarks ? 'data-tips=' + remarks : '';
     }
 
-    var html = '<div class="exhibition" '+ rendTips(config.remarks) + ' data-index="' + currentHall.currentIndex + '" style="width:' + config.width * _this.scale + 'px;height:' + config.height * _this.scale + 'px;left:' + config.x + 'px;top:' + config.y +
+    var html = '<div class="exhibition" '+ rendTips(config.remarks) + ' data-index="' + currentHall.currentIndex + '" style="width:' + config.width * _this.scale + 'px;height:' + config.height * _this.scale + 'px;line-height:' + config.height * _this.scale + 'px;left:' + config.x + 'px;top:' + config.y +
         'px">'+ deleteBtn() +'<div style="background:'+(config.status == 0 ? '#f00' : '#39983d')+'">' + config.exhibition + '</div></div>';
     $(_this.stageConfig.target + ' .slide').eq(_this.hallIndex).find('.stageWrap').append(html);
 
@@ -290,7 +294,7 @@ exhibitionHall.prototype.delExhition = function(index) {
     });
 }
 exhibitionHall.prototype.formatData = function () {
-    let _this = this;
+    var _this = this;
     _this.stageConfig.hallInit.map(function (item,index) {
         item.data = [];
         _this.halls[index] && _this.halls[index].data.map(function (item2,index2) {

@@ -57,10 +57,9 @@ body {
     // overflow: hidden;
     overflow-x: hidden;
     font-size: 12px;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
+    // &::-webkit-scrollbar {
+    //     display: none;
+    // }
 }
 
 .flexBox {
@@ -603,69 +602,6 @@ body {
     }
 }
 
-.exhibitionStage {
-    position: relative;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    background: #ececec;
-
-    .ruleWrap {
-        span {
-            position: absolute;
-            z-index: 2;
-            color: #333;
-
-            &.width {
-                left: 50%;
-                top: 0;
-                transform: translate(-50%,0);
-            }
-
-            &.height {
-                left: 0;
-                top: 50%;
-                transform: translate(0,-50%);
-                writing-mode: vertical-lr;
-            }
-        }
-    }
-    // .stage {
-    //     position: relative;
-    //     overflow: hidden;
-    //     width: 100%;
-    //     height: 100%;
-    //
-    //     .exhibition {
-    //         position: absolute;
-    //
-    //         &:hover {
-    //             div {
-    //                 opacity: 0.4;
-    //             }
-    //         }
-    //
-    //         div {
-    //             width: 100%;
-    //             height: 100%;
-    //             background: #39983d;
-    //         }
-    //
-    //         .delete {
-    //             position: absolute;
-    //             right: -7px;
-    //             top: -7px;
-    //             z-index: 1;
-    //             width: 15px;
-    //             height: 15px;
-    //             background: url("../images/close.png") #fff 0 0 no-repeat;
-    //             background-size: 15px;
-    //             border-radius: 15px;
-    //             cursor: pointer;
-    //         }
-    //     }
-    // }
-}
-
 .exhibitionForm {
     display: none;
 
@@ -706,7 +642,7 @@ body {
 }
 
 .exhibitionTabs {
-    margin: 50px;
+    margin: 20px auto;
     position: relative;
 
     .add {
@@ -819,6 +755,7 @@ body {
                     align-items: center;
                     width: 100%;
                     height: 100%;
+                    text-align: center;
                     background: #39983d;
                     color: #fff;
                     user-select: none;
@@ -829,12 +766,13 @@ body {
                     position: absolute;
                     right: -7px;
                     top: -7px;
+                    border-radius: 50%;
+                    width: 14px;
+                    height: 14px;
                     z-index: 1;
-                    width: 15px;
-                    height: 15px;
-                    background: url("../images/close.png") #fff 0 0 no-repeat;
-                    background-size: 15px;
-                    border-radius: 15px;
+                    background: url("../images/close.png") center no-repeat;
+                    // background-size: 15px;
+                    // border-radius: 15px;
                     cursor: pointer;
                 }
             }

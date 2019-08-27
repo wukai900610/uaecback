@@ -115,8 +115,8 @@ var myUtil = {
             }
 
             layer.style(imgAlertIndex, {
-                left: posX,
-                top: posY
+                left: posX - window.scrollX,
+                top: posY - window.scrollY
             });
         });
         $(document).on('mouseenter','*[data-tips]',function (e) {
