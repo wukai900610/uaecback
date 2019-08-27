@@ -46,19 +46,19 @@ myTab.prototype.rendTab = function(config) {
     config.tabs.map(function(item, index) {
         if (index == showIndex) {
             if (item.close == false) {
-                tabNav += '<li class="nav active" data-id="' + item.id + '">' + item.name + '</li>';
+                tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
             } else {
-                tabNav += '<li class="nav active" data-id="' + item.id + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
 
             tbContents += '<iframe frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
         } else {
             if (item.close == false) {
-                tabNav += '<li class="nav" data-id="' + item.id + '">' + item.name + '</li>';
+                tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
             } else {
-                tabNav += '<li class="nav" data-id="' + item.id + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
-            tbContents += '<iframe frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
+            tbContents += '<iframe frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
         }
     });
 
@@ -92,13 +92,18 @@ myTab.prototype.initTab = function(config) {
             // console.log('当前');
             activeIndex = activeIndex - 1 < 0 ? 0 : activeIndex - 1;
 
-            $(sessionConfig.target + ' .nav').eq(activeIndex).addClass('active');
-            $(sessionConfig.target + ' .tbContents .itemContent').eq(activeIndex).addClass('active');
+            var thisNav = $(sessionConfig.target + ' .nav').eq(activeIndex);
+            var thisFrame = $(sessionConfig.target + ' .tbContents .itemContent').eq(activeIndex);
+            thisNav.addClass('active');
+            thisFrame.addClass('active');
+            var src = thisNav.data('src');
+            var hasSrc = thisFrame.attr('src');
+            if(!hasSrc){
+                thisFrame.attr('src',src);
+            }
         } else {
-            // console.log('其他');
             if (delIndex > activeIndex) //要删除的tab比当前tab索引值大
             {
-
             } else {
                 activeIndex = activeIndex - 1;
             }
@@ -127,9 +132,14 @@ myTab.prototype.initTab = function(config) {
     // 显示点击
     $(document).on('click', config.target + ' .nav', function(e) {
         var index = $(this).index();
+        var src = $(this).data('src');
         $(this).addClass('active').siblings().removeClass('active');
-        $(config.target + ' .tbContents .itemContent').eq(index).addClass('active').siblings().removeClass('active');
-
+        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
+        thisFrame.addClass('active').siblings().removeClass('active');
+        var hasSrc = thisFrame.attr('src');
+        if(!hasSrc){
+            thisFrame.attr('src',src);
+        }
 
         // 更新缓存数据
         var localData = myUtil.getsessionStorage(config.target + '__tab');
