@@ -312,3 +312,7 @@ myTab.prototype.addTab = function(adItem) {
         target: nConfig.target
     });
 }
+
+function AddTab(name,url){
+    APP.wkTab.addTab({id:name,name:name,url:url});
+}
