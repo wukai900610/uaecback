@@ -361,16 +361,17 @@ body {
                   padding-bottom: 2px;
                   padding-left: 5px;
                   background: #cef59e;
+                  color: #8bc34a;
                   font-weight: bold; }
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category .half_link:last-child::before {
                   display: none; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
                 position: relative; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before {
                   content: ' ';
                   position: absolute;
                   left: 0;
@@ -378,14 +379,14 @@ body {
                   width: 200%;
                   height: 1px;
                   background: #d2e4b9; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a {
                 box-sizing: border-box;
                 padding: 4px 5px;
                 display: block;
                 width: 100%; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a.active,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a.active {
                   color: #f00; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 overflow: hidden;
