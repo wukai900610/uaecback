@@ -80,8 +80,8 @@ exhibitionHall.prototype.event = function() {
         exhibitionIndex = $(this).data('index');
         var data = _this.halls[_this.hallIndex].data[exhibitionIndex];
         currentConfig = data.config;
-        var width = currentConfig.width;
-        var height = currentConfig.height;
+        var width = parseFloat(currentConfig.width);
+        var height = parseFloat(currentConfig.height);
         var status = currentConfig.status;
         var exhibition = currentConfig.exhibition;
         var isOurcompany = currentConfig.isOurcompany;
@@ -102,17 +102,17 @@ exhibitionHall.prototype.event = function() {
                 $(layero).find('.remarks').val(remarks);
             },
             yes: function(index, layero) {
-                layer.close(index);
                 var config = {
-                    width: parseInt($(layero).find('.width').val()),
-                    height: parseInt($(layero).find('.height').val()),
+                    width: parseFloat($(layero).find('.width').val()),
+                    height: parseFloat($(layero).find('.height').val()),
                     status: $(layero).find('.status').val(),
                     exhibition: $(layero).find('.exhibition').val(),
                     isOurcompany: $(layero).find('.isOurcompany').val(),
                     remarks: $(layero).find('.remarks').val()
                 }
-
                 _this.reDrawExhibition(exhibitionIndex, config);
+
+                layer.close(index);
             }
         });
     });
@@ -186,10 +186,10 @@ exhibitionHall.prototype.creditLine = function (item) {
     var hHtml = '';
     var step = 50;
     for(var i =1;i<=item.height/step;i++){
-        wHtml += '<div class="w line" style="top:'+ (i*step) +'px"></div>';
+        wHtml += '<div class="w line" style="top:'+ (i*step-1) +'px"></div>';
     }
     for(var i =1;i<=item.width/step;i++){
-        hHtml += '<div class="h line" style="left:'+ (i*step) +'px"></div>';
+        hHtml += '<div class="h line" style="left:'+ (i*step-1) +'px"></div>';
     }
     return '<div class="lineWrap">'+ wHtml + hHtml +'</div>';
 }

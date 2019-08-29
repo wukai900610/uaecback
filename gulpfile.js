@@ -97,7 +97,7 @@ gulp.task('html.minify', function()
 // scss编译后的css将注入到浏览器里实现更新
 gulp.task('sass', function()
 {
-    return gulp.src(['app/static/Main/css/sass/app.scss', 'app/static/Main/css/sass/hack.scss'])
+    return gulp.src('app/static/Main/css/sass/*.scss')
         .pipe(sass())
         .on('error', function(err)
         {

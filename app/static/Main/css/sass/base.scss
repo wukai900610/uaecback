@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    // font-family: Arial,"Microsoft YaHei", 微软雅黑,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-family: Arial,"Microsoft YaHei", 微软雅黑;
+    // user-select: none;
+}
+@mixin ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+.ellipsis {
+    @include ellipsis();
+}
+
+div,
+li,
+ul {
+    box-sizing: border-box;
+}
+
+li,
+ul {
+    list-style: none;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+a {
+    cursor: pointer;
+    color: #06527d;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        color: #ff0000;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-size: 12px;
+}
+
+body {
+    // overflow: hidden;
+    overflow-x: hidden;
+    font-size: 12px;
+    // &::-webkit-scrollbar {
+    //     display: none;
+    // }
+}
+
+.flexBox {
+    display: flex;
+    flex: 1;
+
+    > li {
+        flex: 1;
+    }
+}
+// 九宫格
+
+.nineLayout {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+        position: relative;
+        flex: 0 0 33.33%;
+        padding-top: 33.33%;
+    }
+}
+
+.button {
+    display: block;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
