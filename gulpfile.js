@@ -115,18 +115,17 @@ gulp.task('sass', function()
         {
             stream: true
         }))
-
         //压缩css
         // .pipe(rename(
         // {
         //     suffix: '.min'
         // }))
-        // .pipe(uglifycss(
-        // {
-        //     "maxLineLen": 3000,
-        //     "uglyComments": true
-        // }))
-        // .pipe(gulp.dest('app/static/Main/css'));
+        .pipe(uglifycss(
+        {
+            "maxLineLen": 3000,
+            "uglyComments": true
+        }))
+        .pipe(gulp.dest('app/static/Main/css'));
 });
 
 gulp.task('otherSass', function()
@@ -149,18 +148,17 @@ gulp.task('otherSass', function()
         {
             stream: true
         }))
-
         //压缩css
         // .pipe(rename(
         // {
         //     suffix: '.min'
         // }))
-        // .pipe(uglifycss(
-        // {
-        //     "maxLineLen": 3000,
-        //     "uglyComments": true
-        // }))
-        // .pipe(gulp.dest('app/static/Css'));
+        .pipe(uglifycss(
+        {
+            "maxLineLen": 3000,
+            "uglyComments": true
+        }))
+        .pipe(gulp.dest('app/static/Css'));
 });
 
 // 静态服务器 + 监听 scss/html 文件
