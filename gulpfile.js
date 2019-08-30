@@ -117,20 +117,54 @@ gulp.task('sass', function()
         }))
 
         //压缩css
-        .pipe(rename(
+        // .pipe(rename(
+        // {
+        //     suffix: '.min'
+        // }))
+        // .pipe(uglifycss(
+        // {
+        //     "maxLineLen": 3000,
+        //     "uglyComments": true
+        // }))
+        // .pipe(gulp.dest('app/static/Main/css'));
+});
+
+gulp.task('otherSass', function()
+{
+    return gulp.src('app/static/Main/css/sass/other/*.scss')
+        .pipe(sass())
+        .on('error', function(err)
         {
-            suffix: '.min'
-        }))
-        .pipe(uglifycss(
+            gutil.log('Error!', err.message);
+            this.emit('end');
+        })
+        .pipe(autoprefixer(
         {
-            "maxLineLen": 3000,
-            "uglyComments": true
+            browsers: ['last 2 versions', 'Android >= 4.0'],
+            cascade: true,
+            remove: true
         }))
-        .pipe(gulp.dest('app/static/Main/css'));
+        .pipe(gulp.dest("app/static/Css"))
+        .pipe(reload(
+        {
+            stream: true
+        }))
+
+        //压缩css
+        // .pipe(rename(
+        // {
+        //     suffix: '.min'
+        // }))
+        // .pipe(uglifycss(
+        // {
+        //     "maxLineLen": 3000,
+        //     "uglyComments": true
+        // }))
+        // .pipe(gulp.dest('app/static/Css'));
 });
 
 // 静态服务器 + 监听 scss/html 文件
-gulp.task('serve', ['sass'], function()
+gulp.task('serve',["sass","otherSass"], function()
 {
     browserSync.init(
     {
@@ -141,6 +175,7 @@ gulp.task('serve', ['sass'], function()
     });
 
     gulp.watch("app/static/Main/css/sass/*.scss", ["sass"]);
+    gulp.watch("app/static/Main/css/sass/other/*.scss", ["otherSass"]);
     gulp.watch("app/*.html").on('change', reload);
     gulp.watch("app/static/Main/js/*.js").on('change', reload);
     gulp.watch("app/static/Main/js/lib/*.js").on('change', reload);
@@ -158,7 +193,6 @@ gulp.task('clean', function()
 
 //开发模式
 gulp.task('default', ['jshint', 'serve']);
-// gulp.task('default', ['serve']);
 
 //生产模式
 gulp.task('build', ['jshint', 'js.minify', 'html.minify', 'css.minify', 'img.minify', 'font.minify']);

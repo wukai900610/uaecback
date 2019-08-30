@@ -1,4 +1,4 @@
-@import "./base.scss";
+@import "../base.scss";
 @mixin ellipsis() {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -174,7 +174,7 @@
                     width: 14px;
                     height: 14px;
                     z-index: 1;
-                    background: url("../images/close.png") center no-repeat;
+                    background: url("../Images/close.png") center no-repeat;
                     // background-size: 15px;
                     // border-radius: 15px;
                     cursor: pointer;
