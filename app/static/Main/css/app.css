@@ -122,6 +122,8 @@ body {
             -ms-user-select: none;
                 user-select: none; }
         .myTab .tabNavWrap ul li.nav.active {
+          position: relative;
+          z-index: 1;
           border: 1px solid #ccc;
           border-bottom: none;
           background: #fff; }
@@ -139,17 +141,19 @@ body {
           width: 15px;
           height: 15px; }
   .myTab .tbContents {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    height: calc(100% - 26px);
+    position: absolute;
+    left: 0;
+    top: 26px;
+    width: 100%;
+    height: 100%;
     min-height: 50px;
     border: 1px solid #ccc; }
     .myTab .tbContents .itemContent {
       display: none;
       width: 100%;
       height: 100%;
-      border: none; }
+      border: none;
+      background: transparent; }
       .myTab .tbContents .itemContent.active {
         display: block; }
 
@@ -365,13 +369,13 @@ body {
                   font-weight: bold; }
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category .half_link:last-child::before {
                   display: none; }
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 position: relative; }
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before,
                 .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a::before {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link::before {
                   content: ' ';
                   position: absolute;
                   left: 0;
@@ -379,14 +383,14 @@ body {
                   width: 200%;
                   height: 1px;
                   background: #d2e4b9; }
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a,
-              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a {
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a,
+              .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a {
                 box-sizing: border-box;
                 padding: 4px 5px;
                 display: block;
                 width: 100%; }
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active,
-                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a.active {
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .category > a.active,
+                .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box > a.active {
                   color: #f00; }
               .main_page .main_contain .main_left .nav__box .nav__ul > li .link_box .half_link {
                 overflow: hidden;

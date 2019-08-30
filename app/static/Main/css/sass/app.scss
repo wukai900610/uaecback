@@ -1,7 +1,8 @@
 @import "./font/iconfont.css";
 @import "./base.scss";
-// tab标签
+
 .myTab {
+    // tab标签
     position: relative;
     height: 100%;
 
@@ -53,6 +54,8 @@
                 user-select: none;
 
                 &.active {
+                    position: relative;
+                    z-index: 1;
                     border: 1px solid #ccc;
                     border-bottom: none;
                     background: #fff;
@@ -71,8 +74,13 @@
     }
 
     .tbContents {
-        display: flex;
-        height: calc(100% - 26px);
+        position: absolute;
+        left: 0;
+        top: 26px;
+        width: 100%;
+        height: 100%;
+        // display: flex;
+        // height: calc(100% - 26px);
         min-height: 50px;
         border: 1px solid #ccc;
 
@@ -81,6 +89,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            background: transparent;
 
             &.active {
                 display: block;
@@ -376,9 +385,9 @@
                                 }
                             }
 
+                            > a,
                             .category > a,
-                            .half_link,
-                            > a {
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -392,8 +401,8 @@
                                 }
                             }
 
-                            > a,
-                            .category > a {
+                            .category > a,
+                            > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;

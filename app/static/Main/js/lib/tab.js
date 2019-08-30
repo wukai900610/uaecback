@@ -51,14 +51,14 @@ myTab.prototype.rendTab = function(config) {
                 tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
 
-            tbContents += '<iframe frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
+            tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
         } else {
             if (item.close == false) {
                 tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
             } else {
                 tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
             }
-            tbContents += '<iframe frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
+            tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
         }
     });
 
@@ -293,7 +293,7 @@ myTab.prototype.addTab = function(adItem) {
     }
     // 执行添加操作
     $(nConfig.target + ' ul').append('<li class="nav active" data-id="' + adItem.id + '">' + adItem.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
-    $(nConfig.target + ' .tbContents').append('<iframe frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
+    $(nConfig.target + ' .tbContents').append('<iframe allowTransparency="true" frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
 
     // 记录添加
     nConfig.tabs.push(adItem);
