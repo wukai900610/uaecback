@@ -250,17 +250,7 @@ var APP = {
 
                 // 非原始链接
                 if (!href) {
-                    if (id) {
-                        if (dataHref && dataHref != '#' && dataHref != 'null') {
-                            _this.wkTab.addTab({
-                                id: id,
-                                name: name,
-                                url: dataHref,
-                            });
-                        }
-                    }
-                    // 加载左侧菜单
-                    if (menu) {
+                    if (menu) {// 加载左侧menu菜单 优先级最高
                         $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
                             success: function(dom) {
@@ -279,6 +269,12 @@ var APP = {
                                     }
                                 });
                             }
+                        });
+                    }else if (id && dataHref && dataHref != '#' && dataHref != 'null') {// 执行link tab 优先级其次
+                        _this.wkTab.addTab({
+                            id: id,
+                            name: name,
+                            url: dataHref,
                         });
                     }
 
@@ -309,10 +305,15 @@ var APP = {
 
         // 读取缓存中的菜单
         var myTopMenu = myUtil.getsessionStorage('topMenu');
-        if (myTopMenu && myTopMenu.index) {
+        if (myTopMenu && (myTopMenu.index || myTopMenu.index == 0)) {
             $('.main_top .main_menu li').eq(myTopMenu.index).find('a').trigger('click');
         } else {
-            $('.main_top .main_menu li').eq(0).find('a').trigger('click');
+            // $('.main_top .main_menu li').eq(0).find('a').trigger('click');
+            // 默认隐藏左侧
+            setTimeout(function() {
+                $('.main_left .toHide')
+                    .trigger('click');
+            }, 0);
         }
 
         // 顶部最小化
