@@ -45,7 +45,7 @@ myTab.prototype.rendTab = function(config) {
     var showIndex = config.index || 0;
     config.tabs.map(function(item, index) {
         if (index == showIndex) {
-            if (item.close == false) {
+            if (item.close == false || item.id.toLowerCase() == 'home') {
                 tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
             } else {
                 tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
@@ -53,7 +53,7 @@ myTab.prototype.rendTab = function(config) {
 
             tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
         } else {
-            if (item.close == false) {
+            if (item.close == false || item.id.toLowerCase() == 'home') {
                 tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
             } else {
                 tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';

@@ -41,6 +41,7 @@ if (typeof Array.prototype.map != "function") {
 // }
 
 // 工具函数
+var zTreeObj,ztreeId;
 var myUtil = {
     checkIE: function() {
         var browser = navigator.appName;
@@ -208,13 +209,20 @@ var APP = {
             tabs: tabObj.tabs,
             index: tabObj.index,
             tabClicked: function(obj) {
-                console.log(obj);
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
                 // 右上菜单
                 $('.top_menu a').removeClass('active');
                 // 失活底部菜单
                 $('.links a').removeClass('active');
+
+                // 显示左侧的菜单
+                // $('.main_page .main_contain .main_left').show();
+                // 动画渐入左侧的菜单
+                // setTimeout(function () {
+                //     $('.main_left .toShow')
+                //         .trigger('click');
+                // }, 50);
             }
         }
         _this.wkTab = new myTab(tabConfig);
@@ -252,6 +260,7 @@ var APP = {
                 // 非原始链接
                 if (!href) {
                     if (menu) { // 加载左侧menu菜单 优先级最高
+                        $('.main_page .main_contain').addClass('hackLeft');
                         $('.main_page .main_contain .main_left').show();
                         $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
@@ -273,13 +282,6 @@ var APP = {
                             }
                         });
                     } else if (id && dataHref && dataHref != '#' && dataHref != 'null') { // 执行link tab 优先级其次
-                        // 点击的是左侧菜单
-                        if ($this.parents().hasClass('link_box')) {
-                        }else{
-                            $('.main_page .main_contain .main_left').hide();
-                            // 清除顶部菜单选中状态
-                            $('.main_top .main_menu li').removeClass('active');
-                        }
                         _this.wkTab.addTab({
                             id: id,
                             name: name,
@@ -322,10 +324,7 @@ var APP = {
                 $('.main_top .main_menu li').eq(0).find('a').trigger('click');
             } else {
                 setTimeout(function() {
-                    // $('.main_contain')
-                    //     .addClass('hideLeft');
-                    // $('.main_left .toShow')
-                    //     .addClass('active');
+                    $('.main_page .main_contain').removeClass('hackLeft');
                     $('.main_page .main_contain .main_left').hide();
                 }, 0);
             }
@@ -395,10 +394,13 @@ var APP = {
                     content: '确认要退出系统么?',
                     ok: function() {
                         _this.wkTab.delAll();
-                        window.location.href = "/Manage/Logout.aspx";
 
                         // 清空缓存的主导向菜单
-                        myUtil.setsessionStorage('topMenu', {});
+                        myUtil.removesessionStorage('#insTab__tab', {});
+                        myUtil.removesessionStorage('topMenu', {});
+                        myUtil.removesessionStorage('leftMenu', {});
+
+                        window.location.href = "/Manage/Logout.aspx";
                     },
                     cancelVal: '关闭',
                     cancel: true /*为true等价于function(){}*/

@@ -40,6 +40,12 @@
         height: 100%;
         padding-bottom: 50px;
 
+        &.hackLeft {
+            .main_right {
+                margin-left: 175px;
+            }
+        }
+
         &.hideLeft {
             .main_right {
                 margin-left: 0;
@@ -64,12 +70,27 @@
         }
 
         .main_right {
-            margin-left: 175px;
+            // margin-left: 175px;
             height: 100%;
 
             #insTab {
                 height: 100%;
             }
+        }
+    }
+
+    .main_bottom {
+        .custom {
+            float: left;
+        }
+
+        .links {
+            margin-left: 50px;
+            float: left;
+        }
+
+        .changePart {
+            float: right;
         }
     }
 }
