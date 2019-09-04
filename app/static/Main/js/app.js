@@ -282,7 +282,7 @@ var APP = {
                     $('.main_left .toShow')
                         .trigger('click');
                     //隐藏左侧
-                    if (type == 'hideLeft') {
+                    if (type == 'hideLeft' || menu == '') {
                         setTimeout(function() {
                             $('.main_left .toHide')
                                 .trigger('click');
