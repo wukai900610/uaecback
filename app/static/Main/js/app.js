@@ -53,6 +53,16 @@ var myUtil = {
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
         }
+
+        // 火狐低版本
+        var findFx = navigator.userAgent.toLowerCase().indexOf('firefox');
+        if (findFx > 0) {
+            var fx_version = findFx + 8;
+            if (parseInt(navigator.userAgent.substr(fx_version)) <= 25) {
+                $('head')
+                    .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
+            }
+        }
     },
     getNewObj: function(data) {
         return JSON.parse(JSON.stringify(data));
@@ -238,6 +248,7 @@ var APP = {
                 var href = $this
                     .attr('href');
 
+                // 非原始链接
                 if (!href) {
                     if (id) {
                         if (dataHref && dataHref != '#' && dataHref != 'null') {
