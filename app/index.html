@@ -19,7 +19,7 @@
                     <ul class="main_menu">
                         <li style="background-image:url('/static/Main/images/ico/crm.png')"><a data-menu="LeftCrm">客户管理</a></li>
                         <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftCrmAgent">四部系统</a></li>
-                        <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftOperator" data-type="hideLeft">出展系统</a></li>
+                        <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftOperator">出展系统</a></li>
                         <li style="background-image:url('/static/Main/images/ico/coffee.png')"><a data-menu="LeftService">客服系统</a></li>
                         <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftBill">财务管理</a></li>
                         <li style="background-image:url('/static/Main/images/ico/hr.png')"><a data-menu="LeftHr">人力资源</a></li>
@@ -32,7 +32,7 @@
                         <li>
                             <span>您好：<span class="name"><strong>吴凯</strong>(wukai)</span></span>
                         </li>
-                        <li style="background-image:url('/static/Main/images/ico/pen.png')"><a>登录OA</a></li>
+                        <li style="background-image:url('/static/Main/images/ico/pen.png')"><a data-menu="" data-href="https://www.163.com">登录OA</a></li>
                         <li style="background-image:url('/static/Main/images/ico/desk.png')"><a>工作桌面</a></li>
                         <li style="background-image:url('/static/Main/images/ico/message.png')"><a>站内消息</a></li>
                         <li style="background-image:url('/static/Main/images/ico/time.png')"><a>工作提醒</a></li>
@@ -66,7 +66,7 @@
                 <a class="custom">常用链接</a>
                 <div class="links">
                     <a data-href="http://fanyi.dict.cn" data-menu="">单发传真</a>
-                    <a data-href="http://fanyi.dict.cn#2">招展函</a>
+                    <a data-href="http://fanyi.dict.cn#2" data-type="hideLeft">招展函</a>
                     <a href="http://www.baidu.com">新大楼坐席(新)</a>
                     <a>新大楼坐席</a>
                     <a>筹展进度表</a>
@@ -100,7 +100,7 @@
 
     <script>
         $(function() {
-            var initTabArr = [{
+            var tabArr = [{
                 id: 'home',
                 name: '主页',
                 url: './home.html',
@@ -111,7 +111,10 @@
                 url: './exhibitionRead.html',
                 close: false,
             }];
-            APP.main(initTabArr);
+            APP.main({
+                tabArr:tabArr,
+                defaultMenu:false,
+            });
         });
     </script>
 </body>

@@ -247,7 +247,10 @@
             height: 100%;
             width: 175px;
             border: solid 1px #9ad452;
-            transition: all 0.25s ease-in;
+
+            &.anim {
+                transition: all 0.25s ease-in;
+            }
 
             .toggleLeft {
                 position: absolute;
@@ -385,9 +388,9 @@
                                 }
                             }
 
-                            > a,
                             .category > a,
-                            .half_link {
+                            .half_link,
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -401,8 +404,8 @@
                                 }
                             }
 
-                            .category > a,
-                            > a {
+                            > a,
+                            .category > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;

@@ -34,7 +34,7 @@ var myTab = function(config) {
         config: newConfig,
         addTab: this.addTab,
         wheelTab: this.wheelTab,
-        delAll: this.delAll
+        delAll: this.delAll,
     };
 }
 
@@ -146,7 +146,7 @@ myTab.prototype.initTab = function(config) {
         localData.index = index
         myUtil.setsessionStorage(config.target + '__tab', localData);
 
-        config.tabClicked && config.tabClicked();
+        config.tabClicked && config.tabClicked(this);
         return false;
     });
 

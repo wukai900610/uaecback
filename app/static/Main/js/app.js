@@ -98,11 +98,11 @@ var myUtil = {
             }
         };
     },
-    tips:function () {
+    tips: function() {
         $('body').append('<style>.imgAlert .contents{padding: 5px;color: #000;font-size: 14px;}.imgAlert .contents img{max-height: 200px;}</style>');
 
         var imgAlertIndex;
-        $(document).on('mousemove','*[data-tips]',function (e) {
+        $(document).on('mousemove', '*[data-tips]', function(e) {
             var left = e.pageX + 20;
             var top = e.pageY;
             var windowWidth = $(window).width();
@@ -110,7 +110,8 @@ var myUtil = {
             var contentWidth = $('.imgAlert').width();
             var contentHeight = $('.imgAlert').height();
 
-            var posX = 0, posY = 0;
+            var posX = 0,
+                posY = 0;
             // 鍒ゆ柇鏄剧ず浣嶇疆
             if (windowWidth - left < contentWidth) {
                 posX = e.pageX - contentWidth - 20;
@@ -129,7 +130,7 @@ var myUtil = {
                 top: posY - window.scrollY
             });
         });
-        $(document).on('mouseenter','*[data-tips]',function (e) {
+        $(document).on('mouseenter', '*[data-tips]', function(e) {
             var content = $(this).attr('data-tips');
 
             imgAlertIndex = layer.open({
@@ -141,11 +142,11 @@ var myUtil = {
                 area: 'auto',
                 shade: false,
                 skin: 'imgAlert',
-                time:2000,
+                time: 2000,
                 content: '<div class="contents">' + content + '</div>'
             });
         });
-        $(document).on('mouseleave','*[data-tips]',function (e) {
+        $(document).on('mouseleave', '*[data-tips]', function(e) {
             layer.close(imgAlertIndex);
         });
     }
@@ -187,7 +188,7 @@ var APP = {
             });
         }
     },
-    main: function(initTabArr) {
+    main: function(initConfig) {
         var _this = this;
 
         myUtil.checkIE();
@@ -199,7 +200,7 @@ var APP = {
         var targetId = '#insTab';
         var tabObj = myUtil.getsessionStorage(targetId + '__tab') || {
             index: 0,
-            tabs: initTabArr
+            tabs: initConfig.tabArr
         };
 
         var tabConfig = {
@@ -207,6 +208,7 @@ var APP = {
             tabs: tabObj.tabs,
             index: tabObj.index,
             tabClicked: function(obj) {
+                console.log(obj);
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
                 // 右上菜单
@@ -216,7 +218,6 @@ var APP = {
             }
         }
         _this.wkTab = new myTab(tabConfig);
-        // console.log(_this.wkTab);
 
         // 顶部导行
         $('.main_top .main_menu li')
@@ -250,7 +251,8 @@ var APP = {
 
                 // 非原始链接
                 if (!href) {
-                    if (menu) {// 加载左侧menu菜单 优先级最高
+                    if (menu) { // 加载左侧menu菜单 优先级最高
+                        $('.main_page .main_contain .main_left').show();
                         $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
                             success: function(dom) {
@@ -261,16 +263,23 @@ var APP = {
                                 _this.aBindId('.main_page .main_contain .main_left .nav__ul li', menu);
 
                                 // 显示左侧菜单已点项
-                                $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function () {
+                                $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function() {
                                     var id = $(this).data('id');
                                     var id2 = myUtil.getsessionStorage('leftMenu');
-                                    if(id == id2){
+                                    if (id == id2) {
                                         $(this).addClass('active');
                                     }
                                 });
                             }
                         });
-                    }else if (id && dataHref && dataHref != '#' && dataHref != 'null') {// 执行link tab 优先级其次
+                    } else if (id && dataHref && dataHref != '#' && dataHref != 'null') { // 执行link tab 优先级其次
+                        // 点击的是左侧菜单
+                        if ($this.parents().hasClass('link_box')) {
+                        }else{
+                            $('.main_page .main_contain .main_left').hide();
+                            // 清除顶部菜单选中状态
+                            $('.main_top .main_menu li').removeClass('active');
+                        }
                         _this.wkTab.addTab({
                             id: id,
                             name: name,
@@ -293,7 +302,7 @@ var APP = {
                     if ($this.parents().hasClass('link_box')) {
                         $('.link_box a').removeClass('active');
                         $this.addClass('active');
-                        myUtil.setsessionStorage('leftMenu',$this.data('id'));
+                        myUtil.setsessionStorage('leftMenu', $this.data('id'));
                         // 取消选中左侧树
                         zTreeObj && zTreeObj.cancelSelectedNode();
                         window.myUtil.removesessionStorage(ztreeId + 'Ztree');
@@ -308,12 +317,18 @@ var APP = {
         if (myTopMenu && (myTopMenu.index || myTopMenu.index == 0)) {
             $('.main_top .main_menu li').eq(myTopMenu.index).find('a').trigger('click');
         } else {
-            // $('.main_top .main_menu li').eq(0).find('a').trigger('click');
-            // 默认隐藏左侧
-            setTimeout(function() {
-                $('.main_left .toHide')
-                    .trigger('click');
-            }, 0);
+            // 无缓存时左侧控制方式
+            if (initConfig.defaultMenu) {
+                $('.main_top .main_menu li').eq(0).find('a').trigger('click');
+            } else {
+                setTimeout(function() {
+                    // $('.main_contain')
+                    //     .addClass('hideLeft');
+                    // $('.main_left .toShow')
+                    //     .addClass('active');
+                    $('.main_page .main_contain .main_left').hide();
+                }, 0);
+            }
         }
 
         // 顶部最小化
@@ -345,6 +360,7 @@ var APP = {
         // 左侧导航左右切换
         $('.main_left .toHide')
             .click(function() {
+                $(this).parent().addClass('anim'); // 增加动画效果
                 $('.main_contain')
                     .addClass('hideLeft');
                 $('.main_left .toShow')
@@ -352,6 +368,7 @@ var APP = {
             });
         $('.main_left .toShow')
             .click(function() {
+                $(this).parent().addClass('anim'); // 增加动画效果
                 $('.main_contain')
                     .removeClass('hideLeft');
                 $('.main_left .toShow')
@@ -362,9 +379,9 @@ var APP = {
         $(document)
             .on('click', '.main_left li h5', function(e) {
                 var isHide = $(this).parent().hasClass('hide');
-                if(isHide){
+                if (isHide) {
                     $(this).parent().removeClass('hide');
-                }else{
+                } else {
                     $(this).parent().addClass('hide');
                 }
             });
