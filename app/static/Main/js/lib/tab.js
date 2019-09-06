@@ -43,6 +43,7 @@ myTab.prototype.rendTab = function(config) {
     var tabNav = '',
         tbContents = '';
     var showIndex = config.index || 0;
+
     config.tabs.map(function(item, index) {
         if (index == showIndex) {
             if (item.close == false || item.id.toLowerCase() == 'home') {
@@ -81,7 +82,7 @@ myTab.prototype.initTab = function(config) {
 
     // 删除
     $(document).on('click', config.target + ' .nav .close', function(e) {
-        var id = $(this).parent().data('id');
+        var id = $(this).parent().attr('data-id');
         var isActie = $(this).parent().hasClass('active');
         var delIndex = $(this).parent().index();
 
@@ -96,7 +97,7 @@ myTab.prototype.initTab = function(config) {
             var thisFrame = $(sessionConfig.target + ' .tbContents .itemContent').eq(activeIndex);
             thisNav.addClass('active');
             thisFrame.addClass('active');
-            var src = thisNav.data('src');
+            var src = thisNav.attr('data-src');
             var hasSrc = thisFrame.attr('src');
             if(!hasSrc){
                 thisFrame.attr('src',src);
@@ -109,12 +110,13 @@ myTab.prototype.initTab = function(config) {
             }
         }
         // 删除已添加的记录
+        var findIndex;
         sessionConfig.tabs.map(function(item, index) {
-            if (item.id == id) {
-                sessionConfig.tabs.splice(index, 1);
+            if (item['id'] == id) {
+                findIndex = index;
             }
         });
-        // console.log(sessionConfig);
+        sessionConfig.tabs.splice(findIndex, 1);
 
         // 更新缓存数据
         myUtil.setsessionStorage(sessionConfig.target + '__tab', {
@@ -132,7 +134,7 @@ myTab.prototype.initTab = function(config) {
     // 显示点击
     $(document).on('click', config.target + ' .nav', function(e) {
         var index = $(this).index();
-        var src = $(this).data('src');
+        var src = $(this).attr('data-src');
         $(this).addClass('active').siblings().removeClass('active');
         var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
         thisFrame.addClass('active').siblings().removeClass('active');
@@ -153,7 +155,7 @@ myTab.prototype.initTab = function(config) {
     // 双击tab刷新
     $(document).on('dblclick', config.target + ' .nav', function(e) {
         var localData = myUtil.getsessionStorage(config.target + '__tab');
-        var id = $(this).data('id');
+        var id = $(this).attr('data-id');
         var index = $(this).index();
 
         localData.tabs.map(function(item) {

@@ -4,7 +4,6 @@
 .myTab {
     // tab标签
     position: relative;
-    height: 100%;
 
     .closeAll {
         position: absolute;
@@ -79,8 +78,6 @@
         top: 26px;
         bottom: 0;
         right: 0;
-        // display: flex;
-        // height: calc(100% - 26px);
         min-height: 50px;
         border: 1px solid #ccc;
 
@@ -102,15 +99,25 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding-bottom: 30px;
     width: 100%;
     height: 100%;
     // transition: padding 0.25s linear;
-    &.hide_main_bottom {
-        padding-bottom: 0;
+    &.full_Page {
+        .topBar {
+            position: relative;
+        }
+
+        .topContent {
+            margin-top: -48px;
+            opacity: 0;
+        }
+
+        .main_contain {
+            margin-bottom: 0;
+        }
 
         .main_bottom {
-            height: 0;
+            bottom: -30px;
         }
     }
 
@@ -119,17 +126,6 @@
         width: 100%;
         background: url("../images/main_09.gif") left 9px repeat-x;
         // transition: all 0.25s linear;
-        &.hide {
-            .topBar {
-                position: relative;
-            }
-
-            .topContent {
-                margin-top: -56px;
-                opacity: 0;
-            }
-        }
-
         .topBar {
             position: absolute;
             top: 0;
@@ -231,8 +227,10 @@
     }
 
     .main_contain {
+        position: relative;
         display: flex;
         flex: 1;
+        margin-bottom: 30px;
         overflow: hidden;
 
         &.hideLeft {
@@ -242,7 +240,7 @@
         }
 
         .main_left {
-            position: relative;
+            // position: relative;
             display: flex;
             height: 100%;
             width: 175px;
@@ -260,12 +258,13 @@
                 background: url("../images/right.gif") no-repeat;
                 cursor: pointer;
                 display: none;
+                z-index: 100;
 
                 &.toShow {
-                    right: -15px;
+                    position: fixed;
+                    left: 0;
                     top: 50%;
                     transform: translate(0,-50%);
-                    z-index: 2;
 
                     &.active {
                         display: block;
@@ -282,6 +281,7 @@
 
                 h4 {
                     position: relative;
+                    overflow: hidden;
                     height: 26px;
                     line-height: 26px;
                     background: url("../images/left_title.png") 25px center no-repeat;
@@ -291,6 +291,21 @@
                         top: 6px;
                         background: url("../images/left.gif") no-repeat;
                         display: block;
+                    }
+
+                    .toggleBox {
+                        float: right;
+                        color: #528311;
+
+                        span {
+                            display: inline-block;
+                            margin: 0 2px 0 0;
+                            cursor: pointer;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
                     }
                 }
 
@@ -474,7 +489,8 @@
             border: 1px solid #ccc;
             border-top: none;
             box-shadow: 0 0 3px #ccc;
-            background: url("../images/tab_05.gif") #f3ffe3 left -2px repeat-x;
+            // background: url("../images/tab_05.gif") #f3ffe3 left -2px repeat-x;
+            background: url("../images/tab_05.gif") left -2px repeat-x;
 
             #insTab {
                 flex: 1;
@@ -502,7 +518,8 @@
         line-height: 26px;
         border-top: 1px solid #999;
         background: url("../images/main_09.gif") left -1px repeat-x;
-        // transition: all 0.25s linear;
+        transition: all 0.25s linear;
+
         .links {
             margin-left: 50px;
             flex: 1;

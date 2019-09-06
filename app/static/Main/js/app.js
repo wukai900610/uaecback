@@ -153,25 +153,6 @@ var myUtil = {
     }
 }
 var APP = {
-    // 顶部显示隐藏
-    toggleTop: function(control) {
-        if (control) { //开
-            $('.main_top')
-                .show();
-        } else { //关
-            $('.main_top')
-                .hide();
-        }
-    },
-    toggleBottom: function(control) {
-        if (control) { //开
-            $('.main_page')
-                .removeClass('hide_main_bottom');
-        } else { //关
-            $('.main_page')
-                .addClass('hide_main_bottom');
-        }
-    },
     aBindId: function(target, menu) { //a链接 绑定 data-id
         if (target) {
             $(target + ' a[data-href]').each(function(index) {
@@ -333,28 +314,34 @@ var APP = {
         // 顶部最小化
         $('.slideTop li')
             .click(function(argument) {
-                var open = $(this)
+                var isOpen = $(this)
                     .hasClass('open');
-                var close = $(this)
-                    .hasClass('close');
+                // var close = $(this)
+                    // .hasClass('close');
 
-                if (open) {
+                if (isOpen) {
                     $('.slideTop li.open')
                         .hide();
                     $('.slideTop li.close')
                         .show();
-                    $('.main_top')
-                        .removeClass('hide');
-                }
-                if (close) {
+                    $('.main_page')
+                        .removeClass('full_Page');
+                }else {
                     $('.slideTop li.open')
                         .show();
                     $('.slideTop li.close')
                         .hide();
-                    $('.main_top')
-                        .addClass('hide');
+                    $('.main_page')
+                        .addClass('full_Page');
                 }
+                myUtil.setsessionStorage('full_Page',isOpen);
             });
+        var full_Page = myUtil.getsessionStorage('full_Page');
+        if(!full_Page){
+            $('.slideTop li').eq(0).trigger('click');
+        }else{
+            $('.slideTop li').eq(1).trigger('click');
+        }
 
         // 左侧导航左右切换
         $('.main_left .toHide')
@@ -383,6 +370,15 @@ var APP = {
                 } else {
                     $(this).parent().addClass('hide');
                 }
+            });
+        // 左侧子导航伸展
+        $(document)
+            .on('click', '.main_left .nav__box .toggleAllOpen', function(e) {
+                $('.main_left li').removeClass('hide');
+            });
+        $(document)
+            .on('click', '.main_left .nav__box .toggleAllClose', function(e) {
+                $('.main_left li').addClass('hide');
             });
 
         // 退出登录
