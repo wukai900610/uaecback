@@ -262,6 +262,10 @@ var APP = {
                                 });
                             }
                         });
+
+                        // 重置左侧展开状态
+                        $('.main_left li').removeClass('hide');
+                        $('.main_left .nav__box .toggleBox').text('收起');
                     } else if (id && dataHref && dataHref != '#' && dataHref != 'null') { // 执行link tab 优先级其次
                         _this.wkTab.addTab({
                             id: id,
@@ -337,7 +341,7 @@ var APP = {
                 myUtil.setsessionStorage('full_Page',isOpen);
             });
         var full_Page = myUtil.getsessionStorage('full_Page');
-        if(!full_Page){
+        if(full_Page == false){
             $('.slideTop li').eq(0).trigger('click');
         }else{
             $('.slideTop li').eq(1).trigger('click');
@@ -373,12 +377,17 @@ var APP = {
             });
         // 左侧子导航伸展
         $(document)
-            .on('click', '.main_left .nav__box .toggleAllOpen', function(e) {
-                $('.main_left li').removeClass('hide');
-            });
-        $(document)
-            .on('click', '.main_left .nav__box .toggleAllClose', function(e) {
-                $('.main_left li').addClass('hide');
+            .on('click', '.main_left .nav__box .toggleBox', function(e) {
+                var text = $(this).text();
+                var open = $(this).attr('data-open');
+                var close = $(this).attr('data-close');
+                if(text == '收起'){
+                    $('.main_left li').addClass('hide');
+                    $(this).text(open);
+                }else{
+                    $('.main_left li').removeClass('hide');
+                    $(this).text(close);
+                }
             });
 
         // 退出登录
@@ -392,9 +401,10 @@ var APP = {
                         _this.wkTab.delAll();
 
                         // 清空缓存的主导向菜单
-                        myUtil.removesessionStorage('#insTab__tab', {});
-                        myUtil.removesessionStorage('topMenu', {});
-                        myUtil.removesessionStorage('leftMenu', {});
+                        myUtil.removesessionStorage('#insTab__tab');
+                        myUtil.removesessionStorage('topMenu');
+                        myUtil.removesessionStorage('leftMenu');
+                        myUtil.removesessionStorage('full_Page');
 
                         window.location.href = "/Manage/Logout.aspx";
                     },
