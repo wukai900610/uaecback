@@ -21,7 +21,7 @@
 .main_page {
     overflow: hidden;
 
-    &.full_Page {
+    &.normal_Page {
         .topContent {
             margin-top: 0;
             height: 0;
@@ -44,28 +44,18 @@
         bottom: 0;
         right: 0;
 
-        &.hackLeft {
-            .main_right {
-                margin-left: 175px;
-            }
-        }
-
         &.hideLeft {
             .main_right {
                 margin-left: 0;
                 width: 100%;
+
+                #insTab {
+                    right: 0;
+                }
             }
         }
 
         .main_left {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 175px;
-            bottom: 0;
-            overflow: auto;
-            height: auto;
-
             .nav__box {
                 overflow: hidden;
                 height: 100%;
@@ -79,12 +69,16 @@
         }
 
         .main_right {
+            position: relative;
             overflow: hidden;
-            // margin-left: 175px;
             height: 100%;
 
             #insTab {
-                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 175px;
             }
         }
     }

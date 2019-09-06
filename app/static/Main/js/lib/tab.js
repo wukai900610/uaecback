@@ -70,13 +70,15 @@ myTab.prototype.rendTab = function(config) {
 myTab.prototype.initTab = function(config) {
     var that = this;
     that.rendTab(config);
+    var defaultTabs = myUtil.getNewObj(config.tabs);
+
     // 更新缓存数据
     var merge = $.extend({}, config, {});
     myUtil.setsessionStorage(config.target + '__tab', merge);
 
     // 全部关闭
     $(document).on('click', config.target + ' .closeAll', function(e) {
-        that.delAll(config);
+        that.delAll(config,defaultTabs);
         return false;
     });
 
@@ -175,18 +177,22 @@ myTab.prototype.initTab = function(config) {
 
     that.wheelTab(config);
 }
-myTab.prototype.delAll = function(config) {
+myTab.prototype.delAll = function(config,defaultTabs) {
     if (!config) {
         config = this.config
     }
     var nConfig = {
         index: 0,
-        tabs: [config.tabs[0]],
+        tabs: defaultTabs,
         target: config.target
     };
+
+    // 激活首个
+    $(nConfig.target + ' .tabNavWrap .nav').eq(0).addClass('active');
+    $(nConfig.target + ' .tbContents .itemContent').eq(0).addClass('active');
     // 删除dom
-    $(nConfig.target + ' .tabNavWrap .nav').eq(0).siblings().detach().end().addClass('active');
-    $(nConfig.target + ' .tbContents .itemContent').eq(0).siblings().detach().end().addClass('active');
+    $(nConfig.target + ' .tabNavWrap .nav:gt('+(defaultTabs.length-1)+')').detach();
+    $(nConfig.target + ' .tbContents .itemContent:gt('+(defaultTabs.length-1)+')').detach();
 
     $(config.target + ' .tabNavWrap').children().css('left', 0);
 

@@ -241,8 +241,8 @@ var APP = {
                 // 非原始链接
                 if (!href) {
                     if (menu) { // 加载左侧menu菜单 优先级最高
-                        $('.main_page .main_contain').addClass('hackLeft');
-                        $('.main_page .main_contain .main_left').show();
+                        // 重置左侧展开状态
+                        // myUtil.removesessionStorage('openToggleBoxArr');
                         $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
                             success: function(dom) {
@@ -260,12 +260,18 @@ var APP = {
                                         $(this).addClass('active');
                                     }
                                 });
+
+                                // 重置左侧展开状态
+                                var openToggleBox = myUtil.getsessionStorage('openToggleBox');
+                                if(openToggleBox){
+                                    $('.main_left li').removeClass('hide');
+                                    $('.main_left .nav__box .toggleBox').text('收起');
+                                }else{
+                                    $('.main_left li').addClass('hide');
+                                    $('.main_left .nav__box .toggleBox').text('展开');
+                                }
                             }
                         });
-
-                        // 重置左侧展开状态
-                        $('.main_left li').removeClass('hide');
-                        $('.main_left .nav__box .toggleBox').text('收起');
                     } else if (id && dataHref && dataHref != '#' && dataHref != 'null') { // 执行link tab 优先级其次
                         _this.wkTab.addTab({
                             id: id,
@@ -309,8 +315,8 @@ var APP = {
                 $('.main_top .main_menu li').eq(0).find('a').trigger('click');
             } else {
                 setTimeout(function() {
-                    $('.main_page .main_contain').removeClass('hackLeft');
                     $('.main_page .main_contain .main_left').hide();
+                    $('.main_page .main_contain').addClass('hideLeft');
                 }, 0);
             }
         }
@@ -329,19 +335,19 @@ var APP = {
                     $('.slideTop li.close')
                         .show();
                     $('.main_page')
-                        .removeClass('full_Page');
+                        .removeClass('normal_Page');
                 }else {
                     $('.slideTop li.open')
                         .show();
                     $('.slideTop li.close')
                         .hide();
                     $('.main_page')
-                        .addClass('full_Page');
+                        .addClass('normal_Page');
                 }
-                myUtil.setsessionStorage('full_Page',isOpen);
+                myUtil.setsessionStorage('normal_Page',isOpen);
             });
-        var full_Page = myUtil.getsessionStorage('full_Page');
-        if(full_Page == false){
+        var normal_Page = myUtil.getsessionStorage('normal_Page');
+        if(normal_Page == false){
             $('.slideTop li').eq(0).trigger('click');
         }else{
             $('.slideTop li').eq(1).trigger('click');
@@ -355,6 +361,8 @@ var APP = {
                     .addClass('hideLeft');
                 $('.main_left .toShow')
                     .addClass('active');
+
+                myUtil.setsessionStorage('main_leftStatus','hide');
             });
         $('.main_left .toShow')
             .click(function() {
@@ -363,19 +371,29 @@ var APP = {
                     .removeClass('hideLeft');
                 $('.main_left .toShow')
                     .removeClass('active');
+
+                myUtil.setsessionStorage('main_leftStatus','show');
             });
 
-        // 左侧子导航伸展
+        var main_leftStatus = myUtil.getsessionStorage('main_leftStatus');
+        if(main_leftStatus == 'hide'){
+            $('.main_left .toHide').trigger('click');
+        }
+
+        // 左侧子导航展开 收起
         $(document)
             .on('click', '.main_left li h5', function(e) {
+                // var openToggleBoxArr = myUtil.getsessionStorage('openToggleBoxArr') || [];
                 var isHide = $(this).parent().hasClass('hide');
                 if (isHide) {
                     $(this).parent().removeClass('hide');
                 } else {
                     $(this).parent().addClass('hide');
                 }
+                // openToggleBoxArr.push($(this).parent().index());
+                // myUtil.setsessionStorage('openToggleBoxArr',openToggleBoxArr);
             });
-        // 左侧子导航伸展
+        // 左侧子导航全部展开 收起
         $(document)
             .on('click', '.main_left .nav__box .toggleBox', function(e) {
                 var text = $(this).text();
@@ -384,9 +402,11 @@ var APP = {
                 if(text == '收起'){
                     $('.main_left li').addClass('hide');
                     $(this).text(open);
+                    myUtil.setsessionStorage('openToggleBox',false);
                 }else{
                     $('.main_left li').removeClass('hide');
                     $(this).text(close);
+                    myUtil.setsessionStorage('openToggleBox',true);
                 }
             });
 
@@ -404,7 +424,9 @@ var APP = {
                         myUtil.removesessionStorage('#insTab__tab');
                         myUtil.removesessionStorage('topMenu');
                         myUtil.removesessionStorage('leftMenu');
-                        myUtil.removesessionStorage('full_Page');
+                        myUtil.removesessionStorage('normal_Page');
+                        myUtil.removesessionStorage('openToggleBox');
+                        myUtil.removesessionStorage('openToggleBoxArr');
 
                         window.location.href = "/Manage/Logout.aspx";
                     },
