@@ -310,7 +310,9 @@ var APP = {
                         });
                     }
                     // 执行显示左侧动作
-                    $('.main_left .toShow').trigger('click');
+                    if(menu){
+                        $('.main_left .toShow').trigger('click');
+                    }
 
                     //隐藏左侧
                     if (type == 'hideLeft' || menu == '') {
@@ -318,7 +320,7 @@ var APP = {
                             $('.main_left .toHide')
                                 .trigger('click');
                             if(openLeft == false){
-                                $('.main_page .main_contain .main_left .toShow').removeClass('active');
+                                $('.main_left .toShow').removeClass('active');
                             }
                         }, 0);
                     }
