@@ -263,14 +263,42 @@ var APP = {
                                     }
                                 });
 
-                                // 重置左侧展开状态
-                                var openToggleBox = myUtil.getsessionStorage('openToggleBox');
-                                if(openToggleBox == false){
-                                    $('.main_left li').addClass('hide');
-                                    $('.main_left .nav__box .toggleBox').text('展开');
-                                }else{
+                                var menus = myUtil.getsessionStorage('menus') || {
+                                    data:{}
+                                };
+                                menus.data[menu] = menus.data[menu] || [];
+                                menus.currentMenu = menu;
+
+                                // 子菜单状态
+                                $('.main_page .main_contain .main_left .nav__ul>li').each(function(index) {
+                                    if(menus.data[menu][index] == undefined){
+                                        if($(this).hasClass('hide')){
+                                            menus.data[menu][index] = 'close';
+                                            $(this).addClass('hide');
+                                        }else{
+                                            menus.data[menu][index] = 'open';
+                                        }
+                                    }
+                                    if(menus.data[menu][index] == 'open'){
+                                        $(this).removeClass('hide');
+                                    }else{
+                                        $(this).addClass('hide');
+                                    }
+                                });
+                                myUtil.setsessionStorage('menus',menus);
+                                // 控制全部显示
+                                var allOpen = menus.data[menu].every(function (item) {
+                                    return item == 'open';
+                                });
+                                var allClose = menus.data[menu].every(function (item) {
+                                    return item == 'close';
+                                });
+                                if(allOpen){
                                     $('.main_left li').removeClass('hide');
                                     $('.main_left .nav__box .toggleBox').text('收起');
+                                }else if(allClose){
+                                    $('.main_left li').addClass('hide');
+                                    $('.main_left .nav__box .toggleBox').text('展开');
                                 }
                             }
                         });
@@ -386,31 +414,53 @@ var APP = {
         // 左侧子导航展开 收起
         $(document)
             .on('click', '.main_left li h5', function(e) {
-                // var openToggleBoxArr = myUtil.getsessionStorage('openToggleBoxArr') || [];
+                var index = $(this).parent().index();
                 var isHide = $(this).parent().hasClass('hide');
-                if (isHide) {
-                    $(this).parent().removeClass('hide');
-                } else {
+                var menus = myUtil.getsessionStorage('menus');
+                if (!isHide) {
                     $(this).parent().addClass('hide');
+                    menus.data[menus.currentMenu][index] = 'close';
+                } else {
+                    $(this).parent().removeClass('hide');
+                    menus.data[menus.currentMenu][index] = 'open';
                 }
-                // openToggleBoxArr.push($(this).parent().index());
-                // myUtil.setsessionStorage('openToggleBoxArr',openToggleBoxArr);
+                myUtil.setsessionStorage('menus',menus);
+
+                var allOpen = menus.data[menus.currentMenu].every(function (item) {
+                    return item == 'open';
+                });
+                var allClose = menus.data[menus.currentMenu].every(function (item) {
+                    return item == 'close';
+                });
+                if(allOpen){
+                    $('.main_left li').removeClass('hide');
+                    $('.main_left .nav__box .toggleBox').text('收起');
+                }else if(allClose){
+                    $('.main_left li').addClass('hide');
+                    $('.main_left .nav__box .toggleBox').text('展开');
+                }
             });
         // 左侧子导航全部展开 收起
-        $(document)
-            .on('click', '.main_left .nav__box .toggleBox', function(e) {
+        $('.main_left .nav__box .toggleBox').on('click',function(e) {
                 var text = $(this).text();
                 var open = $(this).attr('data-open');
                 var close = $(this).attr('data-close');
+
+                var menus = myUtil.getsessionStorage('menus');
                 if(text == '收起'){
                     $('.main_left li').addClass('hide');
                     $(this).text(open);
-                    myUtil.setsessionStorage('openToggleBox',false);
+                    menus.data[menus.currentMenu].map(function (item,index) {
+                        menus.data[menus.currentMenu][index] = 'close';
+                    });
                 }else{
                     $('.main_left li').removeClass('hide');
                     $(this).text(close);
-                    myUtil.setsessionStorage('openToggleBox',true);
+                    menus.data[menus.currentMenu].map(function (item,index) {
+                        menus.data[menus.currentMenu][index] = 'open';
+                    });
                 }
+                myUtil.setsessionStorage('menus',menus);
             });
 
         // 退出登录
@@ -428,7 +478,7 @@ var APP = {
                         myUtil.removesessionStorage('topMenu');
                         myUtil.removesessionStorage('leftMenu');
                         myUtil.removesessionStorage('normal_Page');
-                        myUtil.removesessionStorage('openToggleBox');
+                        myUtil.removesessionStorage('menus');
                         myUtil.removesessionStorage('main_leftStatus');
 
                         window.location.href = "/Manage/Logout.aspx";

@@ -176,15 +176,16 @@ myTab.prototype.initTab = function(config) {
 
     that.wheelTab(config);
 }
-myTab.prototype.delAll = function(config,defTabs) {
+myTab.prototype.delAll = function(config,defaultTabs) {
     if (!config) {
         config = this.config
     }
     config = config || this.config;
+    defaultTabs = defaultTabs || this.config.defaultTabs;
 
     var nConfig = {
         index: 0,
-        tabs: defTabs,
+        tabs: defaultTabs,
         target: config.target
     };
 
@@ -200,8 +201,8 @@ myTab.prototype.delAll = function(config,defTabs) {
     }
 
     // 删除dom
-    $(nConfig.target + ' .tabNavWrap .nav:gt('+(defTabs.length-1)+')').detach();
-    $(nConfig.target + ' .tbContents .itemContent:gt('+(defTabs.length-1)+')').detach();
+    $(nConfig.target + ' .tabNavWrap .nav:gt('+(defaultTabs.length-1)+')').detach();
+    $(nConfig.target + ' .tbContents .itemContent:gt('+(defaultTabs.length-1)+')').detach();
 
     $(config.target + ' .tabNavWrap').children().css('left', 0);
 
