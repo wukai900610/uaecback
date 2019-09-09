@@ -56,10 +56,11 @@
         }
 
         .main_left {
+            padding-bottom: 30px;
+
             .nav__box {
-                overflow: hidden;
+                // overflow: hidden;
                 height: 100%;
-                padding-bottom: 30px;
 
                 .nav__ul {
                     overflow: auto;
@@ -77,8 +78,8 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                bottom: 0;
-                right: 175px;
+                bottom: 2px;
+                right: 180px;
             }
         }
     }
@@ -89,7 +90,6 @@
         }
 
         .links {
-            margin-left: 50px;
             float: left;
         }
 

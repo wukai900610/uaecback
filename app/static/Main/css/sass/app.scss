@@ -240,7 +240,7 @@
 
             .main_right {
                 margin-left: 0;
-                width: 100%;
+                // width: 100%;
             }
         }
 
@@ -492,6 +492,10 @@
             box-shadow: 0 0 3px #ccc;
             background: url("../images/tab_05.gif") left -2px repeat-x;
 
+            &.anim {
+                transition: all 0.25s ease-in;
+            }
+
             #insTab {
                 flex: 1;
             }
@@ -504,7 +508,7 @@
         left: 0;
         width: 100%;
         display: flex;
-        padding: 0 20px;
+        padding: 0 0 0 10px;
         height: 28px;
         line-height: 26px;
         border-top: 1px solid #999;
@@ -512,7 +516,7 @@
         transition: all 0.25s linear;
 
         .links {
-            margin-left: 50px;
+            margin-left: 10px;
             flex: 1;
         }
 

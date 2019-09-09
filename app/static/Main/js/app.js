@@ -189,6 +189,7 @@ var APP = {
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
+            defaultTabs: initConfig.tabArr,
             tabClicked: function(obj) {
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
@@ -221,6 +222,8 @@ var APP = {
                 });
             });
 
+        //标识第一次打开
+        var openLeft = 0;
         // 侦听带有data-id的a链接
         $(document)
             .on('click', 'a[data-id],a[data-menu]', function() {
@@ -241,8 +244,7 @@ var APP = {
                 // 非原始链接
                 if (!href) {
                     if (menu) { // 加载左侧menu菜单 优先级最高
-                        // 重置左侧展开状态
-                        // myUtil.removesessionStorage('openToggleBoxArr');
+                        openLeft = true;
                         $.ajax({
                             url: '/config/menu/' + menu + '.html?rnd=' + getRandom(),
                             success: function(dom) {
@@ -263,12 +265,12 @@ var APP = {
 
                                 // 重置左侧展开状态
                                 var openToggleBox = myUtil.getsessionStorage('openToggleBox');
-                                if(openToggleBox){
-                                    $('.main_left li').removeClass('hide');
-                                    $('.main_left .nav__box .toggleBox').text('收起');
-                                }else{
+                                if(openToggleBox == false){
                                     $('.main_left li').addClass('hide');
                                     $('.main_left .nav__box .toggleBox').text('展开');
+                                }else{
+                                    $('.main_left li').removeClass('hide');
+                                    $('.main_left .nav__box .toggleBox').text('收起');
                                 }
                             }
                         });
@@ -279,15 +281,17 @@ var APP = {
                             url: dataHref,
                         });
                     }
-
                     // 执行显示左侧动作
-                    $('.main_left .toShow')
-                        .trigger('click');
+                    $('.main_left .toShow').trigger('click');
+
                     //隐藏左侧
                     if (type == 'hideLeft' || menu == '') {
                         setTimeout(function() {
                             $('.main_left .toHide')
                                 .trigger('click');
+                            if(openLeft == false){
+                                $('.main_page .main_contain .main_left .toShow').removeClass('active');
+                            }
                         }, 0);
                     }
 
@@ -315,7 +319,6 @@ var APP = {
                 $('.main_top .main_menu li').eq(0).find('a').trigger('click');
             } else {
                 setTimeout(function() {
-                    $('.main_page .main_contain .main_left').hide();
                     $('.main_page .main_contain').addClass('hideLeft');
                 }, 0);
             }
@@ -356,7 +359,7 @@ var APP = {
         // 左侧导航左右切换
         $('.main_left .toHide')
             .click(function() {
-                $(this).parent().addClass('anim'); // 增加动画效果
+                $(this).parent().addClass('anim').next().addClass('anim'); // 增加动画效果
                 $('.main_contain')
                     .addClass('hideLeft');
                 $('.main_left .toShow')
@@ -366,7 +369,7 @@ var APP = {
             });
         $('.main_left .toShow')
             .click(function() {
-                $(this).parent().addClass('anim'); // 增加动画效果
+                $(this).parent().addClass('anim').next().addClass('anim'); // 增加动画效果
                 $('.main_contain')
                     .removeClass('hideLeft');
                 $('.main_left .toShow')
@@ -426,7 +429,7 @@ var APP = {
                         myUtil.removesessionStorage('leftMenu');
                         myUtil.removesessionStorage('normal_Page');
                         myUtil.removesessionStorage('openToggleBox');
-                        myUtil.removesessionStorage('openToggleBoxArr');
+                        myUtil.removesessionStorage('main_leftStatus');
 
                         window.location.href = "/Manage/Logout.aspx";
                     },
