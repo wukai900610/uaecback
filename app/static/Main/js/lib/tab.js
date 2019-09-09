@@ -189,8 +189,16 @@ myTab.prototype.delAll = function(config,defTabs) {
     };
 
     // 激活首个
-    $(nConfig.target + ' .tabNavWrap .nav').eq(0).addClass('active');
-    $(nConfig.target + ' .tbContents .itemContent').eq(0).addClass('active');
+    var thisNav = $(nConfig.target + ' .tabNavWrap .nav').eq(0);
+    var thisFrame = $(nConfig.target + ' .tbContents .itemContent').eq(0);
+    thisNav.addClass('active').siblings().removeClass('active');
+    thisFrame.addClass('active').siblings().removeClass('active');
+    // 请求iframe页面
+    var hasSrc = thisFrame.attr('src');
+    if(!hasSrc){
+        thisFrame.attr('src',thisNav.attr('data-src'));
+    }
+
     // 删除dom
     $(nConfig.target + ' .tabNavWrap .nav:gt('+(defTabs.length-1)+')').detach();
     $(nConfig.target + ' .tbContents .itemContent:gt('+(defTabs.length-1)+')').detach();
