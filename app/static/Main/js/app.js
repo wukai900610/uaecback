@@ -170,6 +170,15 @@ var APP = {
             });
         }
     },
+    getAjax:function (id,url,fun) {
+        $.ajax({
+            url: url,
+            success: function(res) {
+                fun(id,res);
+            }
+        });
+        // fun(id,'1');
+    },
     main: function(initConfig) {
         var _this = this;
 

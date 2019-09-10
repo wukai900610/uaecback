@@ -436,6 +436,7 @@
 
                             .half_link {
                                 overflow: hidden;
+                                position: relative;
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;
@@ -451,6 +452,11 @@
 
                                     &::before {
                                         display: none;
+                                    }
+
+                                    span {
+                                        padding: 0 3px;
+                                        cursor: default;
                                     }
                                 }
                             }
