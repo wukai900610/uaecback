@@ -164,7 +164,7 @@
             .main_menu,
             .top_menu {
                 overflow: hidden;
-                margin: 35px 0 0 205px;
+                margin: 35px 0 0 175px;
 
                 li {
                     float: left;
@@ -250,7 +250,7 @@
             top: 0;
             bottom: 0;
             width: 175px;
-            overflow: hidden;
+            // overflow: hidden;
             border: solid 1px #9ad452;
 
             &.anim {
@@ -290,10 +290,10 @@
                     overflow: hidden;
                     height: 26px;
                     line-height: 26px;
-                    background: url("../images/left_title.png") 25px center no-repeat;
+                    background: url("../images/left_title.png") 2px center no-repeat;
 
                     span.toHide {
-                        left: 5px;
+                        right: 35px;
                         top: 6px;
                         background: url("../images/left.gif") no-repeat;
                         display: block;
@@ -406,9 +406,9 @@
                                 }
                             }
 
+                            > a,
                             .category > a,
-                            .half_link,
-                            > a {
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -422,8 +422,8 @@
                                 }
                             }
 
-                            > a,
-                            .category > a {
+                            .category > a,
+                            > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;
@@ -515,9 +515,13 @@
         background: url("../images/main_09.gif") left -1px repeat-x;
         transition: all 0.25s linear;
 
+        .custom {
+            float: left;
+        }
+
         .links {
+            float: left;
             margin-left: 10px;
-            flex: 1;
         }
 
         a {
@@ -525,11 +529,16 @@
         }
 
         .changePart {
-            display: flex;
-            padding: 2px;
+            position: absolute;
+            left: 60%;
+            right: 0;
+            top: 0;
+            // padding: 2px;
+            // width: 50%;
+            color: #06527d;
 
-            * {
-                margin-right: 10px;
+            select[name='ddlDepart'] {
+                width: 110px;
             }
         }
     }

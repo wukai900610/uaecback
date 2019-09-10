@@ -41,7 +41,7 @@ if (typeof Array.prototype.map != "function") {
 // }
 
 // 工具函数
-var zTreeObj,ztreeId;
+var zTreeObj, ztreeId;
 var myUtil = {
     checkIE: function() {
         var browser = navigator.appName;
@@ -264,39 +264,39 @@ var APP = {
                                 });
 
                                 var menus = myUtil.getsessionStorage('menus') || {
-                                    data:{}
+                                    data: {}
                                 };
                                 menus.data[menu] = menus.data[menu] || [];
                                 menus.currentMenu = menu;
 
                                 // 子菜单状态
                                 $('.main_page .main_contain .main_left .nav__ul>li').each(function(index) {
-                                    if(menus.data[menu][index] == undefined){
-                                        if($(this).hasClass('hide')){
+                                    if (menus.data[menu][index] == undefined) {
+                                        if ($(this).hasClass('hide')) {
                                             menus.data[menu][index] = 'close';
                                             $(this).addClass('hide');
-                                        }else{
+                                        } else {
                                             menus.data[menu][index] = 'open';
                                         }
                                     }
-                                    if(menus.data[menu][index] == 'open'){
+                                    if (menus.data[menu][index] == 'open') {
                                         $(this).removeClass('hide');
-                                    }else{
+                                    } else {
                                         $(this).addClass('hide');
                                     }
                                 });
-                                myUtil.setsessionStorage('menus',menus);
+                                myUtil.setsessionStorage('menus', menus);
                                 // 控制全部显示
-                                var allOpen = menus.data[menu].every(function (item) {
+                                var allOpen = menus.data[menu].every(function(item) {
                                     return item == 'open';
                                 });
-                                var allClose = menus.data[menu].every(function (item) {
+                                var allClose = menus.data[menu].every(function(item) {
                                     return item == 'close';
                                 });
-                                if(allOpen){
+                                if (allOpen) {
                                     $('.main_left li').removeClass('hide');
                                     $('.main_left .nav__box .toggleBox').text('收起');
-                                }else if(allClose){
+                                } else if (allClose) {
                                     $('.main_left li').addClass('hide');
                                     $('.main_left .nav__box .toggleBox').text('展开');
                                 }
@@ -360,7 +360,7 @@ var APP = {
                 var isOpen = $(this)
                     .hasClass('open');
                 // var close = $(this)
-                    // .hasClass('close');
+                // .hasClass('close');
 
                 if (isOpen) {
                     $('.slideTop li.open')
@@ -369,7 +369,7 @@ var APP = {
                         .show();
                     $('.main_page')
                         .removeClass('normal_Page');
-                }else {
+                } else {
                     $('.slideTop li.open')
                         .show();
                     $('.slideTop li.close')
@@ -377,12 +377,12 @@ var APP = {
                     $('.main_page')
                         .addClass('normal_Page');
                 }
-                myUtil.setsessionStorage('normal_Page',isOpen);
+                myUtil.setsessionStorage('normal_Page', isOpen);
             });
         var normal_Page = myUtil.getsessionStorage('normal_Page');
-        if(normal_Page == false){
+        if (normal_Page == false) {
             $('.slideTop li').eq(0).trigger('click');
-        }else{
+        } else {
             $('.slideTop li').eq(1).trigger('click');
         }
 
@@ -426,44 +426,44 @@ var APP = {
                     $(this).parent().removeClass('hide');
                     menus.data[menus.currentMenu][index] = 'open';
                 }
-                myUtil.setsessionStorage('menus',menus);
+                myUtil.setsessionStorage('menus', menus);
 
-                var allOpen = menus.data[menus.currentMenu].every(function (item) {
+                var allOpen = menus.data[menus.currentMenu].every(function(item) {
                     return item == 'open';
                 });
-                var allClose = menus.data[menus.currentMenu].every(function (item) {
+                var allClose = menus.data[menus.currentMenu].every(function(item) {
                     return item == 'close';
                 });
-                if(allOpen){
+                if (allOpen) {
                     $('.main_left li').removeClass('hide');
                     $('.main_left .nav__box .toggleBox').text('收起');
-                }else if(allClose){
+                } else if (allClose) {
                     $('.main_left li').addClass('hide');
                     $('.main_left .nav__box .toggleBox').text('展开');
                 }
             });
         // 左侧子导航全部展开 收起
-        $('.main_left .nav__box .toggleBox').on('click',function(e) {
-                var text = $(this).text();
-                var open = $(this).attr('data-open');
-                var close = $(this).attr('data-close');
+        $('.main_left .nav__box .toggleBox').on('click', function(e) {
+            var text = $(this).text();
+            var open = $(this).attr('data-open');
+            var close = $(this).attr('data-close');
 
-                var menus = myUtil.getsessionStorage('menus');
-                if(text == '收起'){
-                    $('.main_left li').addClass('hide');
-                    $(this).text(open);
-                    menus.data[menus.currentMenu].map(function (item,index) {
-                        menus.data[menus.currentMenu][index] = 'close';
-                    });
-                }else{
-                    $('.main_left li').removeClass('hide');
-                    $(this).text(close);
-                    menus.data[menus.currentMenu].map(function (item,index) {
-                        menus.data[menus.currentMenu][index] = 'open';
-                    });
-                }
-                myUtil.setsessionStorage('menus',menus);
-            });
+            var menus = myUtil.getsessionStorage('menus');
+            if (text == '收起') {
+                $('.main_left li').addClass('hide');
+                $(this).text(open);
+                menus.data[menus.currentMenu].map(function(item, index) {
+                    menus.data[menus.currentMenu][index] = 'close';
+                });
+            } else {
+                $('.main_left li').removeClass('hide');
+                $(this).text(close);
+                menus.data[menus.currentMenu].map(function(item, index) {
+                    menus.data[menus.currentMenu][index] = 'open';
+                });
+            }
+            myUtil.setsessionStorage('menus', menus);
+        });
 
         // 退出登录
         $('.logout')
