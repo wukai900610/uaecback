@@ -406,9 +406,9 @@
                                 }
                             }
 
-                            > a,
                             .category > a,
-                            .half_link {
+                            .half_link,
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -422,8 +422,8 @@
                                 }
                             }
 
-                            .category > a,
-                            > a {
+                            > a,
+                            .category > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;
@@ -530,16 +530,10 @@
 
         .changePart {
             position: absolute;
-            left: 60%;
             right: 0;
             top: 0;
-            // padding: 2px;
-            // width: 50%;
-            color: #06527d;
-
-            select[name='ddlDepart'] {
-                width: 110px;
-            }
+            width: 430px;
+            color: #528311;
         }
     }
 }
