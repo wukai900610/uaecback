@@ -59,7 +59,7 @@ var myUtil = {
         var findFx = navigator.userAgent.toLowerCase().indexOf('firefox');
         if (findFx > 0) {
             var fx_version = findFx + 8;
-            if (parseInt(navigator.userAgent.substr(fx_version)) <= 25) {
+            if (parseInt(navigator.userAgent.substr(fx_version)) <= 22) {
                 $('head')
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
