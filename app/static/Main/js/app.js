@@ -106,6 +106,8 @@ var myUtil = {
         $(document).on('mousemove', '*[data-tips]', function(e) {
             var left = e.pageX + 20;
             var top = e.pageY;
+            var bTop = $(document).scrollTop();
+            var bLeft = $(document).scrollLeft();
             var windowWidth = $(window).width();
             var windowHeight = $(window).height();
             var contentWidth = $('.imgAlert').width();
@@ -114,16 +116,16 @@ var myUtil = {
             var posX = 0,
                 posY = 0;
             // 鍒ゆ柇鏄剧ず浣嶇疆
-            if (windowWidth - left < contentWidth) {
-                posX = e.pageX - contentWidth - 20;
-            } else {
-                posX = e.pageX + 20;
+            if(windowWidth - (left-bLeft) < contentWidth){
+                posX = e.pageX-contentWidth-20-bLeft;
+            }else{
+                posX = e.pageX+20-bLeft;
             }
 
-            if (windowHeight - top < contentHeight) {
-                posY = e.pageY - contentHeight - 20;
-            } else {
-                posY = e.pageY;
+            if(windowHeight - (top-bTop) < contentHeight){
+                posY = e.pageY-contentHeight-20-bTop;
+            }else{
+                posY = e.pageY-bTop;
             }
 
             layer.style(imgAlertIndex, {

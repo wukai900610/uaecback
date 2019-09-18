@@ -10,8 +10,9 @@
     <a style="margin-left:700px;" data-tips="<img src=test.png />">图片1</a>
     <br/>
     <a style="display:inline-block;margin-top:150px;" data-tips="<img src=http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg />">图片2</a>
-    <br/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <a style="display:inline-block;margin-top:150px;" data-tips="文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章<br/><img src=test.png />文章文章文章文章文<br/>文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章文章">文章</a>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
     <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
     <script src="/static/Main/js/lib/layer/layer.js"></script>
@@ -23,6 +24,8 @@
             $("a[data-tips]").mousemove(function (e) {
                 var left = e.pageX+20;
                 var top = e.pageY;
+                var bTop = $(document).scrollTop();
+                var bLeft = $(document).scrollLeft();
                 var windowWidth = $(window).width();
                 var windowHeight = $(window).height();
                 var contentWidth = $('.imgAlert').width();
@@ -30,17 +33,20 @@
 
                 var posX=0,posY=0;
                 // 判断显示位置
-                if(windowWidth - left < contentWidth){
-                    posX = e.pageX-contentWidth-20;
+                if(windowWidth - (left-bLeft) < contentWidth){
+                    posX = e.pageX-contentWidth-20-bLeft;
                 }else{
-                    posX = e.pageX+20;
+                    posX = e.pageX+20-bLeft;
                 }
 
-                if(windowHeight - top < contentHeight){
-                    posY = e.pageY-contentHeight-20;
+                if(windowHeight - (top-bTop) < contentHeight){
+                    posY = e.pageY-contentHeight-20-bTop;
                 }else{
-                    posY = e.pageY;
+                    posY = e.pageY-bTop;
                 }
+                // console.log('e.pageY:'+e.pageY);
+                // console.log('bTop:'+bTop);
+                // console.log('posY:'+posY);
 
                 layer.style(imgAlertIndex, {
                     left: posX,
