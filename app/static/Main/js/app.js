@@ -42,6 +42,12 @@ if (typeof Array.prototype.map != "function") {
 
 // 工具函数
 var zTreeObj, ztreeId;
+
+function noSelectText() {
+    document.body.onselectstart = document.body.ondrag = function(){
+        return false;
+    }
+}
 var myUtil = {
     checkIE: function() {
         var browser = navigator.appName;
@@ -52,6 +58,8 @@ var myUtil = {
             if ((browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0") || (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0")) {
                 $('head')
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
+
+                noSelectText();
             }
         }
 
@@ -63,6 +71,8 @@ var myUtil = {
                 $('head')
                     .append('<link rel="stylesheet" href="/static/Main/css/hack.css">');
             }
+
+            noSelectText();
         }
     },
     getNewObj: function(data) {

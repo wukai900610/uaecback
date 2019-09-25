@@ -52,29 +52,32 @@ myTab.prototype.rendTab = function(config) {
         }
     });
     config.tabs.map(function(item, index) {
-        if (index == showIndex) {
-            if (item.close == false || (item.id && item.id.toLowerCase() == 'home')) {
-                if(noCloseTabs.length-1 == index){
-                    tabNav += '<li class="nav active canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
-                }else{
-                    tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+        if(item.id){
+            item.id = item.id.toString();
+            if (index == showIndex) {
+                if (item.close == false || item.id.toLowerCase() == 'home') {
+                    if(noCloseTabs.length-1 == index){
+                        tabNav += '<li class="nav active canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                    }else{
+                        tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                    }
+                } else {
+                    tabNav += '<li class="nav canSwap canSwapFlag active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
                 }
-            } else {
-                tabNav += '<li class="nav canSwap canSwapFlag active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
-            }
 
-            tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
-        } else {
-            if (item.close == false || (item.id && item.id.toLowerCase() == 'home')) {
-                if(noCloseTabs.length-1 == index){
-                    tabNav += '<li class="nav canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
-                }else{
-                    tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
-                }
+                tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
             } else {
-                tabNav += '<li class="nav canSwap canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                if (item.close == false || item.id.toLowerCase() == 'home') {
+                    if(noCloseTabs.length-1 == index){
+                        tabNav += '<li class="nav canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                    }else{
+                        tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                    }
+                } else {
+                    tabNav += '<li class="nav canSwap canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                }
+                tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
             }
-            tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
         }
     });
 
