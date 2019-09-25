@@ -41,16 +41,44 @@
             transition: all 1s;
 
             li.nav {
-                display: flex;
+                position: relative;
                 float: left;
-                margin: 0 5px 0 0;
-                padding: 5px;
+                // width: auto;
+                padding: 5px 10px;
                 border-radius: 5px 5px 0 0;
                 line-height: 15px;
-                cursor: pointer;
+                text-align: center;
                 color: #528311;
                 word-break: keep-all;
                 user-select: none;
+                cursor: pointer;
+                // @include ellipsis();
+                &.canSwapFlag {
+                    &.swaping {
+                        &:before {
+                            content: ' ';
+                            position: absolute;
+                            top: 4px;
+                            bottom: 0;
+                            right: 0;
+                            width: 2px;
+                            background: #000;
+                        }
+                    }
+                }
+
+                &.canSwap {
+                    padding-right: 25px;
+
+                    &.selected {
+                        opacity: 0.5;
+                    }
+                    // &.clone {
+                    //     position: absolute;
+                    //     // left: 0;
+                    //     top: 0;
+                    // }
+                }
 
                 &.active {
                     position: relative;
@@ -61,10 +89,9 @@
                 }
 
                 .close {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin-left: 2px;
+                    position: absolute;
+                    right: 3px;
+                    top: 5px;
                     width: 15px;
                     height: 15px;
                 }
@@ -92,6 +119,16 @@
                 display: block;
             }
         }
+    }
+
+    .muder {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 26px;
+        bottom: 0;
+        right: 0;
+        z-index: 11;
     }
 }
 
