@@ -45,8 +45,11 @@ myTab.prototype.rendTab = function(config) {
     var showIndex = config.index || 0;
 
     // 找出没有关闭按钮的tab 排序时要用
-    var noCloseTabs = config.tabs.filter(function (item,index) {
-        return item.close == false
+    var noCloseTabs = [];
+    config.tabs.map(function (item,index) {
+        if(item.close == false){
+            noCloseTabs.push(item)
+        }
     });
     config.tabs.map(function(item, index) {
         if (index == showIndex) {
