@@ -56,7 +56,7 @@
                     height: 25px;
                     background: url("../images/dropDown.png") #fcfcfc no-repeat;
                     background-size: contain;
-                    opacity: 0.2;
+                    opacity: 0.4;
                 }
 
                 &:hover {
@@ -450,9 +450,9 @@
                                 }
                             }
 
-                            > a,
                             .category > a,
-                            .half_link {
+                            .half_link,
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -466,8 +466,8 @@
                                 }
                             }
 
-                            .category > a,
-                            > a {
+                            > a,
+                            .category > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;

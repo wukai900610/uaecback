@@ -280,6 +280,11 @@ myTab.prototype.sort = function(config) {
 
             $(config.target + ' .tbContents .canSwap').before('<div class="swaping"></div>');
             $(config.target + ' .tbContents .canSwap').last().after('<div class="swaping"></div>');
+
+            _this.prev().detach();
+            _this.next().detach();
+            thisFrame.prev().detach();
+            thisFrame.next().detach();
         }, 250);
 
         return false;
