@@ -57,26 +57,27 @@ myTab.prototype.rendTab = function(config) {
             if (index == showIndex) {
                 if (item.close == false || item.id.toLowerCase() == 'home') {
                     if(noCloseTabs.length-1 == index){
-                        tabNav += '<li class="nav active canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
                     }else{
                         tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
                     }
+                    tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
                 } else {
-                    tabNav += '<li class="nav canSwap canSwapFlag active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tabNav += '<li class="nav canSwap active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active canSwap">' + item.name + '</iframe>';
                 }
-
-                tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
             } else {
                 if (item.close == false || item.id.toLowerCase() == 'home') {
                     if(noCloseTabs.length-1 == index){
-                        tabNav += '<li class="nav canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
                     }else{
                         tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
                     }
+                    tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
                 } else {
-                    tabNav += '<li class="nav canSwap canSwapFlag" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tabNav += '<li class="nav canSwap" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent canSwap">' + item.name + '</iframe>';
                 }
-                tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
             }
         }
     });
@@ -89,6 +90,9 @@ myTab.prototype.initTab = function(config) {
     var that = this;
     that.rendTab(config);
 
+    // 排序
+    this.sort(config);
+
     // 更新缓存数据
     var merge = $.extend({}, config, {});
     myUtil.setsessionStorage(config.target + '__tab', merge);
@@ -98,112 +102,6 @@ myTab.prototype.initTab = function(config) {
         that.delAll(config,config.defaultTabs);
         return false;
     });
-
-    // 排序
-    var swapMouseDown = false,
-    move = {
-        target:null,
-        iframe:null,
-        index:null,
-    },clone;
-
-    function actionReset() {
-        swapMouseDown = false;
-        $(config.target + ' .canSwapFlag').removeClass('swaping');
-        $(config.target + ' .canSwap').removeClass('selected');
-        $(config.target + ' .muder').hide();
-    }
-
-    $(document).on('mouseup', actionReset);
-    $(document).on('mouseleave', config.target + ' .tabNavWrap', function () {
-        if(!swapMouseDown){
-            actionReset()
-        }
-    });
-
-    $(document).on('mouseup', config.target + ' .canSwapFlag', function(e) {
-        var index = $(this).index();
-
-        // 开始排序
-        $(this).after(move.target);
-        $(config.target + ' .tbContents .itemContent').eq(index).after(move.iframe);
-
-        var localData = myUtil.getsessionStorage(config.target + '__tab');
-
-        // 从左向右 右向左托
-        if((move.index < index) || (move.index > index && move.index - index > 1)){
-            var newTab = [];
-             // 更新缓存数据
-            $(config.target + ' .nav').each(function () {
-                var id = $(this).attr('data-id');
-                localData.tabs.map(function (item) {
-                    if(id == item.id){
-                        newTab.push(item);
-                    }
-                });
-
-                if($(this).hasClass('active')){
-                    localData.index = $(this).index();
-                }
-            });
-            localData.tabs = newTab;
-
-            myUtil.setsessionStorage(config.target + '__tab', localData);
-        }
-
-        // 删除复制的对象
-        // $(config.target + ' .clone').detach();
-        // clone = null;
-
-        actionReset();
-        return false;
-    });
-    $(document).on('mousedown', config.target + ' .canSwap', function(e) {
-        var _this = $(this);
-
-        $(config.target + ' .muder').show();
-
-        var index = _this.index();
-        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
-        // 复制要移动的对象
-        // clone = $(this).clone().addClass('clone');
-        // $(this).parent().append(clone)
-
-        // 设置选中的对象透明
-        _this.addClass('selected');
-
-        // 排序
-        swapMouseDown = true;
-        move.target = _this;
-        move.iframe = thisFrame;
-        move.index = index;
-        // 主页类型标签不需要排序
-        // if(_this.hasClass('canSwap')){
-        //
-        // }
-
-        return false;
-    });
-    $(document).on('mouseover', config.target + ' .canSwapFlag', function(e) {
-        if(swapMouseDown){
-            $(this).addClass('swaping').siblings().removeClass('swaping');
-        }
-
-        return false;
-    });
-
-    // $(document).on('mousemove', function(e) {
-    //     if(swapMouseDown){
-    //         // 移动复制的对象
-    //         var left = $(config.target).position().left
-    //         console.log(left);
-    //         clone.css({
-    //             left:e.pageX - left,
-    //         });
-    //     }
-    //
-    //     return false;
-    // });
 
     // 删除
     $(document).on('click', config.target + ' .nav .close', function(e) {
@@ -298,6 +196,94 @@ myTab.prototype.initTab = function(config) {
     });
 
     that.wheelTab(config);
+}
+myTab.prototype.sort = function(config) {
+    // 排序
+    var swapMouseDown = false,
+    move = {
+        target:null,
+        iframe:null,
+        index:null,
+    };
+
+    function actionReset() {
+        swapMouseDown = false;
+        $(config.target + ' .canSwap').removeClass('selected');
+        $(config.target + ' .muder').hide();
+
+        $(config.target + ' .swaping').detach();
+    }
+
+    $(document).on('mouseup', actionReset);
+    $(document).on('mouseleave', config.target + ' .tabNavWrap', function () {
+        if(!swapMouseDown){
+            actionReset()
+        }
+    });
+
+    $(document).on('mouseup', config.target + ' .swaping', function(e) {
+        var index = $(this).index();
+        // 开始排序
+        $(this).after(move.target);
+        $(config.target + ' .tbContents>*').eq(index).after(move.iframe);
+
+        var localData = myUtil.getsessionStorage(config.target + '__tab');
+
+        // 更新缓存数据
+        setTimeout(function () {
+            var newTab = [];
+            $(config.target + ' .nav').each(function () {
+                var tabId = $(this).attr('data-id');
+                localData.tabs.map(function (item) {
+                    if(tabId == item.id){
+                        newTab.push(item);
+                    }
+                });
+
+                if($(this).hasClass('active')){
+                    localData.index = $(this).index();
+                }
+            });
+
+            localData.tabs = newTab;
+
+            myUtil.setsessionStorage(config.target + '__tab', localData);
+        }, 0);
+
+        actionReset();
+        return false;
+    });
+    $(document).on('mouseup', config.target + ' .canSwap', function(e) {
+        actionReset();
+        clearTimeout(show);
+    });
+    var show;
+    $(document).on('mousedown', config.target + ' .canSwap', function(e) {
+        var _this = $(this);
+        var index = _this.index();
+        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
+
+        // 设置选中的对象透明
+        _this.addClass('selected');
+        // 排序
+        swapMouseDown = true;
+        move.target = _this;
+        move.iframe = thisFrame;
+
+        clearTimeout(show);
+        // 创建可拖拽对象
+        show = setTimeout(function () {
+            $(config.target + ' .muder').show();
+
+            $(config.target + ' .tabNavWrap .canSwap').before('<div class="swaping"></div>');
+            $(config.target + ' .tabNavWrap .canSwap').last().after('<div class="swaping"></div>');
+
+            $(config.target + ' .tbContents .canSwap').before('<div class="swaping"></div>');
+            $(config.target + ' .tbContents .canSwap').last().after('<div class="swaping"></div>');
+        }, 250);
+
+        return false;
+    });
 }
 myTab.prototype.delAll = function(config,defaultTabs) {
     if (!config) {
@@ -433,8 +419,8 @@ myTab.prototype.addTab = function(adItem) {
         return;
     }
     // 执行添加操作
-    $(nConfig.target + ' ul').append('<li class="nav active canSwap canSwapFlag" data-id="' + adItem.id + '">' + adItem.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
-    $(nConfig.target + ' .tbContents').append('<iframe allowTransparency="true" frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
+    $(nConfig.target + ' ul').append('<li class="nav active canSwap" data-id="' + adItem.id + '">' + adItem.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
+    $(nConfig.target + ' .tbContents').append('<iframe allowTransparency="true" frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active canSwap" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
 
     // 记录添加
     nConfig.tabs.push(adItem);

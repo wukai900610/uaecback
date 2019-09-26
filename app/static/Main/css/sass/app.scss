@@ -40,6 +40,32 @@
             width: 10000em;
             transition: all 1s;
 
+            .swaping {
+                float: left;
+                position: relative;
+                width: 0;
+                height: 25px;
+                z-index: 10;
+
+                &:before {
+                    content: ' ';
+                    position: absolute;
+                    left: -5px;
+                    top: 0;
+                    width: 10px;
+                    height: 25px;
+                    background: url("../images/dropDown.png") #fcfcfc no-repeat;
+                    background-size: contain;
+                    opacity: 0.2;
+                }
+
+                &:hover {
+                    &:before {
+                        opacity: 0.8;
+                    }
+                }
+            }
+
             li.nav {
                 position: relative;
                 float: left;
@@ -53,31 +79,12 @@
                 user-select: none;
                 cursor: pointer;
                 // @include ellipsis();
-                &.canSwapFlag {
-                    &.swaping {
-                        &:before {
-                            content: ' ';
-                            position: absolute;
-                            top: 4px;
-                            bottom: 0;
-                            right: 0;
-                            width: 2px;
-                            background: #000;
-                        }
-                    }
-                }
-
                 &.canSwap {
                     padding-right: 25px;
 
                     &.selected {
                         opacity: 0.5;
                     }
-                    // &.clone {
-                    //     position: absolute;
-                    //     // left: 0;
-                    //     top: 0;
-                    // }
                 }
 
                 &.active {
@@ -443,9 +450,9 @@
                                 }
                             }
 
+                            > a,
                             .category > a,
-                            .half_link,
-                            > a {
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -459,8 +466,8 @@
                                 }
                             }
 
-                            > a,
-                            .category > a {
+                            .category > a,
+                            > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;
