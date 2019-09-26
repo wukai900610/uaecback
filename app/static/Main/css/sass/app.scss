@@ -46,22 +46,26 @@
                 width: 0;
                 height: 25px;
                 z-index: 10;
+                cursor: pointer;
 
                 &:before {
                     content: ' ';
                     position: absolute;
-                    left: -5px;
+                    left: -6px;
                     top: 0;
-                    width: 10px;
+                    width: 12px;
                     height: 25px;
-                    background: url("../images/dropDown.png") #fcfcfc no-repeat;
+                    background: url("../images/dropDown.png") #666 no-repeat;
                     background-size: contain;
+                    background-position: center top;
+                    filter:alpha(opacity=40);
                     opacity: 0.4;
                 }
 
                 &:hover {
                     &:before {
-                        opacity: 0.8;
+                        filter:alpha(opacity=100);
+                        opacity: 1;
                     }
                 }
             }
@@ -78,13 +82,26 @@
                 word-break: keep-all;
                 user-select: none;
                 cursor: pointer;
-                // @include ellipsis();
+
                 &.canSwap {
                     padding-right: 25px;
 
                     &.selected {
-                        opacity: 0.5;
+                        opacity: 0;
+                        filter:alpha(opacity=0);
                     }
+                }
+
+                &.clone {
+                    position: absolute!important;
+                    left: 0;
+                    top: 0;
+                    padding-right: 25px;
+                    opacity: 0;
+                    filter:alpha(opacity=0);
+                    z-index: 5;
+                    border: 1px dotted #528311;
+                    cursor: move;
                 }
 
                 &.active {
@@ -450,9 +467,9 @@
                                 }
                             }
 
+                            > a,
                             .category > a,
-                            .half_link,
-                            > a {
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -466,8 +483,8 @@
                                 }
                             }
 
-                            > a,
-                            .category > a {
+                            .category > a,
+                            > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;

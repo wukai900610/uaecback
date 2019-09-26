@@ -204,10 +204,16 @@ myTab.prototype.sort = function(config) {
         target:null,
         iframe:null,
         index:null,
-    };
+    },clone;
 
     function actionReset() {
         swapMouseDown = false;
+
+        if(clone){
+            clone.detach()
+            clone = null
+        }
+
         $(config.target + ' .canSwap').removeClass('selected');
         $(config.target + ' .muder').hide();
 
@@ -263,12 +269,17 @@ myTab.prototype.sort = function(config) {
         var index = _this.index();
         var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
 
+        // 设置克隆对象
+        clone = _this.clone().addClass('clone').removeClass('canSwap');
+        _this.parent().append(clone);
+
         // 设置选中的对象透明
         _this.addClass('selected');
         // 排序
         swapMouseDown = true;
         move.target = _this;
         move.iframe = thisFrame;
+        move.remain = e.pageX - ($(config.target).offset().left + _this.position().left);
 
         clearTimeout(show);
         // 创建可拖拽对象
@@ -288,6 +299,18 @@ myTab.prototype.sort = function(config) {
         }, 250);
 
         return false;
+    });
+    // 控制克隆对象
+    $(document).on('mousemove', function (e) {
+        if(clone){
+            var dis = e.pageX - ($(config.target).offset().left);
+
+            clone.css({
+                opacity:'1',
+                filter:'alpha(opacity=100)',
+                left:dis,
+            });
+        }
     });
 }
 myTab.prototype.delAll = function(config,defaultTabs) {
