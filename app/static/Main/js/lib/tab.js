@@ -25,9 +25,15 @@ function addParams(url) {
 var myTab = function(config) {
     var defaults = {
         tabs: [],
-        index: 1
+        index: 0
     }
     var newConfig = $.extend({}, defaults, config);
+    this.move = {};
+    this.textToSort = function (select) {
+        var style = select.attr('style') || '';
+        var num = style.toLowerCase().replace('left:','').replace('px','').replace(';','');
+        return parseInt(num);
+    }
 
     this.initTab(newConfig)
     return {
@@ -35,6 +41,7 @@ var myTab = function(config) {
         addTab: this.addTab,
         wheelTab: this.wheelTab,
         delAll: this.delAll,
+        textToSort:this.textToSort,
     };
 }
 
@@ -57,25 +64,25 @@ myTab.prototype.rendTab = function(config) {
             if (index == showIndex) {
                 if (item.close == false || item.id.toLowerCase() == 'home') {
                     if(noCloseTabs.length-1 == index){
-                        tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li style="left:'+(index*100)+'px" class="nav active" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span></li>';
                     }else{
-                        tabNav += '<li class="nav active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li style="left:'+(index*100)+'px" class="nav active" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span></li>';
                     }
                     tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active">' + item.name + '</iframe>';
                 } else {
-                    tabNav += '<li class="nav canSwap active" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tabNav += '<li style="left:'+(index*100)+'px" class="nav canSwap active" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span><span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
                     tbContents += '<iframe allowTransparency="true" frameBorder="0" src="' + item.url + '" data-id="' + item.id + '" class="itemContent active canSwap">' + item.name + '</iframe>';
                 }
             } else {
                 if (item.close == false || item.id.toLowerCase() == 'home') {
                     if(noCloseTabs.length-1 == index){
-                        tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li style="left:'+(index*100)+'px" class="nav" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span></li>';
                     }else{
-                        tabNav += '<li class="nav" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '</li>';
+                        tabNav += '<li style="left:'+(index*100)+'px" class="nav" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span></li>';
                     }
                     tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent">' + item.name + '</iframe>';
                 } else {
-                    tabNav += '<li class="nav canSwap" data-id="' + item.id + '" data-src="' + item.url + '">' + item.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
+                    tabNav += '<li style="left:'+(index*100)+'px" class="nav canSwap" data-id="' + item.id + '" data-src="' + item.url + '"><span class="tabText">' + item.name + '</span><span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>';
                     tbContents += '<iframe allowTransparency="true" frameBorder="0" data-id="' + item.id + '" class="itemContent canSwap">' + item.name + '</iframe>';
                 }
             }
@@ -105,73 +112,70 @@ myTab.prototype.initTab = function(config) {
 
     // 删除
     $(document).on('click', config.target + ' .nav .close', function(e) {
-        var id = $(this).parent().attr('data-id');
-        var isActie = $(this).parent().hasClass('active');
-        var delIndex = $(this).parent().index();
+        var _this = $(this).parent();
+        var id = _this.attr('data-id');
+        var delIndex = that.textToSort(_this) / 100;
 
+        // 获取最新存储数据
         var sessionConfig = myUtil.getsessionStorage(config.target + '__tab');
-        var activeIndex = sessionConfig.index;
-        // 删除的是当前活动的tab
-        if (isActie) {
-            // console.log('当前');
-            activeIndex = activeIndex - 1 < 0 ? 0 : activeIndex - 1;
 
-            var thisNav = $(sessionConfig.target + ' .nav').eq(activeIndex);
-            var thisFrame = $(sessionConfig.target + ' .tbContents .itemContent').eq(activeIndex);
-            thisNav.addClass('active');
-            thisFrame.addClass('active');
-            var src = thisNav.attr('data-src');
-            var hasSrc = thisFrame.attr('src');
-            if(!hasSrc){
-                thisFrame.attr('src',src);
-            }
-        } else {
-            if (delIndex > activeIndex) //要删除的tab比当前tab索引值大
-            {
-            } else {
-                activeIndex = activeIndex - 1;
-            }
-        }
-        // 删除已添加的记录
+        // 删除dom
+        $(sessionConfig.target + ' .nav[data-id=' + id + ']').detach();
+        $(sessionConfig.target + ' .tbContents .itemContent[data-id=' + id + ']').detach();
+
+        // 删除数据
         var findIndex;
+        // console.log(sessionConfig.tabs);
         sessionConfig.tabs.map(function(item, index) {
             if (item['id'] == id) {
                 findIndex = index;
             }
         });
-        sessionConfig.tabs.splice(findIndex, 1);
+        // $(sessionConfig.target + ' .nav').each(function () {
+        //     if ($(this).attr('data-id') == id) {
+        //         findIndex = $(this).index();
+        //     }
+        // });
+        findIndex && sessionConfig.tabs.splice(findIndex, 1);
+        // 判断删除
+        if(delIndex <= sessionConfig.index){// 小于等于激活的tab
+            // console.log('a');
+            sessionConfig.index = sessionConfig.index - 1;
+            // 激活
+            var thisNav = $(sessionConfig.target + ' .nav').eq(sessionConfig.index);
+            var thisFrame = $(sessionConfig.target + ' .tbContents .itemContent').eq(sessionConfig.index);
+            thisNav.addClass('active').siblings().removeClass('active');
+            thisFrame.addClass('active').siblings().removeClass('active');
+            var src = thisNav.attr('data-src');
+            var hasSrc = thisFrame.attr('src');
+            if(!hasSrc){
+                thisFrame.attr('src',src);
+            }
+        }else{//大于活动的tab
+            // console.log('b');
+        }
+
+        // 控制位置
+        // console.log('-----start------');
+        var delPos = that.textToSort(_this);
+        $(config.target + ' .nav').each(function () {
+            var itemPos = that.textToSort($(this));
+            // console.log(itemPos);
+            if(itemPos >= delPos){
+                $(this).css({
+                    left:itemPos-100
+                });
+            }
+        });
+        // console.log('-----end------');
 
         // 更新缓存数据
         myUtil.setsessionStorage(sessionConfig.target + '__tab', {
             target: sessionConfig.target,
             tabs: sessionConfig.tabs,
-            index: activeIndex
+            index: sessionConfig.index
         });
-
-        // 删除dom
-        $(sessionConfig.target + ' .nav[data-id=' + id + ']').detach();
-        $(sessionConfig.target + ' .tbContents .itemContent[data-id=' + id + ']').detach();
         return false;
-    });
-
-    // 显示点击
-    $(document).on('click', config.target + ' .nav', function(e) {
-        var index = $(this).index();
-        var src = $(this).attr('data-src');
-        $(this).addClass('active').siblings().removeClass('active');
-        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
-        thisFrame.addClass('active').siblings().removeClass('active');
-        var hasSrc = thisFrame.attr('src');
-        if(!hasSrc){
-            thisFrame.attr('src',src);
-        }
-
-        // 更新缓存数据
-        var localData = myUtil.getsessionStorage(config.target + '__tab');
-        localData.index = index
-        myUtil.setsessionStorage(config.target + '__tab', localData);
-
-        config.tabClicked && config.tabClicked(this);
     });
 
     // 双击tab刷新
@@ -198,120 +202,128 @@ myTab.prototype.initTab = function(config) {
     that.wheelTab(config);
 }
 myTab.prototype.sort = function(config) {
-    // 排序
-    var swapMouseDown = false,
-    move = {
-        target:null,
-        iframe:null,
-        index:null,
-    },clone;
+    var that = this;
 
-    function actionReset() {
-        swapMouseDown = false;
+    function actionReset(type) {
+        if(that.move.target){
+            that.move.target.css({
+                left:that.move.left
+            });
+            if(type){
+                // 存储排序后的数据
+                swap();
+            }
 
-        if(clone){
-            clone.detach()
-            clone = null
+            $(config.target + ' .canSwap').removeClass('selected');
+            $(config.target + ' .muder').hide();
+
+            // 绑移解动事件
+            $(document).off('mousemove');
         }
-
-        $(config.target + ' .canSwap').removeClass('selected');
-        $(config.target + ' .muder').hide();
-
-        $(config.target + ' .swaping').detach();
     }
 
-    $(document).on('mouseup', actionReset);
-    $(document).on('mouseleave', config.target + ' .tabNavWrap', function () {
-        if(!swapMouseDown){
-            actionReset()
-        }
-    });
-
-    $(document).on('mouseup', config.target + ' .swaping', function(e) {
-        var index = $(this).index();
-        // 开始排序
-        $(this).after(move.target);
-        $(config.target + ' .tbContents>*').eq(index).after(move.iframe);
-
+    function swap() {
         var localData = myUtil.getsessionStorage(config.target + '__tab');
 
-        // 更新缓存数据
-        setTimeout(function () {
-            var newTab = [];
-            $(config.target + ' .nav').each(function () {
-                var tabId = $(this).attr('data-id');
-                localData.tabs.map(function (item) {
-                    if(tabId == item.id){
-                        newTab.push(item);
-                    }
-                });
-
-                if($(this).hasClass('active')){
-                    localData.index = $(this).index();
+        $(config.target + ' .nav').each(function () {
+            var _this = $(this);
+            var id = _this.attr('data-id');
+            var sort = that.textToSort(_this);
+            localData.tabs.map(function (item) {
+                if(item.id == id){
+                    item.num = parseInt(sort)
                 }
             });
+        });
+        localData.tabs.sort(function (a,b) {
+            return a.num - b.num;
+        });
+        localData.index = that.textToSort($(config.target + ' .nav.active')) / 100;
+        // 保存数据
+        myUtil.setsessionStorage(config.target + '__tab', localData);
+    }
 
-            localData.tabs = newTab;
-
-            myUtil.setsessionStorage(config.target + '__tab', localData);
-        }, 0);
-
-        actionReset();
-        return false;
-    });
-    $(document).on('mouseup', config.target + ' .canSwap', function(e) {
-        actionReset();
-        clearTimeout(show);
-    });
-    var show;
-    $(document).on('mousedown', config.target + ' .canSwap', function(e) {
-        var _this = $(this);
-        var index = _this.index();
-        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
-
-        // 设置克隆对象
-        clone = _this.clone().addClass('clone').removeClass('canSwap');
-        _this.parent().append(clone);
-
-        // 设置选中的对象透明
-        _this.addClass('selected');
-        // 排序
-        swapMouseDown = true;
-        move.target = _this;
-        move.iframe = thisFrame;
-        move.remain = e.pageX - ($(config.target).offset().left + _this.position().left);
-
-        clearTimeout(show);
-        // 创建可拖拽对象
-        show = setTimeout(function () {
-            $(config.target + ' .muder').show();
-
-            $(config.target + ' .tabNavWrap .canSwap').before('<div class="swaping"></div>');
-            $(config.target + ' .tabNavWrap .canSwap').last().after('<div class="swaping"></div>');
-
-            $(config.target + ' .tbContents .canSwap').before('<div class="swaping"></div>');
-            $(config.target + ' .tbContents .canSwap').last().after('<div class="swaping"></div>');
-
-            _this.prev().detach();
-            _this.next().detach();
-            thisFrame.prev().detach();
-            thisFrame.next().detach();
-        }, 250);
-
-        return false;
-    });
-    // 控制克隆对象
-    $(document).on('mousemove', function (e) {
-        if(clone){
-            var dis = e.pageX - ($(config.target).offset().left);
-
-            clone.css({
-                opacity:'1',
-                filter:'alpha(opacity=100)',
-                left:dis,
-            });
+    $(document).on('mouseup', function (e) {
+        if(that.move.down){
+            if(that.move.pageX && that.move.pageX2 && that.move.pageX != that.move.pageX2){
+                actionReset(true);
+            }else{
+                actionReset(false);
+            }
         }
+        that.move.down = false;
+
+        return false;
     });
+
+    $(document).on('mousedown', config.target + ' .nav .tabText', function(e) {
+        var _this = $(this).parent();
+        // 显示点击
+        var index = _this.index();
+        var src = _this.attr('data-src');
+        _this.addClass('active').siblings().removeClass('active');
+        var thisFrame = $(config.target + ' .tbContents .itemContent').eq(index);
+        thisFrame.addClass('active').siblings().removeClass('active');
+        var hasSrc = thisFrame.attr('src');
+        if(!hasSrc){
+            thisFrame.attr('src',src);
+        }
+
+        that.move = {};
+        // 点击的是可以拖动标签
+        if(_this.hasClass('canSwap')){
+            // 设置选中的对象透明
+            _this.addClass('selected');
+            // 排序
+            that.move.target = _this;
+            that.move.left = _this.position().left,
+            that.move.remain = e.pageX - ($(config.target).offset().left + _this.position().left);
+            that.move.pageX = e.pageX;
+            that.move.down = true;
+
+            $(config.target + ' .muder').show();
+            // 绑定移动事件
+            $(document).on('mousemove',moveFun);
+        }
+
+        // 记录点击的索引
+        var localData = myUtil.getsessionStorage(config.target + '__tab');
+        localData.index = that.textToSort(_this) / 100;
+        myUtil.setsessionStorage(config.target + '__tab', localData);
+        return false;
+    });
+
+    function moveFun(e) {
+        that.move.pageX2 = e.pageX;
+        // 减少绑定时会多余执行
+        if(that.move.pageX2 == that.move.pageX){
+            return;
+        }
+        var outLeft = $(config.target).offset().left;
+        var dis = e.pageX - outLeft;
+        that.move.target.css({
+            left:dis - that.move.remain
+        });
+
+        $(config.target + ' .tabNavWrap .canSwap').each(function () {
+            var itemLeft = $(this).position().left;
+            var range = that.move.target.position().left + 100;
+
+            if(range > itemLeft + 50 && range < itemLeft + 100){// 左右
+                $(this).css({
+                    left:that.move.left
+                });
+                that.move.left = itemLeft;
+            }else if(that.move.target.position().left > itemLeft && that.move.target.position().left < itemLeft + 50){// 右左
+                $(this).css({
+                    left:that.move.left
+                });
+                that.move.left = itemLeft;
+            }
+        });
+
+        return false;
+    }
 }
 myTab.prototype.delAll = function(config,defaultTabs) {
     if (!config) {
@@ -420,13 +432,14 @@ myTab.prototype.addTab = function(adItem) {
         result: null,
         index: null
     };
-    nConfig.tabs.map(function(item, index) {
-        if (item.id == adItem.id) {
+
+    $(nConfig.target + ' .nav').each(function () {
+        if ($(this).attr('data-id') == adItem.id) {
             find.result = true;
-            find.index = index;
+            find.index = $(this).index();
 
             // 更新数据
-            nConfig.tabs[index] = adItem;
+            nConfig.tabs[find.index] = adItem;
         }
     });
 
@@ -437,7 +450,6 @@ myTab.prototype.addTab = function(adItem) {
 
         // 自动滚动定位tab
         myTab.prototype.position(find.index, nConfig);
-
         // 缓存数据
         myUtil.setsessionStorage(nConfig.target + '__tab', {
             tabs: nConfig.tabs,
@@ -447,7 +459,7 @@ myTab.prototype.addTab = function(adItem) {
         return;
     }
     // 执行添加操作
-    $(nConfig.target + ' ul').append('<li class="nav active canSwap" data-id="' + adItem.id + '">' + adItem.name + '<span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
+    $(nConfig.target + ' ul').append('<li style="left:'+(nConfig.tabs.length*100)+'px" class="nav active canSwap" data-id="' + adItem.id + '"><span class="tabText">' + adItem.name + '</span><span class="close icon iconfont icon-shanchushuzimianbanbianjitai"></span></li>');
     $(nConfig.target + ' .tbContents').append('<iframe allowTransparency="true" frameBorder="0" src="' + addParams(adItem.url) + '" class="itemContent active canSwap" data-id="' + adItem.id + '">' + adItem.name + '</iframe>');
 
     // 记录添加
@@ -466,6 +478,8 @@ myTab.prototype.addTab = function(adItem) {
         index: tabLength,
         target: nConfig.target
     });
+
+    return false;
 }
 
 function AddTab(name,url){
