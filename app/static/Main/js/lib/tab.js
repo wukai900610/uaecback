@@ -89,7 +89,13 @@ myTab.prototype.rendTab = function(config) {
         }
     });
 
-    var tabDom = '<span class="closeAll close icon iconfont icon-shanchushuzimianbanbianjitai">全关</span><div class="tabNavWrap"><ul>' + tabNav + '</ul></div><div class="tbContents">' + tbContents + '</div><div class="muder"></div>';
+    var closeAll = '<span class="closeAll close icon iconfont icon-shanchushuzimianbanbianjitai">全关</span>';
+    var tabDom = '<div class="tabNavWrap"><ul>' + tabNav + '</ul></div><div class="tbContents">' + tbContents + '</div><div class="muder"></div>';
+
+    // 是否显示全部按钮
+    if(config.showCloseAll != false){
+        tabDom = closeAll + tabDom;
+    }
 
     $(config.target).addClass('myTab').html(tabDom);
 }
@@ -244,6 +250,7 @@ myTab.prototype.sort = function(config) {
     }
 
     $(document).on('mouseup', function (e) {
+        // 只有点击过tab才执行
         if(that.move.down){
             if(that.move.pageX && that.move.pageX2 && that.move.pageX != that.move.pageX2){
                 actionReset(true);
@@ -256,7 +263,7 @@ myTab.prototype.sort = function(config) {
         return false;
     });
 
-    $(document).on('mousedown', config.target + ' .nav .tabText', function(e) {
+    $(document).on(config.eventType || 'mousedown', config.target + ' .nav .tabText', function(e) {
         var _this = $(this).parent();
         // 显示点击
         var index = _this.index();
@@ -274,7 +281,7 @@ myTab.prototype.sort = function(config) {
         if(_this.hasClass('canSwap')){
             // 设置选中的对象透明
             _this.addClass('selected');
-            // 排序
+            // 存储移动对象数据
             that.move.target = _this;
             that.move.left = _this.position().left,
             that.move.remain = e.pageX - ($(config.target).offset().left + _this.position().left);
