@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+    <style>
+        /* .container {
+            margin: 0 auto 0;
+        } */
+
+        /* .container:after {
+            content: "";
+            display: block;
+            clear: both;
+        } */
+
+        .container img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .lazyLoad img{
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container lazyLoad">
+        <img alt="1" data-src="./static/1.jpg">
+        <img alt="2" data-src="./static/2.jpg">
+        <img alt="3" data-src="./static/3.jpg">
+        <img alt="4" data-src="./static/4.jpeg">
+        <img alt="5" data-src="./static/5.jpg">
+    </div>
+
+    <script>
+        $(function() {
+            var lazyLoad = function(config) {
+                config.pWindow = config.pWindow || window;
+
+                var _this = this;
+                _this.clock;
+                _this.start = function() {
+                    $(config.elem).not('[data-isLoading]').each(function() {
+                        if (_this.isShow($(this))) {
+                            _this.loadImg($(this));
+                        }
+                    })
+                }
+
+                // 判断图片是否出现在视窗的函数
+                _this.isShow = function($node) {
+                    return $node.offset().top <= $(config.pWindow).height() + $(config.pWindow).scrollTop();
+                }
+
+                _this.loadImg = function($img) {
+                    $img.attr('src', $img.attr('data-src'));
+
+                    // 已经加载的图片，我给它设置一个属性，值为1，作为标识
+                    // 弄这个的初衷是因为，每次滚动的时候，所有的图片都会遍历一遍，这样有点浪费，所以做个标识，滚动的时候只遍历哪些还没有加载的图片
+                    $img.attr('data-isLoading', 'load').css({'opacity':1});
+                }
+
+                // 当页面开始滚动的时候，遍历图片，如果图片出现在视窗中，就加载图片
+                $(config.pWindow).on('scroll', function() {
+                    if (_this.clock) {
+                        clearTimeout(_this.clock);
+                    }
+                    _this.clock = setTimeout(function() {
+                        _this.start()
+                    }, 200)
+                });
+
+                _this.start();
+            }
+
+            var imgLoad = new lazyLoad({
+                elem: '.container img'
+            });
+        });
+    </script>
+</body>
+
+</html>

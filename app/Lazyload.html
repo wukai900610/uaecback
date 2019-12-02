@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
     <style>
         .container {
             max-width: 800px;
-            margin: 1000px auto 0;
+            margin: 800px auto 0;
         }
 
         .container:after {
@@ -64,7 +64,6 @@
             })
         }
 
-
         // 判断图片是否出现在视窗的函数
         function isShow($node) {
             return $node.offset().top <= $(window).height() + $(window).scrollTop();
@@ -76,7 +75,7 @@
 
             // 已经加载的图片，我给它设置一个属性，值为1，作为标识
             // 弄这个的初衷是因为，每次滚动的时候，所有的图片都会遍历一遍，这样有点浪费，所以做个标识，滚动的时候只遍历哪些还没有加载的图片
-            $img.attr('data-isLoading', 1);
+            $img.attr('data-isLoading', 'load');
         }
     </script>
 </body>
