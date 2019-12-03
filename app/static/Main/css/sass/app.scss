@@ -54,28 +54,24 @@
                 cursor: pointer;
                 @include ellipsis();
 
+                &:first-child {
+                    .tabText {
+                        margin-left: 0;
+                    }
+                }
+
                 .tabText {
                     display: block;
-                    padding: 5px 10px;
-                    width: 100%;
+                    margin: 0 1px;
+                    padding: 5px;
+                    // width: 100%;
                     height: 100%;
                     box-sizing: border-box;
+                    border-radius: 5px 5px 0 0;
+                    border: 1px solid #ccc;
+                    border-bottom: none;
                 }
-                // &:after {
-                //     content: ' ';
-                //     position: absolute;
-                //     right: 0;
-                //     top: 6px;
-                //     height: 14px;
-                //     width: 1px;
-                //     background: #999;
-                // }
-                //
-                // &:last-child {
-                //     &:after {
-                //         display: none;
-                //     }
-                // }
+
                 &.canSwap {
                     .tabText {
                         padding-right: 25px;
@@ -91,12 +87,12 @@
                 &.active {
                     position: relative;
                     z-index: 1;
-                    border: 1px solid #ccc;
-                    border-bottom: none;
                     background: #fff;
-                    // &:after {
-                    //     display: none;
-                    // }
+
+                    .tabText {
+                        margin: 0;
+                        border-color: #8bc34a;
+                    }
                 }
 
                 .close {
@@ -454,9 +450,9 @@
                                 }
                             }
 
+                            > a,
                             .category > a,
-                            .half_link,
-                            > a {
+                            .half_link {
                                 position: relative;
 
                                 &::before {
@@ -470,8 +466,8 @@
                                 }
                             }
 
-                            > a,
-                            .category > a {
+                            .category > a,
+                            > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;

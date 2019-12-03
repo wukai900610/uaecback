@@ -201,13 +201,16 @@ myTab.prototype.initTab = function(config) {
         return false;
     });
 
-    $(window).on('resize', function() {
-        setTimeout(function() {
-            that.wheelTab(config);
-        }, 250);
-    });
+    // 左右滚动tab
+    if(config.wheelTab != false){
+        $(window).on('resize', function() {
+            setTimeout(function() {
+                that.wheelTab(config);
+            }, 250);
+        });
 
-    that.wheelTab(config);
+        that.wheelTab(config);
+    }
 }
 myTab.prototype.sort = function(config) {
     var that = this;
