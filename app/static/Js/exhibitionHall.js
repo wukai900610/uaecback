@@ -6,10 +6,13 @@ function exhibitionHall(stageConfig) {
     this.mode = 'default';
 
     // 创建展馆
+    this.init();
+}
+exhibitionHall.prototype.init = function () {
     this.creditHall();
 
     if(this.stageConfig.readOnly != true){
-        this.event();
+        this.bindEvent();
     }
 }
 exhibitionHall.prototype.creditHall = function() {
@@ -72,7 +75,7 @@ exhibitionHall.prototype.changeHall = function() {
         _this.stageConfig.onTabChange && _this.stageConfig.onTabChange({hallIndex:_this.hallIndex,halls:_this.halls});
     });
 }
-exhibitionHall.prototype.event = function() {
+exhibitionHall.prototype.bindEvent = function() {
     var _this = this;
     // 修改展台
     var exhibitionIndex, currentConfig = {},delIndex;
@@ -80,6 +83,8 @@ exhibitionHall.prototype.event = function() {
         exhibitionIndex = $(this).data('index');
         var data = _this.halls[_this.hallIndex].data[exhibitionIndex];
         currentConfig = data.config;
+        var left = $(this).css('left').substr(0,$(this).css('left').length-2);
+        var top = $(this).css('top').substr(0,$(this).css('top').length-2);
         var width = parseFloat(currentConfig.width);
         var height = parseFloat(currentConfig.height);
         var status = currentConfig.status;
@@ -103,6 +108,8 @@ exhibitionHall.prototype.event = function() {
             },
             yes: function(index, layero) {
                 var config = {
+                    x:parseFloat(left),
+                    y:parseFloat(top),
                     width: parseFloat($(layero).find('.width').val()),
                     height: parseFloat($(layero).find('.height').val()),
                     status: $(layero).find('.status').val(),
@@ -143,15 +150,31 @@ exhibitionHall.prototype.event = function() {
         pOft = $(_this.stageConfig.target + ' .container').offset().top;
     });
     // 移动展台
+    var movFun;
     $(document).on('mousemove', _this.stageConfig.target, function(e) {
         var left = e.pageX - pOfl;
         var top = e.pageY - pOft;
 
         if (_this.mode == 'move') {
+            var x = left - currentConfig.width * _this.scale / 2;
+            var y = top - currentConfig.height * _this.scale / 2;
             $(_this.stageConfig.target + ' .slide').eq(_this.hallIndex).find('.exhibition[data-index=' + exhibitionIndex + ']').css({
-                'left': left - currentConfig.width * _this.scale / 2,
-                'top': top - currentConfig.height * _this.scale / 2,
+                'left': x,
+                'top': y,
             });
+
+            clearTimeout(movFun);
+            // 避免频繁调用移动勾子
+            movFun = setTimeout(function () {
+                moving = false;
+
+                var config = {
+                    x:x,
+                    y:y,
+                }
+                // 移动时也会触发编辑展台
+                _this.reDrawExhibition(exhibitionIndex, config);
+            }, 300);
         }
     });
 
