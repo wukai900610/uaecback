@@ -260,6 +260,7 @@ var APP = {
                 if (!hasId) {
                     $(this).attr('data-id', menu + (index + 1));
                 }
+                // $(this).attr('data-id', menu + (index + 1));
             });
         } else {
             $('a[data-href]').each(function(index) {
@@ -337,6 +338,7 @@ var APP = {
             var id = $this.data('id');
             var name = $this.text();
             var menu = $this.data('menu');
+            var menuLeftName= menu;
             var dataHref = $this.data('href');
             var type = $this.data('type');
             var href = $this.attr('href');
@@ -362,7 +364,7 @@ var APP = {
                             $('.main_page .main_contain .main_left .nav__ul').html(dom);
 
                             // 绑定id
-                            _this.aBindId('.main_page .main_contain .main_left .nav__ul li', menu);
+                            _this.aBindId('.main_page .main_contain .main_left .nav__ul li', menuLeftName);
 
                             // 显示左侧菜单已点项
                             $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function() {
