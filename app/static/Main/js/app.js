@@ -257,10 +257,12 @@ var APP = {
         if (target) {
             $(target + ' a[data-href]').each(function(index) {
                 var hasId = $(this).data('id');
+
                 if (!hasId) {
+                    var reg=/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
+                    menu = menu.replace(reg,'');
                     $(this).attr('data-id', menu + (index + 1));
                 }
-                // $(this).attr('data-id', menu + (index + 1));
             });
         } else {
             $('a[data-href]').each(function(index) {
