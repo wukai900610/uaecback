@@ -71,7 +71,7 @@ function noSelectText() {
     }
 }
 var myUtil = {
-    symbolFilter:reg=/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\=|\|/g,
+    symbolFilter:/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\=|\|/g,
     checkIE: function() {
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
@@ -264,7 +264,7 @@ var APP = {
                     $(this).attr('data-id', menu + (index + 1));
                 }else{
                     //去除data-id里带的特殊符号
-                    hasId = hasId.replace(reg,'');
+                    hasId = hasId.replace(myUtil.symbolFilter,'');
                     $(this).attr('data-id', hasId);
                 }
             });
