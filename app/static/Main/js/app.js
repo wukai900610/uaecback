@@ -71,6 +71,7 @@ function noSelectText() {
     }
 }
 var myUtil = {
+    symbolFilter:reg=/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\=|\|/g,
     checkIE: function() {
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
@@ -257,17 +258,21 @@ var APP = {
         if (target) {
             $(target + ' a[data-href]').each(function(index) {
                 var hasId = $(this).data('id');
-
-                if (!hasId) {
-                    var reg=/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\|/g;
-                    menu = menu.replace(reg,'');
+                if (!hasId) {// 无id则自动生成
+                    //去除自动生成的id带的特殊符号
+                    menu = menu.replace(myUtil.symbolFilter,'');
                     $(this).attr('data-id', menu + (index + 1));
+                }else{
+                    //去除data-id里带的特殊符号
+                    hasId = hasId.replace(reg,'');
+                    $(this).attr('data-id', hasId);
                 }
             });
         } else {
             $('a[data-href]').each(function(index) {
                 var hasId = $(this).data('id');
-                if (!hasId) {
+
+                if (!hasId) {// 无id
                     $(this).attr('data-id', 'init' + (index + 1));
                 }
             });
@@ -418,7 +423,7 @@ var APP = {
                     });
                 } else if (id && dataHref && dataHref != '#' && dataHref != 'null') { // 执行link tab 优先级其次
                     _this.wkTab.addTab({
-                        id: id,
+                        id: id.replace(myUtil.symbolFilter,''),
                         name: name,
                         url: dataHref,
                     });
