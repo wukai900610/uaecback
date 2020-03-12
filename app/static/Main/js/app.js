@@ -71,7 +71,7 @@ function noSelectText() {
     }
 }
 var myUtil = {
-    symbolFilter:/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\-||\=|\|/g,
+    symbolFilter:/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\-|\=|\|/g,
     checkIE: function() {
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
@@ -257,7 +257,7 @@ var APP = {
     aBindId: function(target, menu) { //a链接 绑定 data-id
         if (target) {
             $(target + ' a[data-href]').each(function(index) {
-                var hasId = $(this).data('id');
+                var hasId = $(this).attr('data-id');
                 if (!hasId) {// 无id则自动生成
                     //去除自动生成的id带的特殊符号
                     menu = menu.replace(myUtil.symbolFilter,'');
@@ -270,7 +270,7 @@ var APP = {
             });
         } else {
             $('a[data-href]').each(function(index) {
-                var hasId = $(this).data('id');
+                var hasId = $(this).attr('data-id');
 
                 if (!hasId) {// 无id
                     $(this).attr('data-id', 'init' + (index + 1));
@@ -342,12 +342,12 @@ var APP = {
         // 侦听带有data-id的a链接
         $(document).on('click', 'a[data-id],a[data-menu]', function() {
             var $this = $(this);
-            var id = $this.data('id');
+            var id = $this.attr('data-id');
             var name = $this.text();
-            var menu = $this.data('menu');
+            var menu = $this.attr('data-menu');
             var menuLeftName= menu;
-            var dataHref = $this.data('href');
-            var type = $this.data('type');
+            var dataHref = $this.attr('data-href');
+            var type = $this.attr('data-type');
             var href = $this.attr('href');
 
             // 非原始链接
@@ -375,7 +375,7 @@ var APP = {
 
                             // 显示左侧菜单已点项
                             $('.main_page .main_contain .main_left .nav__ul li a[data-href]').each(function() {
-                                var id = $(this).data('id');
+                                var id = $(this).attr('data-id');
                                 var id2 = myUtil.getsessionStorage('leftMenu');
                                 if (id == id2) {
                                     $(this).addClass('active');
@@ -447,7 +447,7 @@ var APP = {
                 if ($this.parents().hasClass('link_box')) {
                     $('.link_box a').removeClass('active');
                     $this.addClass('active');
-                    myUtil.setsessionStorage('leftMenu', $this.data('id'));
+                    myUtil.setsessionStorage('leftMenu', $this.attr('data-id'));
                     // 取消选中左侧树
                     zTreeObj && zTreeObj.cancelSelectedNode();
                     window.myUtil.removesessionStorage(ztreeId + 'Ztree');
