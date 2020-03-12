@@ -71,7 +71,7 @@ function noSelectText() {
     }
 }
 var myUtil = {
-    symbolFilter:/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\=|\|/g,
+    symbolFilter:/\\|\/|\?|\.|\*|\"|\“|\”|\'|\‘|\’|\<|\>|\{|\}|\[|\]|\【|\】|\：|\:|\、|\^|\$|\!|\~|\`|\-||\=|\|/g,
     checkIE: function() {
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
