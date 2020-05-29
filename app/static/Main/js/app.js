@@ -133,12 +133,14 @@ var myUtil = {
         };
     },
     tips: function() {
-        $('body').append('<style>.imgAlert .contents{padding: 5px;color: #000;font-size: 14px;}.imgAlert .contents img{max-height: 200px;}</style>');
+        $('body').append('<style>.imgAlert .contents{padding: 5px;color: #000;font-size: 14px;}.imgAlert .contents img{max-height: 200px;}a[data-tips]{display:inline-block;}</style>');
 
         var imgAlertIndex;
-        $(document).on('mousemove', '*[data-tips]', function(e) {
-            var left = e.pageX + 20;
+        function getPos(e){
+            var left = e.pageX+20;
             var top = e.pageY;
+            // var bTop = 0;
+            // var bLeft = 0;
             var bTop = $(document).scrollTop();
             var bLeft = $(document).scrollLeft();
             var windowWidth = $(window).width();
@@ -146,43 +148,68 @@ var myUtil = {
             var contentWidth = $('.imgAlert').width();
             var contentHeight = $('.imgAlert').height();
 
-            var posX = 0,
-                posY = 0;
-            // 鍒ゆ柇鏄剧ず浣嶇疆
-            if (windowWidth - (left - bLeft) < contentWidth) {
-                posX = e.pageX - contentWidth - 20 - bLeft;
-            } else {
-                posX = e.pageX + 20 - bLeft;
+            var posX=0,posY=0;
+            // console.log('contentHeight:'+contentHeight);
+            // 判断显示位置
+            if(windowWidth - (left-bLeft) < contentWidth){
+                posX = e.pageX-contentWidth-20-bLeft;
+            }else{
+                posX = e.pageX+20-bLeft;
             }
 
-            if (windowHeight - (top - bTop) < contentHeight) {
-                posY = e.pageY - contentHeight - 20 - bTop;
-            } else {
-                posY = e.pageY - bTop;
+            if(windowHeight - (top-bTop) < contentHeight){
+                posY = e.pageY-contentHeight-20-bTop;
+            }else{
+                posY = e.pageY-bTop;
             }
+
+            // console.log('----------start-----------');
+            // console.log(windowHeight);
+            // console.log('top:'+top);
+            // console.log('bTop:'+bTop);
+            // console.log('contentWidth:'+contentWidth);
+            // console.log('contentHeight:'+contentHeight);
+            // console.log('posX:'+posX);
+            // console.log('posY:'+posY);
+
+            return {
+                posX:posX,
+                posY:posY,
+            }
+        }
+        $("a[data-tips]").mousemove(function (e) {
+            var posData = getPos(e);
 
             layer.style(imgAlertIndex, {
-                left: posX - window.scrollX,
-                top: posY - window.scrollY
+                left: posData.posX,
+                top: posData.posY
             });
         });
-        $(document).on('mouseenter', '*[data-tips]', function(e) {
-            var content = $(this).attr('data-tips');
+        $("a[data-tips]").hover(function (e) {
+            var content = $(this).data('tips');
 
             imgAlertIndex = layer.open({
+                skin: 'imgAlert',
                 type: 1,
                 title: false,
                 closeBtn: 0,
-                maxWidth: 800,
-                maxHeight: 600,
-                area: 'auto',
+                maxWidth:800,
+                maxHeight:600,
+                area:'auto',
                 shade: false,
-                skin: 'imgAlert',
-                time: 2000,
-                content: '<div class="contents">' + content + '</div>'
+                offset:[-1000+'px',-1000+'px'],
+                content: '<div class="contents">'+content+'</div>'
             });
-        });
-        $(document).on('mouseleave', '*[data-tips]', function(e) {
+
+            setTimeout(function () {
+                var posData = getPos(e);
+
+                layer.style(imgAlertIndex, {
+                    left: posData.posX,
+                    top: posData.posY
+                });
+            },200);
+        },function (e) {
             layer.close(imgAlertIndex);
         });
     },
@@ -591,5 +618,5 @@ var APP = {
                 cancel: true /*为true等价于function(){}*/
             });
         });
-    }
+    },
 };

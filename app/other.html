@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="/static/Main/css/app.css">
+</head>
+<body>
+    <div id="insMainContentTab"></div>
+
+    <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
+    <script src="/static/Main/js/lib/tab.js"></script>
+    <script src="/static/Main/js/app.js"></script>
+    <script>
+        $(function () {
+            $('#insMainContentTab').height('100%');
+
+            // 渲染初始tab
+            var targetId = '#insMainContentTab';
+
+            var initTabArr = [{
+                close:false,
+                id: 'baidu',
+                name: 'baidu',
+                url: 'Lazyload.html',
+            },{
+                close:false,
+                id: 'baidu2',
+                name: 'baidu2',
+                url: 'Lazyload.html',
+            },{
+                close:false,
+                id: 'baidu3',
+                name: 'baidu3',
+                url: 'Lazyload.html',
+            },{
+                close:false,
+                id: 'baidu4',
+                name: 'baidu4',
+                url: 'Lazyload.html',
+            }];
+            var tabObj = {
+                index: 0,
+                tabs: initTabArr
+            };
+
+            var tabConfig = {
+                target: targetId,
+                tabs: tabObj.tabs,
+                index: tabObj.index,
+                defaultTabs: initTabArr,
+                eventType:'mousemove',
+                showCloseAll:false,
+                itemWidth:78
+            }
+
+            new myTab(tabConfig);
+        })
+    </script>
+</body>
+</html>

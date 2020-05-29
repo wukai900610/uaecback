@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/Main/css/app.css">
+    <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
+    <script src="/static/Main/js/app.js"></script>
+</head>
+
+<body style="height:auto;">
+    <!-- <div style=" width:100%;">
+        <div class="hideTop" onclick="window.parent.APP.toggleTop(false);">点我隐藏头部</div>
+        <div class="hideTop" onclick="window.parent.APP.toggleBottom(false);">点我隐藏底部</div>
+    </div> -->
+    <div style="margin-top:700px;"></div>
+    <table style="margin-left:500px">
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>
+                <div class="actions">
+                    <span>操作</span>
+                    <ul>
+                        <li><a href="">编辑</a></li>
+                        <li><a href="">处理</a></li>
+                        <li><a href="">分配</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function getPos(e) {
+            var left = e.pageX + 20;
+            var top = e.pageY;
+            // var bTop = 0;
+            // var bLeft = 0;
+            var bTop = $(document).scrollTop();
+            var bLeft = $(document).scrollLeft();
+            var windowWidth = $(window).width();
+            var windowHeight = $(window).height();
+            var contentWidth = $('.actions ul').outerWidth();
+            var contentHeight = $('.actions ul').outerHeight();
+
+            var posX = 0,
+                posY = 0,
+                isFixLeft, isFixTop;
+            // console.log('contentHeight:'+contentHeight);
+            // 判断显示位置
+            if (windowWidth - (left - bLeft) < contentWidth) {
+                // posX = e.pageX - contentWidth - 20 - bLeft;
+                isFixLeft = true;
+            } else {
+                // posX = e.pageX + 20 - bLeft;
+                isFixLeft = false;
+            }
+
+            if (windowHeight - (top - bTop) < contentHeight) {
+                // posY = e.pageY - contentHeight - 20 - bTop;
+                isFixTop = true;
+            } else {
+                // posY = e.pageY - bTop;
+                isFixTop = false;
+            }
+
+            // console.log('----------start-----------');
+            // console.log(windowHeight);
+            // console.log('top:'+top);
+            // console.log('bTop:'+bTop);
+            // console.log('contentWidth:'+contentWidth);
+            // console.log('contentHeight:'+contentHeight);
+            // console.log('posX:'+posX);
+            // console.log('posY:'+posY);
+
+            return {
+                // posX: posX,
+                // posY: posY,
+                isFixTop: isFixTop,
+                isFixLeft: isFixLeft,
+                contentWidth: contentWidth,
+                contentHeight: contentHeight,
+            }
+        }
+        // $(".actions").mousemove(function(e) {
+        //     var posData = getPos(e);
+        // });
+        $(".actions").hover(function(e) {
+            let _this = this;
+
+            var posData = getPos(e);
+
+            var cssConfig = {};
+            // if (posData.isFixLeft) {
+            //     // cssConfig.left = -posData.contentWidth +5
+            //     // cssConfig.right = 'auto'
+            // }else{
+            //     cssConfig.left = 'auto'
+            // }
+            if (posData.isFixTop) {
+                cssConfig.top = -posData.contentHeight
+            }else{
+                cssConfig.top = 'auto'
+            }
+
+            $(_this).find('ul').css(cssConfig);
+        });
+    </script>
+</body>
+
+</html>

@@ -18,6 +18,7 @@
                     <div class="logo"></div>
                     <ul class="main_menu">
                         <li style="background-image:url('/static/Main/images/ico/crm.png')"><a data-menu="LeftCrm">客户管理</a></li>
+                        <!-- <li style="background-image:url('/static/Main/images/ico/crm.png')"><a data-menu="LeftCrm">客户管理</a></li> -->
                         <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftCrmAgent">四部系统</a></li>
                         <li style="background-image:url('/static/Main/images/ico/home.png')"><a data-menu="LeftOperator">出展系统</a></li>
                         <li style="background-image:url('/static/Main/images/ico/coffee.png')"><a data-menu="LeftService">客服系统</a></li>
@@ -110,6 +111,16 @@
                 id: 'exhibitionRead',
                 name: '展馆预览',
                 url: './exhibitionRead.html',
+                close: false,
+            },{
+                id: 'other',
+                name: '其他',
+                url: './other.html',
+                close: false,
+            },{
+                id: 'tableTip',
+                name: 'tableTip',
+                url: './tableTip.html',
                 close: false,
             }];
             APP.main({

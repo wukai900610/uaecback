@@ -199,6 +199,17 @@ exhibitionHall.prototype.bindEvent = function() {
         _this.delExhition(delIndex);
     });
 }
+exhibitionHall.prototype.unBindEvent = function () {
+    var _this = this;
+    $(document).off('dblclick', _this.stageConfig.target + ' .exhibition');
+    $(document).off('mousedown', _this.stageConfig.target + ' .exhibition');
+    $(document).off('mouseup', _this.stageConfig.target + ' .exhibition');
+    $(document).off('mousemove', _this.stageConfig.target);
+    $(_this.stageConfig.target + ' .add').off('click');
+    $(document).off('mouseover', _this.stageConfig.target + ' .exhibition');
+    $(document).off('mouseout', _this.stageConfig.target + ' .exhibition');
+    $(document).off('mouseup', _this.stageConfig.target + ' .exhibition .delete');
+}
 exhibitionHall.prototype.creditRule = function(rule) {
     var width = '<span class="width">长:' + (rule.width / this.scale) + '米</span>';
     var height = '<span class="height">宽:' + (rule.height / this.scale) + '米</span>';
@@ -325,4 +336,17 @@ exhibitionHall.prototype.formatData = function () {
         });
     });
     return _this.stageConfig.hallInit;
+}
+exhibitionHall.prototype.clear = function (isReadonly) {
+    $(this.stageConfig.target).html('');
+}
+exhibitionHall.prototype.reload = function (newConfig) {
+    this.clear();
+    this.unBindEvent();
+
+    this.stageConfig = $.extend({},this.stageConfig,{
+        readOnly:newConfig.readOnly
+    });
+
+    this.init();
 }

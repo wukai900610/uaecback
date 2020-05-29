@@ -35,7 +35,9 @@
         <div class="inputBox"><span>备注:</span><input class="input remarks" type="text" placeholder="请输入备注"></div>
     </div>
 
-    <a class="exhibitionEdit" onclick="top.AddTab('展馆编辑','./exhibition.html')">编辑</a>
+    <a class="exhibitionEdit" onclick="top.AddTab('展馆编辑','./exhibition.html')">新开tab页编辑</a><br/>
+    <!-- <a class="exhibitionEdit">在当前tab编辑</a><br/> -->
+    <!-- <a class="exhibitionCancel">退出编辑模式</a> -->
     <div class="exhibitionTabs" id="exhibitionStages"></div>
 
     <script src="/static/Main/js/lib/jquery1.12.4.min.js"></script>
@@ -45,7 +47,7 @@
 
     <script>
         $(function() {
-            new exhibitionHall({
+            var ins = new exhibitionHall({
                 target: '#exhibitionStages',
                 width:1000,
                 height:450,
@@ -96,6 +98,7 @@
                 //     console.log(data);
                 // },
                 // onEdit:function (data) {
+                //     console.log('edit');
                 //     console.log(data);
                 // },
                 // onDel:function (data) {
@@ -106,6 +109,13 @@
                 // },
             });
             myUtil.tips();
+
+            // $('.exhibitionEdit').click(function () {
+            //     ins.reload({readOnly:false});
+            // });
+            // $('.exhibitionCancel').click(function () {
+            //     ins.reload({readOnly:true});
+            // });
         });
     </script>
 </body>

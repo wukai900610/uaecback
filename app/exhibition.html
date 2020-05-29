@@ -44,15 +44,15 @@
 
     <script>
         $(function() {
-            new exhibitionHall({
+            var ins = new exhibitionHall({
                 target: '#exhibitionStages',
-                width:1000,
-                height:450,
+                width:900,
+                height:350,
                 // readOnly:true,
                 hallInit:[{
                     name:'展馆1',
-                    width:1000,
-                    height:400,
+                    width:900,
+                    height:340,
                     data:[{
                         width: 8.5,
                         height: 3,
@@ -94,12 +94,14 @@
                 // onAdd:function (data) {
                 //     console.log(data);
                 // },
-                // onEdit:function (data) {
-                //     console.log(data);
-                // },
-                // onDel:function (data) {
-                //     console.log(data);
-                // },
+                onEdit:function (data) {
+                    console.log('edit');
+                    console.log(data);
+                },
+                onDel:function (data) {
+                    console.log('删除');
+                    console.log(data);
+                },
                 // onTabChange:function () {
                 //     console.log('onTabChange');
                 // },

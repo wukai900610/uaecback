@@ -50,7 +50,7 @@ gulp.task('css.minify', function()
     return gulp.src(['app/static/Main/css/*.css'])
         .pipe(autoprefixer(
         {
-            browsers: ['last 2 versions'],
+            // browsers: ['last 2 versions'],
             cascade: false
         }))
         // .pipe(concat('all.css'))
@@ -106,7 +106,7 @@ gulp.task('sass', function()
         })
         .pipe(autoprefixer(
         {
-            browsers: ['last 2 versions', 'Android >= 4.0'],
+            // browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
             remove: true
         }))
@@ -139,7 +139,7 @@ gulp.task('otherSass', function()
         })
         .pipe(autoprefixer(
         {
-            browsers: ['last 2 versions', 'Android >= 4.0'],
+            // browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
             remove: true
         }))
@@ -162,8 +162,7 @@ gulp.task('otherSass', function()
 });
 
 // 静态服务器 + 监听 scss/html 文件
-gulp.task('serve',["sass","otherSass"], function()
-{
+gulp.task('serve',gulp.series('sass','otherSass',() => {
     browserSync.init(
     {
         server:
@@ -172,12 +171,29 @@ gulp.task('serve',["sass","otherSass"], function()
         }
     });
 
-    gulp.watch("app/static/Main/css/sass/*.scss", ["sass"]);
-    gulp.watch("app/static/Main/css/sass/other/*.scss", ["otherSass"]);
+    gulp.watch("app/static/Main/css/sass/*.scss" ,gulp.series('sass'));
+    gulp.watch("app/static/Main/css/sass/other/*.scss" ,gulp.series('otherSass'));
+    // gulp.watch("app/static/Main/css/sass/other/*.scss", ["otherSass"]);
     gulp.watch("app/*.html").on('change', reload);
     gulp.watch("app/static/Main/js/*.js").on('change', reload);
     gulp.watch("app/static/Main/js/lib/*.js").on('change', reload);
-});
+}));
+// gulp.task('serve',["sass","otherSass"], function()
+// {
+//     browserSync.init(
+//     {
+//         server:
+//         {
+//             baseDir: './app/'
+//         }
+//     });
+//
+//     gulp.watch("app/static/Main/css/sass/*.scss", ["sass"]);
+//     gulp.watch("app/static/Main/css/sass/other/*.scss", ["otherSass"]);
+//     gulp.watch("app/*.html").on('change', reload);
+//     gulp.watch("app/static/Main/js/*.js").on('change', reload);
+//     gulp.watch("app/static/Main/js/lib/*.js").on('change', reload);
+// });
 
 // 清空
 gulp.task('clean', function()
@@ -190,7 +206,9 @@ gulp.task('clean', function()
 });
 
 //开发模式
-gulp.task('default', ['jshint', 'serve']);
+// gulp.task('default', ['jshint', 'serve']);
+gulp.task('default',gulp.series('serve',() => {
+}));
 
 //生产模式
-gulp.task('build', ['jshint', 'js.minify', 'html.minify', 'css.minify', 'img.minify', 'font.minify']);
+// gulp.task('build', ['jshint', 'js.minify', 'html.minify', 'css.minify', 'img.minify', 'font.minify']);

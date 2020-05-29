@@ -452,9 +452,9 @@
                                 }
                             }
 
-                            > a,
                             .category > a,
-                            .half_link {
+                            .half_link,
+                            > a {
                                 position: relative;
 
                                 &::before {
@@ -468,8 +468,8 @@
                                 }
                             }
 
-                            .category > a,
-                            > a {
+                            > a,
+                            .category > a {
                                 box-sizing: border-box;
                                 padding: 4px 5px;
                                 display: block;
@@ -586,6 +586,63 @@
             top: 0;
             width: 430px;
             color: #528311;
+        }
+    }
+}
+// 下拉操作菜单
+
+.actions {
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding-right: 13px;
+
+    span {
+        white-space: nowrap;
+    }
+
+    &:after {
+        content: ' ';
+        position: absolute;
+        right: 0;
+        top: 2px;
+        width: 0;
+        height: 0;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent #06527d transparent;
+        transition: all 0.25s;
+    }
+
+    &:hover {
+        &:after {
+            top: 7px;
+            border-color: #ff0000 transparent transparent transparent;
+        }
+
+        ul {
+            display: block;
+        }
+    }
+
+    ul {
+        position: absolute;
+        right: 10px;
+        display: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 0 10px #ccc;
+        z-index: 999;
+
+        li {
+            line-height: 1.8;
+            white-space: nowrap;
+
+            a {
+                white-space: nowrap;
+                // font-size: 14px;
+            }
         }
     }
 }
