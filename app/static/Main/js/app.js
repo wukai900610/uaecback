@@ -227,57 +227,6 @@ var myUtil = {
         }
 
         return params;
-    },
-    insMainContentTab: function(initTabArr, itemWidth) {
-        this.checkIE();
-
-        var start = location.href.indexOf('?');
-        if (start > 0) {
-            var params = [];
-            var urlArr = location.href.substring(start + 1).split('&')
-            urlArr.map(function(item) {
-                params.push({
-                    key: item.split('=')[0],
-                    value: item.split('=')[1],
-                })
-            });
-            var heightObj = {};
-            params.map(function(item) {
-                if (item.key == 'height') {
-                    heightObj.has = true;
-                    heightObj.value = item.value;
-                }
-            });
-            if (heightObj.has) {
-                $('#insMainContentTab').height(heightObj.value - 60);
-            } else {
-                var bodyH = $('body').height();
-                $('#insMainContentTab').height(bodyH - 60);
-            }
-        } else {
-            var bodyH = $('body').height();
-            $('#insMainContentTab').height(bodyH - 60);
-        }
-
-        // 渲染初始tab
-        var targetId = '#insMainContentTab';
-        var tabObj = {
-            index: 0,
-            tabs: initTabArr
-        };
-
-        var tabConfig = {
-            target: targetId,
-            tabs: tabObj.tabs,
-            index: tabObj.index,
-            defaultTabs: initTabArr,
-            eventType: 'mousemove',
-            showCloseAll: false,
-            wheelTab: false,
-            itemWidth: itemWidth || 80
-        }
-
-        new myTab(tabConfig);
     }
 }
 var APP = {
@@ -330,6 +279,10 @@ var APP = {
         };
 
         var tabConfig = {
+            feaMenus: [{
+                name: '功能链接',
+                url: 'http://www.baidu.com',
+            }],
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
@@ -352,6 +305,8 @@ var APP = {
             }
         }
         _this.wkTab = new myTab(tabConfig);
+        // console.log('int:');
+        // console.log(_this.wkTab);
 
         // 顶部导行
         $('.main_top .main_menu li').click(function() {
