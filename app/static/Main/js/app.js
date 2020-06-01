@@ -287,7 +287,7 @@ var APP = {
             tabs: tabObj.tabs,
             index: tabObj.index,
             defaultTabs: initConfig.tabArr,
-            tabClicked: function(obj) {
+            tabClicked: function(obj,config) {
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
                 // 右上菜单

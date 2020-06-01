@@ -434,6 +434,8 @@ function addParams(url) {
                 $(document).on('mousemove',moveFun);
             }
 
+            that.config.tabClicked(_this,that)
+
             // 记录点击的索引
             that.config.index = index;
             myUtil.setsessionStorage(that.config.target + '__tab',that.config);
