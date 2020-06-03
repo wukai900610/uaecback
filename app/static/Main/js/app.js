@@ -286,7 +286,7 @@ var APP = {
             target: targetId,
             tabs: tabObj.tabs,
             index: tabObj.index,
-            defaultTabs: initConfig.tabArr,
+            defaultTabs: myUtil.getNewObj(initConfig.tabArr),
             tabClicked: function(obj,config) {
                 // 失活左边菜单
                 $('.link_box a').removeClass('active');
