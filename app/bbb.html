@@ -1,1 +1,94 @@
-bbb
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    手写call apply
+    <script>
+        var person = {
+            name:'wukai'
+        };
+
+        function say(lucy,nick){
+            console.log(this.name);
+            console.log(lucy);
+            console.log(nick);
+            console.log(this)
+        };
+
+
+        Function.prototype._call = function(context){
+            context = context || window;
+            console.log(context)
+            // console.log(arguments)
+            context.fn = this;
+            var arr = [];
+            for(var i=1;i<arguments.length;i++){
+                // console.log(arguments[i])
+                arr.push('arguments[' + i + ']');
+            }
+            eval('context.fn('+arr+')');
+
+            delete context.fn;
+        }
+
+        // say.call(person); //原生写法
+        // say._call(); //不指定对象
+        // say._call(person,'lucy','nick');  //指定对象 并传参数
+
+
+        Function.prototype._apply = function(context,arr){
+            context = context || window;
+            context.fn = this;
+            //
+            // console.log(arguments)
+            if(arr){
+                var args = [];
+                for(var i=0;i<arr.length;i++){
+                    args.push('arr[' + i + ']');
+                }
+                eval('context.fn('+args+')');
+            }else{
+                // context.fn()
+                eval('context.fn()');
+            }
+            delete context.fn;
+        }
+        say._apply(person);  //指定对象 并传参数
+        // say._apply(person,['lucy','nick']);  //指定对象 并传参数
+
+
+        function foo(name,age){
+            this.name = name
+            this.age = age
+        }
+        foo.prototype.say = function(){
+            console.log(this.name)
+            console.log(this.age)
+        }
+
+        function _new(base){
+            var obj = {};
+            var constuct = [].shift.call(arguments);
+            obj.__proto__ = constuct.prototype;
+            // obj.__proto__ = base.prototype;
+
+            constuct.apply(obj,arguments)
+
+            return obj;
+        }
+
+        var f1 = _new(foo,'foo',18)
+        f1.say();
+        // var p1 = new foo('foo');
+        // p1.say();
+    </script>
+</body>
+
+</html>
